@@ -17,7 +17,7 @@ export default function ChapterList({
 }: ChapterListProps) {
   if (!hasSelectedBook) {
     return (
-      <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400">
+      <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
         Sélectionnez un livre pour voir ses chapitres.
       </div>
     );
@@ -25,7 +25,7 @@ export default function ChapterList({
 
   if (!chapters.length) {
     return (
-      <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400">
+      <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
         Aucun chapitre défini pour ce livre.
       </div>
     );
@@ -42,16 +42,16 @@ export default function ChapterList({
             onClick={() => onSelect(chapter.id)}
             className={[
               "flex w-full items-start rounded-md px-3 py-2 text-left transition",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50 dark:focus-visible:ring-offset-zinc-950",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50",
               isSelected
-                ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
-                : "bg-white text-zinc-800 hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800",
+                ? "bg-zinc-200 text-zinc-900"
+                : "bg-white text-zinc-800 hover:bg-zinc-100",
             ].join(" ")}
           >
             <div className="flex flex-col">
               <span className="font-medium">{chapter.label}</span>
               {chapter.articlesRange && (
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-zinc-500">
                   {chapter.articlesRange}
                 </span>
               )}

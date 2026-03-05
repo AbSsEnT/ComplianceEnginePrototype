@@ -1,15 +1,20 @@
 "use client";
 
+import { useEffect } from "react";
 import type { LawNode } from "@/lib/law/types";
 
 interface ChapterContentProps {
   chapter: LawNode | null;
+  scrollTargetId?: string | null;
 }
 
-export default function ChapterContent({ chapter }: ChapterContentProps) {
+export default function ChapterContent({
+  chapter,
+  scrollTargetId,
+}: ChapterContentProps) {
   if (!chapter) {
     return (
-      <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-base text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400">
+      <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-base text-zinc-600">
         Sélectionnez un livre puis un chapitre pour afficher son contenu.
       </div>
     );
@@ -20,17 +25,25 @@ export default function ChapterContent({ chapter }: ChapterContentProps) {
   const directArticles =
     chapter.children?.filter((child) => child.kind === "article") ?? [];
 
+  useEffect(() => {
+    if (!scrollTargetId) return;
+    const el = document.getElementById(scrollTargetId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [scrollTargetId, chapter?.id]);
+
   return (
-    <div className="h-full overflow-y-auto rounded-lg border border-zinc-200 bg-white px-4 py-4 text-base leading-relaxed dark:border-zinc-800 dark:bg-zinc-900 md:px-6 md:py-5">
-      <header className="mb-4 border-b border-zinc-200 pb-3 dark:border-zinc-800">
+    <div className="h-full overflow-y-auto rounded-lg border border-zinc-200 bg-white px-4 py-4 text-base leading-relaxed md:px-6 md:py-5">
+      <header className="mb-4 border-b border-zinc-200 pb-3">
         <h2 className="text-lg font-semibold">{chapter.label}</h2>
         {chapter.heading && (
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-xs text-zinc-600">
             {chapter.heading}
           </p>
         )}
         {chapter.articlesRange && (
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
+          <p className="mt-1 text-xs text-zinc-500">
             {chapter.articlesRange}
           </p>
         )}
@@ -68,17 +81,17 @@ function SectionBlock({ section }: SectionBlockProps) {
     section.children?.filter((child) => child.kind === "article") ?? [];
 
   return (
-    <section className="border-l-2 border-zinc-200 pl-4 dark:border-zinc-700">
-      <h3 className="text-base font-semibold uppercase tracking-wide text-zinc-700 dark:text-zinc-300">
+    <section className="border-l-2 border-zinc-200 pl-4">
+      <h3 className="text-base font-semibold uppercase tracking-wide text-zinc-700">
         {section.label}
       </h3>
       {section.heading && (
-        <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-zinc-600">
           {section.heading}
         </p>
       )}
       {section.articlesRange && (
-        <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-500">
+        <p className="mt-1 text-[12px] text-zinc-500">
           {section.articlesRange}
         </p>
       )}
@@ -100,7 +113,10 @@ function ArticleBlock({ article }: ArticleBlockProps) {
     article.children?.filter((child) => child.kind === "paragraph") ?? [];
 
   return (
-    <article className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-base transition-colors hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500">
+    <article
+      id={article.id}
+      className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-base transition-colors hover:border-zinc-400"
+    >
       <h4 className="text-base font-semibold">
         {article.label}
         {article.heading ? ` – ${article.heading}` : null}
@@ -110,15 +126,16 @@ function ArticleBlock({ article }: ArticleBlockProps) {
           {paragraphs.map((para) => (
             <div
               key={para.id}
-              className="rounded border border-zinc-200 bg-white px-3 py-2 text-sm leading-relaxed transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-500 dark:hover:bg-zinc-900"
+              id={para.id}
+              className="rounded border border-zinc-200 bg-white px-3 py-2 text-sm leading-relaxed transition-colors hover:border-zinc-400 hover:bg-zinc-50"
             >
               {para.label && (
-                <div className="mb-1 font-semibold text-zinc-700 dark:text-zinc-200">
+                <div className="mb-1 font-semibold text-zinc-700">
                   {para.label}
                 </div>
               )}
               {para.content && (
-                <p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-800 dark:text-zinc-200">
+                <p className="whitespace-pre-wrap text-base leading-relaxed text-zinc-800">
                   {para.content}
                 </p>
               )}
@@ -127,7 +144,7 @@ function ArticleBlock({ article }: ArticleBlockProps) {
         </div>
       ) : (
         article.content && (
-          <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-800 dark:text-zinc-200">
+          <p className="mt-2 whitespace-pre-wrap text-base text-zinc-800">
             {article.content}
           </p>
         )
