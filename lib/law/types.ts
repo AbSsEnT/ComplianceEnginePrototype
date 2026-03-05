@@ -19,6 +19,13 @@ export interface LawReference {
   paragraphId?: string;
 }
 
+/** A segment of the model response with optional grounding in an article/paragraph */
+export interface GroundedPart {
+  text: string;
+  articleId?: string;
+  paragraphId?: string;
+}
+
 export type ChatSender = "user" | "bot";
 
 export interface ChatMessage {
@@ -26,6 +33,8 @@ export interface ChatMessage {
   sender: ChatSender;
   text: string;
   references?: LawReference[];
+  /** When present, render as text + inline ref link per part (RAG response) */
+  parts?: GroundedPart[];
 }
 
 

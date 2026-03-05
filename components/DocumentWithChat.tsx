@@ -32,7 +32,7 @@ export default function DocumentWithChat({ books }: DocumentWithChatProps) {
   };
 
   return (
-    <div className="grid h-full grid-cols-[360px_1fr] gap-6">
+    <div className="grid h-full grid-cols-[702px_1fr] gap-6">
       {/* Chat column */}
       <div className="flex h-full flex-col overflow-hidden">
         <ChatPanel onReferenceClick={handleReferenceClick} />
