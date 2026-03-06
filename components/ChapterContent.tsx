@@ -1,17 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { LawNode } from "@/lib/law/types";
 
 interface ChapterContentProps {
   chapter: LawNode | null;
   scrollTargetId?: string | null;
+  isBookmarked?: (ref: { articleId: string; paragraphId?: string }) => boolean;
+  onToggleBookmark?: (
+    ref: { articleId: string; paragraphId?: string },
+    meta: { title: string; excerpt: string },
+  ) => void;
 }
+
+const HIGHLIGHT_CONTAINER_ATTR = "data-scroll-highlight-container";
 
 export default function ChapterContent({
   chapter,
   scrollTargetId,
+  isBookmarked,
+  onToggleBookmark,
 }: ChapterContentProps) {
+  const [highlightedContainerId, setHighlightedContainerId] = useState<
+    string | null
+  >(null);
+
   if (!chapter) {
     return (
       <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-base text-zinc-600">
@@ -27,23 +40,21 @@ export default function ChapterContent({
 
   useEffect(() => {
     if (!scrollTargetId) return;
-    const el = document.getElementById(scrollTargetId);
-    if (!el) return;
+    const raw = document.getElementById(scrollTargetId);
+    if (!raw) return;
 
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const container =
+      (raw.closest?.(
+        `[${HIGHLIGHT_CONTAINER_ATTR}="true"]`,
+      ) as HTMLElement | null) ?? (raw as HTMLElement);
 
-    el.style.outline = "2px solid #2563eb";
-    el.style.outlineOffset = "2px";
-    el.style.transition = "outline-color 0.6s ease";
+    container.scrollIntoView({ behavior: "smooth", block: "start" });
+    setHighlightedContainerId(container.id || scrollTargetId);
 
     const timer = setTimeout(() => {
-      el.style.outlineColor = "transparent";
-      const cleanup = setTimeout(() => {
-        el.style.outline = "";
-        el.style.outlineOffset = "";
-        el.style.transition = "";
-      }, 600);
-      return () => clearTimeout(cleanup);
+      setHighlightedContainerId((curr) =>
+        curr === (container.id || scrollTargetId) ? null : curr,
+      );
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -67,13 +78,23 @@ export default function ChapterContent({
 
       <div className="space-y-6">
         {sections.map((section) => (
-          <SectionBlock key={section.id} section={section} />
+          <SectionBlock
+            key={section.id}
+            section={section}
+            highlightedContainerId={highlightedContainerId}
+            isBookmarked={isBookmarked}
+            onToggleBookmark={onToggleBookmark}
+          />
         ))}
 
         {!!directArticles.length && (
           <div className="space-y-4">
             {directArticles.map((article) => (
-              <ArticleBlock key={article.id} article={article} />
+              <ArticleBlock
+                key={article.id}
+                article={article}
+                highlightedContainerId={highlightedContainerId}
+              />
             ))}
           </div>
         )}
@@ -90,9 +111,20 @@ export default function ChapterContent({
 
 interface SectionBlockProps {
   section: LawNode;
+  highlightedContainerId: string | null;
+  isBookmarked?: (ref: { articleId: string; paragraphId?: string }) => boolean;
+  onToggleBookmark?: (
+    ref: { articleId: string; paragraphId?: string },
+    meta: { title: string; excerpt: string },
+  ) => void;
 }
 
-function SectionBlock({ section }: SectionBlockProps) {
+function SectionBlock({
+  section,
+  highlightedContainerId,
+  isBookmarked,
+  onToggleBookmark,
+}: SectionBlockProps) {
   const articles =
     section.children?.filter((child) => child.kind === "article") ?? [];
 
@@ -113,7 +145,13 @@ function SectionBlock({ section }: SectionBlockProps) {
       )}
       <div className="mt-3 space-y-4">
         {articles.map((article) => (
-          <ArticleBlock key={article.id} article={article} />
+          <ArticleBlock
+            key={article.id}
+            article={article}
+            highlightedContainerId={highlightedContainerId}
+            isBookmarked={isBookmarked}
+            onToggleBookmark={onToggleBookmark}
+          />
         ))}
       </div>
     </section>
@@ -122,17 +160,91 @@ function SectionBlock({ section }: SectionBlockProps) {
 
 interface ArticleBlockProps {
   article: LawNode;
+  highlightedContainerId: string | null;
+  isBookmarked?: (ref: { articleId: string; paragraphId?: string }) => boolean;
+  onToggleBookmark?: (
+    ref: { articleId: string; paragraphId?: string },
+    meta: { title: string; excerpt: string },
+  ) => void;
 }
 
-function ArticleBlock({ article }: ArticleBlockProps) {
+function ArticleBlock({
+  article,
+  highlightedContainerId,
+  isBookmarked,
+  onToggleBookmark,
+}: ArticleBlockProps) {
   const paragraphs =
     article.children?.filter((child) => child.kind === "paragraph") ?? [];
+
+  const isHighlighted = highlightedContainerId === article.id;
+  const articleBookmarked =
+    isBookmarked?.({ articleId: article.id }) ?? false;
+
+  const articleExcerpt = (() => {
+    if (article.content) return article.content.slice(0, 240);
+    if (!paragraphs.length) return "";
+    const combined = paragraphs
+      .map((p) => p.content ?? "")
+      .join(" ");
+    return combined.slice(0, 240);
+  })();
 
   return (
     <article
       id={article.id}
-      className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-base transition-colors hover:border-zinc-400"
+      {...{ [HIGHLIGHT_CONTAINER_ATTR]: "true" }}
+      className={[
+        "relative rounded-md border bg-zinc-50 px-3 py-2 text-base transition-colors",
+        "border-zinc-200 hover:border-zinc-400",
+        isHighlighted ? "border-zinc-400" : null,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
+      <button
+        type="button"
+        onClick={() =>
+          onToggleBookmark?.(
+            { articleId: article.id },
+            {
+              title: article.label,
+              excerpt: articleExcerpt,
+            },
+          )
+        }
+        className={[
+          "absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full transition",
+          articleBookmarked
+            ? "bg-amber-100 text-amber-700"
+            : "text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        aria-label={
+          articleBookmarked
+            ? "Retirer le signet de l'article"
+            : "Ajouter un signet à l'article"
+        }
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className="h-4 w-4"
+        >
+          {articleBookmarked ? (
+            <path
+              d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"
+              fill="currentColor"
+            />
+          ) : (
+            <path
+              d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2zm0 15.11-5-2.15-5 2.15V5h10z"
+              fill="currentColor"
+            />
+          )}
+        </svg>
+      </button>
       <h4 className="text-base font-semibold">
         {article.label}
         {article.heading ? ` – ${article.heading}` : null}
@@ -140,11 +252,72 @@ function ArticleBlock({ article }: ArticleBlockProps) {
       {paragraphs.length > 0 ? (
         <div className="mt-2 space-y-3">
           {paragraphs.map((para) => (
+            (() => {
+              const isParaHighlighted = highlightedContainerId === para.id;
+              const paraBookmarked =
+                isBookmarked?.({
+                  articleId: article.id,
+                  paragraphId: para.id,
+                }) ?? false;
+              const paraExcerpt = (para.content ?? "").slice(0, 240);
+              return (
             <div
               key={para.id}
               id={para.id}
-              className="rounded border border-zinc-200 bg-white px-3 py-2 text-sm leading-relaxed transition-colors hover:border-zinc-400 hover:bg-zinc-50"
+              {...{ [HIGHLIGHT_CONTAINER_ATTR]: "true" }}
+              className={[
+                "relative rounded border bg-white px-3 py-2 text-sm leading-relaxed transition-colors",
+                "border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50",
+                isParaHighlighted ? "border-zinc-400 bg-zinc-50" : null,
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
+              <button
+                type="button"
+                onClick={() =>
+                  onToggleBookmark?.(
+                    { articleId: article.id, paragraphId: para.id },
+                    {
+                      title: para.label
+                        ? `${article.label} – ${para.label}`
+                        : article.label,
+                      excerpt: paraExcerpt,
+                    },
+                  )
+                }
+                className={[
+                  "absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-full transition",
+                  paraBookmarked
+                    ? "bg-amber-100 text-amber-700"
+                    : "text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-label={
+                  paraBookmarked
+                    ? "Retirer le signet du paragraphe"
+                    : "Ajouter un signet au paragraphe"
+                }
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-4 w-4"
+                >
+                  {paraBookmarked ? (
+                    <path
+                      d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"
+                      fill="currentColor"
+                    />
+                  ) : (
+                    <path
+                      d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2zm0 15.11-5-2.15-5 2.15V5h10z"
+                      fill="currentColor"
+                    />
+                  )}
+                </svg>
+              </button>
               {para.label && (
                 <div className="mb-1 font-semibold text-zinc-700">
                   {para.label}
@@ -156,6 +329,8 @@ function ArticleBlock({ article }: ArticleBlockProps) {
                 </p>
               )}
             </div>
+              );
+            })()
           ))}
         </div>
       ) : (

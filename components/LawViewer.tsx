@@ -11,6 +11,11 @@ interface LawViewerProps {
   onSelectBook: (id: string) => void;
   onClearBook: () => void;
   onSelectChapter: (id: string) => void;
+   isBookmarked?: (ref: { articleId: string; paragraphId?: string }) => boolean;
+   onToggleBookmark?: (
+    ref: { articleId: string; paragraphId?: string },
+    meta: { title: string; excerpt: string },
+  ) => void;
 }
 
 export default function LawViewer({
@@ -21,6 +26,8 @@ export default function LawViewer({
   onSelectBook,
   onClearBook,
   onSelectChapter,
+  isBookmarked,
+  onToggleBookmark,
 }: LawViewerProps) {
   const selectedBook: LawBook | null =
     books.find((b) => b.id === selectedBookId) ?? null;
@@ -150,6 +157,8 @@ export default function LawViewer({
             <ChapterContent
               chapter={selectedChapter}
               scrollTargetId={scrollTargetId}
+            isBookmarked={isBookmarked}
+            onToggleBookmark={onToggleBookmark}
             />
           </div>
         )}
