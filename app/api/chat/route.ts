@@ -129,11 +129,20 @@ export async function POST(request: Request) {
     });
 
     const systemContent = `Tu es un assistant qui répond UNIQUEMENT à partir des extraits du règlement ERP ci-dessous.
-Réponds en français. Pour chaque phrase ou segment de ta réponse, cite l'article (et le paragraphe le cas échéant) qui le justifie.
+Réponds en français.
+
+Règles strictes :
+1. Pertinence : avant d'inclure un extrait, vérifie qu'il répond DIRECTEMENT à la question. Si un passage du contexte ne concerne pas la question, ignore-le complètement. Le contexte contient des passages récupérés automatiquement — beaucoup ne sont pas pertinents.
+2. Concision : ne cite pas un paragraphe ou article en entier. Extrais uniquement la partie qui répond à la question. Tu peux reformuler pour ne garder que l'essentiel.
+3. Regroupement : si plusieurs éléments de ta réponse proviennent du même article ou paragraphe, regroupe-les dans un seul part. Ne répète pas la même référence dans des parts consécutifs.
+4. Références uniques : chaque part ne doit contenir qu'UN SEUL articleId et UN SEUL paragraphId. Si un passage de ta réponse s'appuie sur plusieurs références, découpe-le en autant de parts qu'il y a de références distinctes. Ne mets jamais plusieurs IDs séparés par des virgules dans un champ.
+5. Formatage du champ "text" : utilise du Markdown (listes à puces, **gras**, retours à la ligne) pour structurer la réponse quand c'est pertinent.
+
 Réponds UNIQUEMENT au format JSON suivant, sans texte avant ou après :
 {"parts":[{"text":"...","articleId":"GN-1","paragraphId":"GN-1-1"},...]}
-- Chaque élément de "parts" contient "text" (une phrase ou court segment) et optionnellement "articleId" et "paragraphId" pour la citation.
-- Si l'information n'est pas dans les extraits, renvoie un seul part avec "text" explicatif et sans articleId/paragraphId.
+- "text" : le contenu (en Markdown si utile), concis et pertinent.
+- "articleId" et "paragraphId" : optionnels, la source de ce passage. Un seul ID par champ, jamais plusieurs.
+- Si l'information n'est pas dans les extraits, renvoie un seul part explicatif sans articleId/paragraphId.
 
 Extraits du règlement :
 ${context}`;

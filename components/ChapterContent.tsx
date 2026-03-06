@@ -28,9 +28,25 @@ export default function ChapterContent({
   useEffect(() => {
     if (!scrollTargetId) return;
     const el = document.getElementById(scrollTargetId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    el.style.outline = "2px solid #2563eb";
+    el.style.outlineOffset = "2px";
+    el.style.transition = "outline-color 0.6s ease";
+
+    const timer = setTimeout(() => {
+      el.style.outlineColor = "transparent";
+      const cleanup = setTimeout(() => {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.transition = "";
+      }, 600);
+      return () => clearTimeout(cleanup);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, [scrollTargetId, chapter?.id]);
 
   return (

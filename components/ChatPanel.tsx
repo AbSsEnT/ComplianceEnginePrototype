@@ -116,6 +116,18 @@ export default function ChatPanel({ onReferenceClick }: ChatPanelProps) {
   );
 }
 
+function buildRefs(part: GroundedPart): LawReference[] {
+  const articleIds = (part.articleId ?? "").split(/[,;]\s*/).filter(Boolean);
+  const paragraphIds = (part.paragraphId ?? "").split(/[,;]\s*/).filter(Boolean);
+  if (paragraphIds.length > 0) {
+    return paragraphIds.map((pid) => ({
+      articleId: articleIds[0] ?? pid.replace(/-\d+$/, ""),
+      paragraphId: pid,
+    }));
+  }
+  return articleIds.map((aid) => ({ articleId: aid }));
+}
+
 interface MessageBubbleProps {
   message: ChatMessage;
   onReferenceClick: (ref: LawReference) => void;
@@ -146,22 +158,19 @@ function MessageBubble({ message, onReferenceClick }: MessageBubbleProps) {
                 <div className="[&_p]:my-1 [&_ul]:my-1 [&_li]:my-0.5 [&_strong]:font-semibold [&_strong]:text-zinc-800">
                   <ReactMarkdown>{part.text}</ReactMarkdown>
                 </div>
-                {part.articleId && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onReferenceClick({
-                        articleId: part.articleId!,
-                        paragraphId: part.paragraphId,
-                      })
-                    }
-                    className="shrink-0 rounded-full border border-zinc-300 bg-white px-2 py-0.5 text-xs font-medium text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
-                  >
-                    {part.paragraphId
-                      ? `Paragraphe ${part.paragraphId}`
-                      : `Article ${part.articleId}`}
-                  </button>
-                )}
+                {part.articleId &&
+                  buildRefs(part).map((ref, ri) => (
+                    <button
+                      key={`${message.id}-part-${idx}-ref-${ri}`}
+                      type="button"
+                      onClick={() => onReferenceClick(ref)}
+                      className="shrink-0 rounded-full border border-zinc-300 bg-white px-2 py-0.5 text-xs font-medium text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
+                    >
+                      {ref.paragraphId
+                        ? `§ ${ref.paragraphId}`
+                        : `Art. ${ref.articleId}`}
+                    </button>
+                  ))}
               </div>
             ))}
           </div>
