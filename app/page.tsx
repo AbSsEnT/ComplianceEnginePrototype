@@ -1,138 +1,354 @@
- "use client";
+"use client";
 
-import { useState } from "react";
-import type { LawSource } from "@/lib/law/types";
+import { useCallback, useEffect, useState } from "react";
+import type {
+  LawSource,
+  BookmarkEntry,
+  RecentBookVisit,
+  LawReference,
+  ChatConversation,
+  TimestampedChatMessage,
+} from "@/lib/law/types";
 import DocumentWithChat from "@/components/DocumentWithChat";
+import HomeDashboard from "@/components/HomeDashboard";
+import SearchView, { type SearchResult } from "@/components/SearchView";
+import ChatView from "@/components/ChatView";
 import { lawSources } from "./data/libraryCatalog";
+import {
+  House,
+  Library,
+  Search,
+  Bookmark,
+  MessageSquare,
+  Shield,
+  HelpCircle,
+  Keyboard,
+} from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
-type ToolbarTool = "assistant" | "bookmarks" | "none";
+/** Which view occupies the main content area. */
+type ActiveView = "home" | "documents" | "search" | "chat";
+
+/** Which side tool panel is open (only relevant in the documents view). */
+type SideTool = "bookmarks" | "none";
+
+/**
+ * Represents a deep-link target for the document viewer.
+ * _signal is a monotonic counter so clicking the same result twice still triggers navigation.
+ */
+type DocNavTarget = {
+  articleId: string;
+  paragraphId?: string;
+  _signal: number;
+};
+
+const MAX_RECENT_BOOKS = 10;
 
 export default function Home() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // Side tools are opt-in and only shown when selected.
-  const [activeTool, setActiveTool] = useState<ToolbarTool>("none");
-  // Incrementing this value tells the document viewer to return to the
-  // "Livres" root stage on the right side (single source of book selection).
+  // ── View & navigation state ──
+  const [activeView, setActiveView] = useState<ActiveView>("home");
+  const [sideTool, setSideTool] = useState<SideTool>("none");
   const [booksHomeSignal, setBooksHomeSignal] = useState(0);
 
+  // ── Lifted shared state ──
+  const [bookmarks, setBookmarks] = useState<BookmarkEntry[]>([]);
+  const [recentBooks, setRecentBooks] = useState<RecentBookVisit[]>([]);
+
+  // Deep-link target: when non-null, DocumentWithChat will navigate to this article/paragraph
+  const [docNavTarget, setDocNavTarget] = useState<DocNavTarget | null>(null);
+
+  // ── Multi-conversation chat state ──
+  const [conversations, setConversations] = useState<ChatConversation[]>([]);
+  const [activeConversationId, setActiveConversationId] = useState<
+    string | null
+  >(null);
+
+  /**
+   * Flat list of all messages across conversations, for backward compat
+   * with components like QuickChat that show a combined view.
+   * The active conversation's messages are what matters most.
+   */
+  const activeMessages =
+    conversations.find((c) => c.id === activeConversationId)?.messages ?? [];
+
+  /** Update messages for the active conversation (used by QuickChat). */
+  const setActiveMessages = useCallback(
+    (msgs: TimestampedChatMessage[]) => {
+      if (!activeConversationId) {
+        // Auto-create a conversation when QuickChat sends the first message
+        const newConvo: ChatConversation = {
+          id: `conv-${Date.now()}`,
+          title:
+            msgs.find((m) => m.sender === "user")?.text.slice(0, 50) ??
+            "Nouvelle conversation",
+          messages: msgs,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        };
+        setConversations((prev) => [newConvo, ...prev]);
+        setActiveConversationId(newConvo.id);
+        return;
+      }
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConversationId
+            ? {
+                ...c,
+                messages: msgs,
+                title:
+                  msgs.find((m) => m.sender === "user")?.text.slice(0, 50) ??
+                  c.title,
+                updatedAt: Date.now(),
+              }
+            : c,
+        ),
+      );
+    },
+    [activeConversationId],
+  );
+
+  // Ctrl+K / Cmd+K navigates to the search view from anywhere
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setActiveView("search");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleBookVisited = useCallback((visit: RecentBookVisit) => {
+    setRecentBooks((prev) => {
+      const deduped = prev.filter(
+        (v) => !(v.sourceId === visit.sourceId && v.bookId === visit.bookId),
+      );
+      return [visit, ...deduped].slice(0, MAX_RECENT_BOOKS);
+    });
+  }, []);
+
+  const handleNavigateToBook = useCallback(
+    (sourceId: string, bookId: string) => {
+      setActiveView("documents");
+      setSideTool("none");
+      setBooksHomeSignal((prev) => prev + 1);
+      setDocNavTarget(null);
+    },
+    [],
+  );
+
+  const handleNavigateToBookmark = useCallback((ref: LawReference) => {
+    setActiveView("documents");
+    setSideTool("none");
+    setDocNavTarget(null);
+  }, []);
+
+  const handleNavigateToSearchResult = useCallback((result: SearchResult) => {
+    setDocNavTarget({
+      articleId: result.articleId,
+      paragraphId: result.paragraphId,
+      _signal: Date.now(),
+    });
+    setActiveView("documents");
+    setSideTool("none");
+  }, []);
+
+  /** Open the full chat view from the dashboard QuickChat widget. */
+  const handleOpenFullChat = useCallback(() => {
+    setActiveView("chat");
+  }, []);
+
+  const handleOpenLibrary = useCallback(() => {
+    setActiveView("documents");
+    setSideTool("none");
+    setBooksHomeSignal((prev) => prev + 1);
+    setDocNavTarget(null);
+  }, []);
+
   return (
-    <main className="flex h-screen flex-col bg-white font-sans text-zinc-900">
-      <header className="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 md:px-8">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-            SafeLink
-          </h1>
-          <p className="mt-1 text-sm text-zinc-600">
-            Naviguez entre les corpus reglementaires (ERP, APSAD, EN/NF) et
-            interrogez l&apos;assistant pour retrouver rapidement les references
-            utiles.
-          </p>
+    <main className="flex h-screen flex-col bg-background font-sans text-foreground">
+      {/* ── Header ── */}
+      <header className="flex shrink-0 items-center justify-between bg-slate-900 px-4 py-3 md:px-8">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600">
+            <Shield className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
+              SafeLink
+            </h1>
+            <p className="text-xs text-slate-400">
+              Corpus réglementaires · Sécurité incendie
+            </p>
+          </div>
         </div>
       </header>
-      <div className="flex-1 overflow-hidden px-4 pb-4 pt-4 md:px-8">
-        <div className="flex h-full gap-4">
-          <aside className="flex w-14 shrink-0 flex-col items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 py-3">
-            {/* Bibliotheque tool: reset right viewer to its root stage */}
-            <button
-              type="button"
+
+      {/* ── Body ── */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <aside className="flex w-14 shrink-0 flex-col items-center border-r border-slate-800 bg-slate-900">
+          <nav className="flex flex-col items-center gap-1 py-3">
+            <SidebarButton
+              icon={<House className="h-5 w-5" />}
+              label="Accueil"
+              active={activeView === "home"}
               onClick={() => {
-                // No duplicate left panel: this action only affects the right viewer.
-                setActiveTool("none");
+                setActiveView("home");
+                setSideTool("none");
+              }}
+            />
+
+            <SidebarButton
+              icon={<Library className="h-5 w-5" />}
+              label="Bibliothèque"
+              active={activeView === "documents"}
+              onClick={() => {
+                setActiveView("documents");
+                setSideTool("none");
                 setBooksHomeSignal((prev) => prev + 1);
+                setDocNavTarget(null);
               }}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"
-              aria-label="Afficher la bibliotheque"
-              title="Bibliotheque"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
-                <path
-                  d="M4 5a2 2 0 0 1 2-2h11a3 3 0 0 1 3 3v11.5a.5.5 0 0 1-.8.4A4.5 4.5 0 0 0 16.5 17H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10.5A5.5 5.5 0 0 1 19 16.6V6a2 2 0 0 0-2-2z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+            />
 
-            {/* Search tool */}
-            <button
-              type="button"
+            <SidebarButton
+              icon={<Search className="h-5 w-5" />}
+              label="Recherche (Ctrl+K)"
+              active={activeView === "search"}
+              onClick={() => setActiveView("search")}
+            />
+
+            <SidebarButton
+              icon={<Bookmark className="h-5 w-5" />}
+              label="Signets"
+              active={activeView === "documents" && sideTool === "bookmarks"}
               onClick={() => {
-                // Search remains a modal and closes any active side section.
-                setActiveTool("none");
-                setIsSearchOpen(true);
-              }}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"
-              aria-label="Ouvrir la recherche"
-              title="Recherche"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
-                <path
-                  d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L19 20.5 20.5 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-
-            {/* Bookmark tool */}
-            <button
-              type="button"
-              onClick={() =>
-                setActiveTool((prev) =>
+                setActiveView("documents");
+                setSideTool((prev) =>
                   prev === "bookmarks" ? "none" : "bookmarks",
-                )
-              }
-              className={[
-                "inline-flex h-10 w-10 items-center justify-center rounded-md transition",
-                activeTool === "bookmarks"
-                  ? "bg-zinc-900 text-zinc-50"
-                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
-              ].join(" ")}
-              aria-label="Afficher ou masquer les signets"
-              title="Signets"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
-                <path
-                  d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2zm0 15.11-5-2.15-5 2.15V5h10z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+                );
+              }}
+            />
 
-            {/* Assistant tool toggles the panel on/off */}
-            <button
-              type="button"
-              onClick={() =>
-                setActiveTool((prev) => (prev === "assistant" ? "none" : "assistant"))
-              }
-              className={[
-                "inline-flex h-10 w-10 items-center justify-center rounded-md transition",
-                activeTool === "assistant"
-                  ? "bg-zinc-900 text-zinc-50"
-                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
-              ].join(" ")}
-              aria-label="Afficher ou masquer l'assistant"
-              title="Assistant"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
-                <path
-                  d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8A2.5 2.5 0 0 1 17.5 16H9l-4.5 4v-4.5A2.5 2.5 0 0 1 4 13.5z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </aside>
+            <SidebarButton
+              icon={<MessageSquare className="h-5 w-5" />}
+              label="Assistant"
+              active={activeView === "chat"}
+              onClick={() => setActiveView("chat")}
+            />
+          </nav>
 
-          <div className="min-w-0 flex-1">
+          <div className="flex-1" />
+
+          <nav className="flex flex-col items-center gap-1 pb-3">
+            <SidebarButton
+              icon={<Keyboard className="h-5 w-5" />}
+              label="Raccourcis"
+              active={false}
+              onClick={() => {}}
+            />
+            <SidebarButton
+              icon={<HelpCircle className="h-5 w-5" />}
+              label="Aide"
+              active={false}
+              onClick={() => {}}
+            />
+          </nav>
+        </aside>
+
+        {/* Main content area */}
+        <div className="min-w-0 flex-1 overflow-hidden p-4 md:p-6">
+          {activeView === "home" && (
+            <HomeDashboard
+              recentBooks={recentBooks}
+              bookmarks={bookmarks}
+              chatMessages={activeMessages}
+              onChatMessagesChange={setActiveMessages}
+              onNavigateToBook={handleNavigateToBook}
+              onNavigateToBookmark={handleNavigateToBookmark}
+              onOpenFullChat={handleOpenFullChat}
+              onOpenLibrary={handleOpenLibrary}
+              onOpenSearch={() => setActiveView("search")}
+            />
+          )}
+
+          {activeView === "search" && (
+            <SearchView
+              sources={lawSources as LawSource[]}
+              onNavigateToResult={handleNavigateToSearchResult}
+            />
+          )}
+
+          {activeView === "chat" && (
+            <ChatView
+              conversations={conversations}
+              activeConversationId={activeConversationId}
+              onConversationsChange={setConversations}
+              onActiveConversationIdChange={setActiveConversationId}
+            />
+          )}
+
+          {activeView === "documents" && (
             <DocumentWithChat
               sources={lawSources as LawSource[]}
-              isSearchOpen={isSearchOpen}
-              onSearchOpenChange={setIsSearchOpen}
               booksHomeSignal={booksHomeSignal}
-              isAssistantOpen={activeTool === "assistant"}
-              isBookmarksPanelOpen={activeTool === "bookmarks"}
+              isBookmarksPanelOpen={sideTool === "bookmarks"}
+              bookmarks={bookmarks}
+              onBookmarksChange={setBookmarks}
+              onBookVisited={handleBookVisited}
+              navTarget={docNavTarget}
             />
-          </div>
+          )}
         </div>
       </div>
     </main>
+  );
+}
+
+/* ── SidebarButton ── */
+
+interface SidebarButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}
+
+function SidebarButton({ icon, label, active, onClick }: SidebarButtonProps) {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <button
+            type="button"
+            onClick={onClick}
+            className="group relative flex h-10 w-10 items-center justify-center rounded-lg transition"
+            aria-label={label}
+          />
+        }
+      >
+        {active && (
+          <span className="absolute -left-[7px] top-1.5 h-5 w-[3px] rounded-full bg-blue-500" />
+        )}
+        <span
+          className={
+            active
+              ? "text-white"
+              : "text-slate-400 transition group-hover:text-white"
+          }
+        >
+          {icon}
+        </span>
+        {active && (
+          <span className="absolute inset-0 rounded-lg bg-white/10" />
+        )}
+      </TooltipTrigger>
+      <TooltipContent side="right">{label}</TooltipContent>
+    </Tooltip>
   );
 }

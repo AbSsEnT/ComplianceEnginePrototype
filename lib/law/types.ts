@@ -48,4 +48,42 @@ export interface ChatMessage {
   parts?: GroundedPart[];
 }
 
+/** ChatMessage with a creation timestamp, used by the UI layer. */
+export interface TimestampedChatMessage extends ChatMessage {
+  ts: number;
+}
+
+/** A saved bookmark pointing to an article or paragraph. */
+export interface BookmarkEntry {
+  key: string;
+  articleId: string;
+  paragraphId?: string;
+  sourceId: string;
+  bookId: string;
+  chapterId: string;
+  title: string;
+  excerpt: string;
+  createdAt: number;
+}
+
+/** Tracks a recently visited book for the home dashboard. */
+export interface RecentBookVisit {
+  sourceId: string;
+  sourceLabel: string;
+  bookId: string;
+  bookLabel: string;
+  heading?: string;
+  visitedAt: number;
+}
+
+/** A full chat conversation containing messages and metadata. */
+export interface ChatConversation {
+  id: string;
+  /** Short title derived from the first user message. */
+  title: string;
+  messages: TimestampedChatMessage[];
+  createdAt: number;
+  updatedAt: number;
+}
+
 

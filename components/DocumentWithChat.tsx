@@ -1,17 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import type { LawBook, LawNode, LawReference, LawSource } from "@/lib/law/types";
-import ChatPanel from "./ChatPanel";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type {
+  LawNode,
+  LawReference,
+  LawSource,
+  BookmarkEntry,
+  RecentBookVisit,
+} from "@/lib/law/types";
 import LawViewer from "./LawViewer";
+import { Bookmark, Trash2 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface DocumentWithChatProps {
   sources: LawSource[];
-  isSearchOpen?: boolean;
-  onSearchOpenChange?: (open: boolean) => void;
   booksHomeSignal?: number;
-  isAssistantOpen?: boolean;
   isBookmarksPanelOpen?: boolean;
+  bookmarks: BookmarkEntry[];
+  onBookmarksChange: (bookmarks: BookmarkEntry[]) => void;
+  onBookVisited?: (visit: RecentBookVisit) => void;
+  /** When set, the viewer navigates to this article/paragraph on mount or change. */
+  navTarget?: { articleId: string; paragraphId?: string; _signal: number } | null;
 }
 
 type IndexEntry = {
@@ -22,61 +32,41 @@ type IndexEntry = {
 
 type Index = Record<string, IndexEntry>;
 
-type LawSearchResult = {
-  id: string;
-  sourceId: string;
-  bookId: string;
-  chapterId: string;
-  articleId: string;
-  paragraphId?: string;
-  sourceLabel: string;
-  bookLabel: string;
-  chapterLabel: string;
-  articleLabel: string;
-  paragraphLabel?: string;
-  snippet: string;
-};
-
-type Bookmark = {
-  key: string;
-  articleId: string;
-  paragraphId?: string;
-  sourceId: string;
-  bookId: string;
-  chapterId: string;
-  title: string;
-  excerpt: string;
-  createdAt: number;
-};
+const SIDE_PANEL_WIDTH = 580;
+const panelTransition = { type: "spring" as const, stiffness: 350, damping: 32 };
 
 export default function DocumentWithChat({
   sources,
-  isSearchOpen: controlledSearchOpen,
-  onSearchOpenChange,
   booksHomeSignal = 0,
-  isAssistantOpen = true,
   isBookmarksPanelOpen = false,
+  bookmarks,
+  onBookmarksChange,
+  onBookVisited,
+  navTarget = null,
 }: DocumentWithChatProps) {
-  // Source -> Book -> Chapter navigation state.
   const [selectedSourceId, setSelectedSourceId] = useState<string | null>(null);
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
-  const [selectedChapterId, setSelectedChapterId] = useState<string | null>(
-    null,
-  );
+  const [selectedChapterId, setSelectedChapterId] = useState<string | null>(null);
   const [scrollTargetId, setScrollTargetId] = useState<string | null>(null);
-  const [uncontrolledSearchOpen, setUncontrolledSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<LawSearchResult[]>([]);
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
   const bookIndex = useMemo(() => buildIndex(sources), [sources]);
 
-  const isSearchOpen = controlledSearchOpen ?? uncontrolledSearchOpen;
-  const setIsSearchOpen = onSearchOpenChange ?? setUncontrolledSearchOpen;
-  // A side panel is shown only for tools that truly need one.
-  const isSidePanelOpen = isAssistantOpen || isBookmarksPanelOpen;
+  const navigateTo = useCallback(
+    (ref: { articleId: string; paragraphId?: string }) => {
+      const targetId = ref.paragraphId ?? ref.articleId;
+      if (!targetId) return;
 
-  // Reset to library root when the user clicks the toolbar's "Bibliotheque" tool.
+      const path = bookIndex[targetId];
+      if (!path) return;
+
+      setSelectedSourceId(path.sourceId);
+      setSelectedBookId(path.bookId);
+      setSelectedChapterId(path.chapterId ?? null);
+      setTimeout(() => setScrollTargetId(targetId), 0);
+    },
+    [bookIndex],
+  );
+
   useEffect(() => {
     setSelectedSourceId(null);
     setSelectedBookId(null);
@@ -84,34 +74,37 @@ export default function DocumentWithChat({
     setScrollTargetId(null);
   }, [booksHomeSignal]);
 
-  const navigateTo = (ref: { articleId: string; paragraphId?: string }) => {
-    const targetId = ref.paragraphId ?? ref.articleId;
-    if (!targetId) return;
-
-    const path = bookIndex[targetId];
-    if (!path) return;
-
-    setSelectedSourceId(path.sourceId);
-    setSelectedBookId(path.bookId);
-    setSelectedChapterId(path.chapterId ?? null);
-    // Defer scroll target slightly so chapter content re-renders first.
-    setTimeout(() => setScrollTargetId(targetId), 0);
-  };
-
-  const handleReferenceClick = (ref: LawReference) => {
-    navigateTo(ref);
-  };
-
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
-    const trimmed = value.trim();
-    if (!trimmed) {
-      setSearchResults([]);
-      return;
+  // Deep-link from search results (or any external navigation).
+  // Declared after booksHomeSignal reset so its state updates take precedence on mount.
+  useEffect(() => {
+    if (navTarget) {
+      navigateTo(navTarget);
     }
-    const results = searchBooks(sources, trimmed);
-    setSearchResults(results);
-  };
+  }, [navTarget, navigateTo]);
+
+  const handleSelectBook = useCallback(
+    (bookId: string) => {
+      setSelectedBookId(bookId);
+      setSelectedChapterId(null);
+      setScrollTargetId(null);
+
+      if (onBookVisited && selectedSourceId) {
+        const source = sources.find((s) => s.id === selectedSourceId);
+        const book = source?.books.find((b) => b.id === bookId);
+        if (source && book) {
+          onBookVisited({
+            sourceId: source.id,
+            sourceLabel: source.label,
+            bookId: book.id,
+            bookLabel: book.label,
+            heading: book.heading,
+            visitedAt: Date.now(),
+          });
+        }
+      }
+    },
+    [onBookVisited, selectedSourceId, sources],
+  );
 
   const getBookmarkKey = (ref: { articleId: string; paragraphId?: string }) =>
     `${ref.articleId}#${ref.paragraphId ?? ""}`;
@@ -132,12 +125,11 @@ export default function DocumentWithChat({
     if (!path) return;
 
     const key = getBookmarkKey(ref);
-    setBookmarks((prev) => {
-      const exists = prev.some((b) => b.key === key);
-      if (exists) {
-        return prev.filter((b) => b.key !== key);
-      }
-      const entry: Bookmark = {
+    const exists = bookmarks.some((b) => b.key === key);
+    if (exists) {
+      onBookmarksChange(bookmarks.filter((b) => b.key !== key));
+    } else {
+      const entry: BookmarkEntry = {
         key,
         articleId: ref.articleId,
         paragraphId: ref.paragraphId,
@@ -148,82 +140,103 @@ export default function DocumentWithChat({
         excerpt: meta.excerpt,
         createdAt: Date.now(),
       };
-      return [entry, ...prev];
-    });
+      onBookmarksChange([entry, ...bookmarks]);
+    }
   };
 
   return (
-    <div
-      className={[
-        "grid h-full gap-6",
-        // The left column is reserved for an active side tool.
-        isSidePanelOpen ? "grid-cols-[580px_1fr]" : "grid-cols-1",
-      ].join(" ")}
-    >
-      {/* Side panel content switches with the selected toolbar tool. */}
-      {isAssistantOpen && (
-        <div className="flex h-full flex-col overflow-hidden">
-          <ChatPanel onReferenceClick={handleReferenceClick} />
-        </div>
-      )}
-      {isBookmarksPanelOpen && (
-        <section className="flex h-full flex-col rounded-lg border border-zinc-200 bg-white">
-          <header className="border-b border-zinc-200 px-4 py-3">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-700">
-              Signets enregistres
-            </h2>
-            <p className="mt-1 text-xs text-zinc-500">
-              Retrouvez ici tous vos signets pour revenir rapidement sur les
-              passages importants.
-            </p>
-          </header>
-
-          <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3 text-sm">
-            {bookmarks.length === 0 && (
-              <p className="text-sm text-zinc-500">
-                Aucun signet pour le moment. Ajoutez-en avec l&apos;icone 🔖
-                visible dans la lecture d&apos;article.
-              </p>
-            )}
-            {bookmarks.map((b) => (
-              <button
-                key={b.key}
-                type="button"
-                onClick={() => {
-                  navigateTo({
-                    articleId: b.articleId,
-                    paragraphId: b.paragraphId,
-                  });
-                }}
-                className="group w-full rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-left text-sm transition hover:border-zinc-400 hover:bg-white"
-              >
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <div className="text-sm font-semibold text-zinc-800">
-                    {b.title}
+    <div className="flex h-full gap-6">
+      {/* ── Animated bookmarks side panel ── */}
+      <AnimatePresence initial={false}>
+        {isBookmarksPanelOpen && (
+          <motion.div
+            key="bookmarks"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: SIDE_PANEL_WIDTH, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={panelTransition}
+            className="shrink-0 overflow-hidden"
+          >
+            <div className="h-full" style={{ width: SIDE_PANEL_WIDTH }}>
+              <section className="flex h-full flex-col rounded-xl bg-card ring-1 ring-border">
+                <header className="border-b border-border px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100">
+                      <Bookmark className="h-4 w-4 text-amber-700" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-semibold text-foreground">
+                        Signets enregistrés
+                      </h2>
+                      <p className="text-xs text-muted-foreground">
+                        Retrouvez ici vos passages importants.
+                      </p>
+                    </div>
                   </div>
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setBookmarks((prev) =>
-                        prev.filter((entry) => entry.key !== b.key),
-                      );
-                    }}
-                    className="cursor-pointer rounded-full px-3 py-0.5 text-xs text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
-                  >
-                    Supprimer
-                  </span>
-                </div>
-                <div className="line-clamp-3 text-sm text-zinc-700">
-                  {b.excerpt}
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+                </header>
 
-      {/* Law viewer always stays available and expands if no tool panel is open. */}
-      <div className="h-full overflow-hidden">
+                <ScrollArea className="flex-1 px-4 py-3">
+                  <div className="space-y-2 text-sm">
+                    {bookmarks.length === 0 && (
+                      <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
+                          <Bookmark className="h-5 w-5 text-slate-400" />
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Aucun signet pour le moment.
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Utilisez l&apos;icône signet dans les articles pour en
+                          ajouter.
+                        </p>
+                      </div>
+                    )}
+                    {bookmarks.map((b) => (
+                      <button
+                        key={b.key}
+                        type="button"
+                        onClick={() => {
+                          navigateTo({
+                            articleId: b.articleId,
+                            paragraphId: b.paragraphId,
+                          });
+                        }}
+                        className="group w-full rounded-lg border border-border bg-card px-4 py-3 text-left transition hover:border-blue-300 hover:bg-blue-50/50"
+                      >
+                        <div className="mb-1 flex items-center justify-between gap-2">
+                          <div className="text-sm font-semibold text-foreground">
+                            {b.title}
+                          </div>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onBookmarksChange(
+                                bookmarks.filter(
+                                  (entry) => entry.key !== b.key,
+                                ),
+                              );
+                            }}
+                            className="flex cursor-pointer items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                            Supprimer
+                          </span>
+                        </div>
+                        <div className="line-clamp-3 text-sm text-muted-foreground">
+                          {b.excerpt}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </section>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Law viewer ── */}
+      <div className="min-w-0 flex-1 overflow-hidden">
         <LawViewer
           sources={sources}
           selectedSourceId={selectedSourceId}
@@ -241,13 +254,8 @@ export default function DocumentWithChat({
             setSelectedChapterId(null);
             setScrollTargetId(null);
           }}
-          onSelectBook={(id) => {
-            setSelectedBookId(id);
-            setSelectedChapterId(null);
-            setScrollTargetId(null);
-          }}
+          onSelectBook={handleSelectBook}
           onClearBook={() => {
-            // Going back from a book keeps the selected source visible.
             setSelectedBookId(null);
             setSelectedChapterId(null);
             setScrollTargetId(null);
@@ -261,248 +269,32 @@ export default function DocumentWithChat({
           onToggleBookmark={handleToggleBookmark}
         />
       </div>
-
-      {isSearchOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold text-zinc-800">
-                Recherche dans les corpus
-              </h2>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setSearchQuery("");
-                  setSearchResults([]);
-                }}
-                className="rounded-md px-3 py-1 text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
-              >
-                Fermer
-              </button>
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Rechercher un article ou un paragraphe..."
-              className="mb-4 w-full rounded-md border border-zinc-300 px-4 py-3 text-base shadow-sm focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            />
-            <div className="max-h-128 space-y-3 overflow-y-auto text-sm">
-              {!searchQuery.trim() && (
-                <p className="text-sm text-zinc-500">
-                  Saisissez un terme pour rechercher dans tous les corpus.
-                </p>
-              )}
-              {searchQuery.trim() && searchResults.length === 0 && (
-                <p className="text-sm text-zinc-500">
-                  Aucun resultat pour « {searchQuery} ».
-                </p>
-              )}
-              {searchResults.map((res) => (
-                <button
-                  key={res.id}
-                  type="button"
-                  onClick={() => {
-                    navigateTo({
-                      articleId: res.articleId,
-                      paragraphId: res.paragraphId,
-                    });
-                    setIsSearchOpen(false);
-                    setSearchQuery("");
-                    setSearchResults([]);
-                  }}
-                  className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-left text-sm transition hover:border-zinc-400 hover:bg-white"
-                >
-                  <div className="mb-1 text-[11px] uppercase tracking-wide text-zinc-500">
-                    {res.sourceLabel} · {res.bookLabel} · {res.chapterLabel}
-                  </div>
-                  <div className="text-sm font-semibold text-zinc-800">
-                    {res.articleLabel}
-                    {res.paragraphLabel ? ` – ${res.paragraphLabel}` : null}
-                  </div>
-                  <div
-                    className="mt-1 line-clamp-3 text-sm text-zinc-700"
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{ __html: res.snippet }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
+/* ── Utility: build node-to-path index ── */
+
 function buildIndex(sources: LawSource[]): Index {
   const index: Index = {};
-
   for (const source of sources) {
     for (const book of source.books) {
       const bookId = book.id;
       const chapters = book.children?.filter((n) => n.kind === "chapter") ?? [];
-
       for (const chapter of chapters) {
         const chapterId = chapter.id;
-        const sections =
-          chapter.children?.filter((n) => n.kind === "section") ?? [];
-        const directArticles =
-          chapter.children?.filter((n) => n.kind === "article") ?? [];
-
-        for (const article of directArticles) {
-          index[article.id] = { sourceId: source.id, bookId, chapterId };
-          const paragraphs =
-            article.children?.filter((n) => n.kind === "paragraph") ?? [];
-          for (const para of paragraphs) {
-            index[para.id] = { sourceId: source.id, bookId, chapterId };
-          }
-        }
-
-        for (const section of sections) {
-          const articles =
-            section.children?.filter((n) => n.kind === "article") ?? [];
-          for (const article of articles) {
-            index[article.id] = { sourceId: source.id, bookId, chapterId };
-            const paragraphs =
-              article.children?.filter((n) => n.kind === "paragraph") ?? [];
-            for (const para of paragraphs) {
-              index[para.id] = { sourceId: source.id, bookId, chapterId };
+        const walk = (nodes: LawNode[] | undefined) => {
+          if (!nodes) return;
+          for (const node of nodes) {
+            if (node.kind === "article" || node.kind === "paragraph") {
+              index[node.id] = { sourceId: source.id, bookId, chapterId };
             }
+            if (node.children) walk(node.children);
           }
-        }
+        };
+        walk(chapter.children);
       }
     }
   }
-
   return index;
 }
-
-function searchBooks(sources: LawSource[], query: string): LawSearchResult[] {
-  const q = query.toLowerCase();
-  const results: LawSearchResult[] = [];
-
-  const pushResult = (args: {
-    source: LawSource;
-    book: LawBook;
-    chapter: LawNode;
-    article: LawNode;
-    paragraph?: LawNode;
-    sourceText: string;
-  }) => {
-    if (results.length >= 5) return;
-    const { source, book, chapter, article, paragraph, sourceText } = args;
-    const lower = sourceText.toLowerCase();
-    const idx = lower.indexOf(q);
-    if (idx === -1) return;
-    const start = Math.max(0, idx - 40);
-    const end = Math.min(sourceText.length, idx + query.length + 40);
-    const before = sourceText.slice(start, idx);
-    const match = sourceText.slice(idx, idx + query.length);
-    const after = sourceText.slice(idx + query.length, end);
-    const snippet = `${start > 0 ? "…" : ""}${before}<mark>${match}</mark>${after}${
-      end < sourceText.length ? "…" : ""
-    }`;
-
-    results.push({
-      id: paragraph?.id ?? article.id,
-      sourceId: source.id,
-      bookId: book.id,
-      chapterId: chapter.id,
-      articleId: article.id,
-      paragraphId: paragraph?.id,
-      sourceLabel: source.label,
-      bookLabel: book.label,
-      chapterLabel: chapter.label,
-      articleLabel: article.label,
-      paragraphLabel: paragraph?.label,
-      snippet,
-    });
-  };
-
-  for (const source of sources) {
-    for (const book of source.books) {
-      const chapters = book.children?.filter((n) => n.kind === "chapter") ?? [];
-      for (const chapter of chapters) {
-        const sections =
-          chapter.children?.filter((n) => n.kind === "section") ?? [];
-        const directArticles =
-          chapter.children?.filter((n) => n.kind === "article") ?? [];
-
-        for (const article of directArticles) {
-          const articleText = [article.label, article.heading, article.content]
-            .filter(Boolean)
-            .join(" — ");
-          if (articleText.toLowerCase().includes(q)) {
-            pushResult({
-              source,
-              book,
-              chapter,
-              article,
-              sourceText: articleText,
-            });
-            if (results.length >= 5) return results;
-          }
-          const paragraphs =
-            article.children?.filter((n) => n.kind === "paragraph") ?? [];
-          for (const para of paragraphs) {
-            const paraText = [para.label, para.content].filter(Boolean).join(" — ");
-            if (!paraText.toLowerCase().includes(q)) continue;
-            pushResult({
-              source,
-              book,
-              chapter,
-              article,
-              paragraph: para,
-              sourceText: paraText,
-            });
-            if (results.length >= 5) return results;
-          }
-        }
-
-        for (const section of sections) {
-          const articles =
-            section.children?.filter((n) => n.kind === "article") ?? [];
-          for (const article of articles) {
-            const articleText = [article.label, article.heading, article.content]
-              .filter(Boolean)
-              .join(" — ");
-            if (articleText.toLowerCase().includes(q)) {
-              pushResult({
-                source,
-                book,
-                chapter,
-                article,
-                sourceText: articleText,
-              });
-              if (results.length >= 5) return results;
-            }
-            const paragraphs =
-              article.children?.filter((n) => n.kind === "paragraph") ?? [];
-            for (const para of paragraphs) {
-              const paraText = [para.label, para.content]
-                .filter(Boolean)
-                .join(" — ");
-              if (!paraText.toLowerCase().includes(q)) continue;
-              pushResult({
-                source,
-                book,
-                chapter,
-                article,
-                paragraph: para,
-                sourceText: paraText,
-              });
-              if (results.length >= 5) return results;
-            }
-          }
-        }
-      }
-      if (results.length >= 5) break;
-    }
-    if (results.length >= 5) break;
-  }
-
-  return results;
-}
-

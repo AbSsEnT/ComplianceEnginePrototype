@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { LawNode } from "@/lib/law/types";
+import { Bookmark } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChapterContentProps {
   chapter: LawNode | null;
@@ -27,7 +29,7 @@ export default function ChapterContent({
 
   if (!chapter) {
     return (
-      <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-base text-zinc-600">
+      <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/50 px-4 py-6 text-base text-muted-foreground">
         Sélectionnez un livre puis un chapitre pour afficher son contenu.
       </div>
     );
@@ -61,16 +63,18 @@ export default function ChapterContent({
   }, [scrollTargetId, chapter?.id]);
 
   return (
-    <div className="h-full overflow-y-auto rounded-lg border border-zinc-200 bg-white px-4 py-4 text-base leading-relaxed md:px-6 md:py-5">
-      <header className="mb-4 border-b border-zinc-200 pb-3">
-        <h2 className="text-lg font-semibold">{chapter.label}</h2>
+    <ScrollArea className="h-full rounded-xl border border-border bg-card px-4 py-4 text-base leading-relaxed md:px-6 md:py-5">
+      <header className="mb-4 border-b border-border pb-3">
+        <h2 className="text-lg font-semibold text-foreground">
+          {chapter.label}
+        </h2>
         {chapter.heading && (
-          <p className="mt-1 text-xs text-zinc-600">
+          <p className="mt-1 text-xs text-muted-foreground">
             {chapter.heading}
           </p>
         )}
         {chapter.articlesRange && (
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 text-xs text-slate-400">
             {chapter.articlesRange}
           </p>
         )}
@@ -94,18 +98,20 @@ export default function ChapterContent({
                 key={article.id}
                 article={article}
                 highlightedContainerId={highlightedContainerId}
+                isBookmarked={isBookmarked}
+                onToggleBookmark={onToggleBookmark}
               />
             ))}
           </div>
         )}
 
         {!sections.length && !directArticles.length && (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-muted-foreground">
             Aucun contenu disponible pour ce chapitre.
           </p>
         )}
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 
@@ -129,17 +135,17 @@ function SectionBlock({
     section.children?.filter((child) => child.kind === "article") ?? [];
 
   return (
-    <section className="border-l-2 border-zinc-200 pl-4">
-      <h3 className="text-base font-semibold uppercase tracking-wide text-zinc-700">
+    <section className="border-l-2 border-blue-200 pl-4">
+      <h3 className="text-base font-semibold uppercase tracking-wide text-slate-700">
         {section.label}
       </h3>
       {section.heading && (
-        <p className="mt-1 text-sm text-zinc-600">
+        <p className="mt-1 text-sm text-muted-foreground">
           {section.heading}
         </p>
       )}
       {section.articlesRange && (
-        <p className="mt-1 text-[12px] text-zinc-500">
+        <p className="mt-1 text-[12px] text-slate-400">
           {section.articlesRange}
         </p>
       )}
@@ -195,13 +201,13 @@ function ArticleBlock({
       id={article.id}
       {...{ [HIGHLIGHT_CONTAINER_ATTR]: "true" }}
       className={[
-        "relative rounded-md border bg-zinc-50 px-3 py-2 text-base transition-colors",
-        "border-zinc-200 hover:border-zinc-400",
-        isHighlighted ? "border-zinc-400" : null,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+        "relative rounded-lg border bg-muted/30 px-3 py-2 text-base transition-all",
+        isHighlighted
+          ? "border-blue-400 bg-blue-50/50 shadow-sm"
+          : "border-border hover:border-slate-300",
+      ].join(" ")}
     >
+      {/* Bookmark toggle for the article */}
       <button
         type="button"
         onClick={() =>
@@ -217,125 +223,96 @@ function ArticleBlock({
           "absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full transition",
           articleBookmarked
             ? "bg-amber-100 text-amber-700"
-            : "text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+            : "text-slate-400 opacity-0 hover:bg-slate-100 hover:text-slate-700 [article:hover>&]:opacity-100",
+        ].join(" ")}
         aria-label={
           articleBookmarked
             ? "Retirer le signet de l'article"
             : "Ajouter un signet à l'article"
         }
       >
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+        <Bookmark
           className="h-4 w-4"
-        >
-          {articleBookmarked ? (
-            <path
-              d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"
-              fill="currentColor"
-            />
-          ) : (
-            <path
-              d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2zm0 15.11-5-2.15-5 2.15V5h10z"
-              fill="currentColor"
-            />
-          )}
-        </svg>
+          fill={articleBookmarked ? "currentColor" : "none"}
+        />
       </button>
-      <h4 className="text-base font-semibold">
+
+      <h4 className="text-base font-semibold text-foreground">
         {article.label}
         {article.heading ? ` – ${article.heading}` : null}
       </h4>
+
       {paragraphs.length > 0 ? (
         <div className="mt-2 space-y-3">
-          {paragraphs.map((para) => (
-            (() => {
-              const isParaHighlighted = highlightedContainerId === para.id;
-              const paraBookmarked =
-                isBookmarked?.({
-                  articleId: article.id,
-                  paragraphId: para.id,
-                }) ?? false;
-              const paraExcerpt = (para.content ?? "").slice(0, 240);
-              return (
-            <div
-              key={para.id}
-              id={para.id}
-              {...{ [HIGHLIGHT_CONTAINER_ATTR]: "true" }}
-              className={[
-                "relative rounded border bg-white px-3 py-2 text-sm leading-relaxed transition-colors",
-                "border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50",
-                isParaHighlighted ? "border-zinc-400 bg-zinc-50" : null,
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  onToggleBookmark?.(
-                    { articleId: article.id, paragraphId: para.id },
-                    {
-                      title: para.label
-                        ? `${article.label} – ${para.label}`
-                        : article.label,
-                      excerpt: paraExcerpt,
-                    },
-                  )
-                }
+          {paragraphs.map((para) => {
+            const isParaHighlighted = highlightedContainerId === para.id;
+            const paraBookmarked =
+              isBookmarked?.({
+                articleId: article.id,
+                paragraphId: para.id,
+              }) ?? false;
+            const paraExcerpt = (para.content ?? "").slice(0, 240);
+            return (
+              <div
+                key={para.id}
+                id={para.id}
+                {...{ [HIGHLIGHT_CONTAINER_ATTR]: "true" }}
                 className={[
-                  "absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-full transition",
-                  paraBookmarked
-                    ? "bg-amber-100 text-amber-700"
-                    : "text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                aria-label={
-                  paraBookmarked
-                    ? "Retirer le signet du paragraphe"
-                    : "Ajouter un signet au paragraphe"
-                }
+                  "group/para relative rounded-lg border bg-card px-3 py-2 text-sm leading-relaxed transition-all",
+                  isParaHighlighted
+                    ? "border-blue-400 bg-blue-50/50 shadow-sm"
+                    : "border-border hover:border-slate-300",
+                ].join(" ")}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  className="h-4 w-4"
+                {/* Bookmark toggle for the paragraph */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    onToggleBookmark?.(
+                      { articleId: article.id, paragraphId: para.id },
+                      {
+                        title: para.label
+                          ? `${article.label} – ${para.label}`
+                          : article.label,
+                        excerpt: paraExcerpt,
+                      },
+                    )
+                  }
+                  className={[
+                    "absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-full transition",
+                    paraBookmarked
+                      ? "bg-amber-100 text-amber-700"
+                      : "text-slate-400 opacity-0 hover:bg-slate-100 hover:text-slate-700 group-hover/para:opacity-100",
+                  ].join(" ")}
+                  aria-label={
+                    paraBookmarked
+                      ? "Retirer le signet du paragraphe"
+                      : "Ajouter un signet au paragraphe"
+                  }
                 >
-                  {paraBookmarked ? (
-                    <path
-                      d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"
-                      fill="currentColor"
-                    />
-                  ) : (
-                    <path
-                      d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2zm0 15.11-5-2.15-5 2.15V5h10z"
-                      fill="currentColor"
-                    />
-                  )}
-                </svg>
-              </button>
-              {para.label && (
-                <div className="mb-1 font-semibold text-zinc-700">
-                  {para.label}
-                </div>
-              )}
-              {para.content && (
-                <p className="whitespace-pre-wrap text-base leading-relaxed text-zinc-800">
-                  {para.content}
-                </p>
-              )}
-            </div>
-              );
-            })()
-          ))}
+                  <Bookmark
+                    className="h-3.5 w-3.5"
+                    fill={paraBookmarked ? "currentColor" : "none"}
+                  />
+                </button>
+
+                {para.label && (
+                  <div className="mb-1 font-semibold text-slate-700">
+                    {para.label}
+                  </div>
+                )}
+                {para.content && (
+                  <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
+                    {para.content}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
         article.content && (
-          <p className="mt-2 whitespace-pre-wrap text-base text-zinc-800">
+          <p className="mt-2 whitespace-pre-wrap text-base text-foreground">
             {article.content}
           </p>
         )
@@ -343,4 +320,3 @@ function ArticleBlock({
     </article>
   );
 }
-
