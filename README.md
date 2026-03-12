@@ -1,4 +1,8 @@
-## Prototype of a compliance engine for the ERP regulation
+## SafeLink prototype
+
+SafeLink is a compliance assistant for building safety regulations.
+The current dataset focuses on ERP Livre I, and the app structure is ready
+for additional sources such as ERP Livres II-IV, APSAD, and EN/NF references.
 
 First, install the dependencies:
 

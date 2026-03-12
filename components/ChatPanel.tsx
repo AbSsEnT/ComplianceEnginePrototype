@@ -68,8 +68,8 @@ export default function ChatPanel({ onReferenceClick }: ChatPanelProps) {
           Assistant règlementaire
         </h2>
         <p className="mt-1 text-xs text-zinc-500">
-          Posez une question sur le règlement ERP. Les réponses s&apos;appuient sur
-          le Livre Ier.
+          Posez une question sur les corpus disponibles dans SafeLink. Les
+          reponses sont fondees sur les extraits indexes.
         </p>
       </header>
 
@@ -78,7 +78,7 @@ export default function ChatPanel({ onReferenceClick }: ChatPanelProps) {
           <p className="text-xs text-zinc-500">
             Commencez par poser une question, par exemple :{" "}
             <span className="italic">
-              &laquo; Comment sont classés les établissements ? &raquo;
+              &laquo; Comment sont classes les etablissements ? &raquo;
             </span>
           </p>
         )}
@@ -100,7 +100,7 @@ export default function ChatPanel({ onReferenceClick }: ChatPanelProps) {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Votre question sur le règlement..."
+            placeholder="Votre question sur les reglements..."
             className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500"
           />
           <button

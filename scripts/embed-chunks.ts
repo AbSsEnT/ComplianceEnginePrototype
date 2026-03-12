@@ -1,5 +1,6 @@
 /**
- * Pre-compute embeddings for law chunks (Livre 1) using Azure OpenAI text-embedding-3-large.
+ * Pre-compute embeddings for law chunks (currently ERP Livre I) using Azure OpenAI
+ * text-embedding-3-large.
  * Run: pnpm embed
  * Requires: .env with AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_EMBEDDING_DEPLOYMENT
  */
@@ -33,7 +34,7 @@ async function main() {
   const raw = readFileSync(dataPath, "utf-8");
   const books = JSON.parse(raw) as LawBook[];
   const chunks = buildChunks(books);
-  console.log(`Built ${chunks.length} chunks from Livre 1`);
+  console.log(`Built ${chunks.length} chunks from ERP Livre I`);
 
   const client = new OpenAI({
     apiKey,

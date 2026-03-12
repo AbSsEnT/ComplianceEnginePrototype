@@ -128,7 +128,7 @@ export async function POST(request: Request) {
       defaultQuery: { "api-version": "2024-02-01" },
     });
 
-    const systemContent = `Tu es un assistant qui répond UNIQUEMENT à partir des extraits du règlement ERP ci-dessous.
+    const systemContent = `Tu es l'assistant SafeLink. Tu reponds UNIQUEMENT a partir des extraits reglementaires ci-dessous.
 Réponds en français.
 
 Règles strictes :
@@ -144,7 +144,7 @@ Réponds UNIQUEMENT au format JSON suivant, sans texte avant ou après :
 - "articleId" et "paragraphId" : optionnels, la source de ce passage. Un seul ID par champ, jamais plusieurs.
 - Si l'information n'est pas dans les extraits, renvoie un seul part explicatif sans articleId/paragraphId.
 
-Extraits du règlement :
+Extraits reglementaires :
 ${context}`;
 
     const completion = await chatClient.chat.completions.create({

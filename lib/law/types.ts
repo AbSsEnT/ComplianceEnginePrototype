@@ -14,6 +14,17 @@ export interface LawBook extends LawNode {
   kind: "book";
 }
 
+/**
+ * A source groups books that come from the same regulatory family
+ * (for example: ERP, APSAD, EN/NF).
+ */
+export interface LawSource {
+  id: string;
+  label: string;
+  description?: string;
+  books: LawBook[];
+}
+
 export interface LawReference {
   articleId: string;
   paragraphId?: string;
