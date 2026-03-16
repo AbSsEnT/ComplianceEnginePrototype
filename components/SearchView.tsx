@@ -447,17 +447,56 @@ function bookKey(sourceId: string, bookId: string) {
 }
 
 /**
+ * Strip diacritics (accents) and lowercase a string so that
+ * "bâtiment", "Bâtiment", and "batiment" all compare equal.
+ * Uses Unicode NFD decomposition then removes combining marks.
+ */
+function normalizeFold(str: string): string {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+/**
+ * Escape special regex metacharacters so we can safely build a RegExp
+ * from user input.
+ */
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
  * Full-text search across filtered sources.
  * Matches article/paragraph text and returns up to `limit` results with
- * HTML-highlighted snippets.
+ * HTML-highlighted snippets. Matching is accent-insensitive and case-insensitive.
  */
 function searchBooks(
   sources: LawSource[],
   query: string,
   limit: number,
 ): SearchResult[] {
-  const q = query.toLowerCase();
+  const qNorm = normalizeFold(query);
   const results: SearchResult[] = [];
+
+  /**
+   * Build a regex that matches the query in the original (non-normalized) text
+   * by turning each query character into a class that also accepts its accented forms.
+   * E.g. query "bat" matches "bât" because 'a' is turned into [aàáâãäå…].
+   */
+  const accentMap: Record<string, string> = {
+    a: "aàáâãäåæ", c: "cç", e: "eèéêë", i: "iìíîï",
+    n: "nñ", o: "oòóôõöø", u: "uùúûü", y: "yýÿ",
+    s: "sß", d: "dð",
+  };
+  const patternStr = Array.from(normalizeFold(query))
+    .map((ch) => {
+      const variants = accentMap[ch];
+      if (variants) return `[${escapeRegex(variants)}${variants.toUpperCase()}]`;
+      return escapeRegex(ch);
+    })
+    .join("");
+  const matchRegex = new RegExp(patternStr, "i");
 
   const pushResult = (args: {
     source: LawSource;
@@ -469,14 +508,17 @@ function searchBooks(
   }) => {
     if (results.length >= limit) return;
     const { source, book, chapter, article, paragraph, sourceText } = args;
-    const lower = sourceText.toLowerCase();
-    const idx = lower.indexOf(q);
-    if (idx === -1) return;
+
+    const regexMatch = matchRegex.exec(sourceText);
+    if (!regexMatch) return;
+
+    const idx = regexMatch.index;
+    const matchLen = regexMatch[0].length;
     const start = Math.max(0, idx - 60);
-    const end = Math.min(sourceText.length, idx + query.length + 60);
+    const end = Math.min(sourceText.length, idx + matchLen + 60);
     const before = escapeHtml(sourceText.slice(start, idx));
-    const match = escapeHtml(sourceText.slice(idx, idx + query.length));
-    const after = escapeHtml(sourceText.slice(idx + query.length, end));
+    const match = escapeHtml(sourceText.slice(idx, idx + matchLen));
+    const after = escapeHtml(sourceText.slice(idx + matchLen, end));
     const snippet = `${start > 0 ? "…" : ""}${before}<mark>${match}</mark>${after}${end < sourceText.length ? "…" : ""}`;
 
     results.push({
@@ -511,7 +553,7 @@ function searchBooks(
               const text = [node.label, node.heading, node.content]
                 .filter(Boolean)
                 .join(" — ");
-              if (text.toLowerCase().includes(q)) {
+              if (normalizeFold(text).includes(qNorm)) {
                 pushResult({
                   source,
                   book,
@@ -525,7 +567,7 @@ function searchBooks(
               const text = [node.label, node.content]
                 .filter(Boolean)
                 .join(" — ");
-              if (text.toLowerCase().includes(q)) {
+              if (normalizeFold(text).includes(qNorm)) {
                 pushResult({
                   source,
                   book,

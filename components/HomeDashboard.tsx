@@ -224,8 +224,8 @@ export default function HomeDashboard({
           </Card>
 
           {/* Quick chat — spans full width on large screens, gradient header */}
-          <Card className="flex flex-col overflow-hidden lg:col-span-2">
-            <CardHeader className="border-b border-border bg-linear-to-r from-blue-600 to-blue-500 text-white">
+          <Card className="flex flex-col overflow-hidden pt-0 lg:col-span-2">
+            <CardHeader className="border-b border-border bg-linear-to-r from-blue-600 to-blue-500 text-white items-center">
               <CardTitle className="flex items-center gap-2 text-sm text-white">
                 <WaterDropMascot size="sm" className="bg-white/20" />
                 Assistant rapide

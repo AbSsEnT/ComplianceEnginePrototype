@@ -1,0 +1,93 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Water drop body  matches the assistant mascot shape and colors -->
+  <defs>
+    <radialGradient id="dropGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </radialGradient>
+  </defs>
+
+  <!-- Main teardrop -->
+  <path
+    d="M32 4 C32 4 10 30 10 42 C10 54.15 19.85 62 32 62 C44.15 62 54 54.15 54 42 C54 30 32 4 32 4Z"
+    fill="url(#dropGrad)"
+  />
+
+  <!-- Highlight / shine on the drop -->
+  <path
+    d="M32 8 C32 8 14 32 14 42 C14 52 21.5 58 32 58"
+    stroke="#93c5fd"
+    stroke-width="2"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- Subtle left glow -->
+  <ellipse
+    cx="22"
+    cy="34"
+    rx="4"
+    ry="5"
+    fill="#93c5fd4d"
+  />
+
+  <!-- Left eye -->
+  <ellipse
+    cx="24"
+    cy="42"
+    rx="4.5"
+    ry="5"
+    fill="white"
+  />
+  <ellipse
+    cx="25"
+    cy="42"
+    rx="2.2"
+    ry="2.8"
+    fill="#020617"
+  />
+  <circle
+    cx="26"
+    cy="40"
+    r="1"
+    fill="white"
+  />
+
+  <!-- Right eye -->
+  <ellipse
+    cx="40"
+    cy="42"
+    rx="4.5"
+    ry="5"
+    fill="white"
+  />
+  <ellipse
+    cx="41"
+    cy="42"
+    rx="2.2"
+    ry="2.8"
+    fill="#020617"
+  />
+  <circle
+    cx="42"
+    cy="40"
+    r="1"
+    fill="white"
+  />
+
+  <!-- Mouth  small friendly smile -->
+  <path
+    d="M26 49 Q32 54 38 49"
+    stroke="#1f2937"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>
+

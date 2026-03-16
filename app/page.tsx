@@ -111,12 +111,78 @@ export default function Home() {
     [activeConversationId],
   );
 
-  // Ctrl+K / Cmd+K navigates to the search view from anywhere
+  /**
+   * Global keyboard shortcuts.
+   *
+   * Design goals for shortcuts:
+   * - Keep Ctrl+K / Cmd+K as the primary way to open the search view.
+   * - Add consistent shortcuts for all main features so power users can
+   *   navigate without touching the mouse.
+   *
+   * Current mappings (Windows / Linux use Ctrl, macOS uses Cmd):
+   * - Ctrl / Cmd + K           → Open the search view.
+   * - Ctrl / Cmd + Shift + H   → Go to the Home dashboard.
+   * - Ctrl / Cmd + Shift + L   → Go to the Library (documents view).
+   * - Ctrl / Cmd + Shift + B   → Toggle the bookmarks panel inside documents.
+   * - Ctrl / Cmd + Shift + A   → Open the Assistant chat view.
+   */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      const isPrimaryModifier = e.metaKey || e.ctrlKey;
+
+      if (!isPrimaryModifier) {
+        return;
+      }
+
+      // Normalize the key to lowercase so shortcuts work regardless of Caps Lock.
+      const key = e.key.toLowerCase();
+
+      // Search palette: keep the existing, simple Ctrl+K / Cmd+K behavior.
+      if (!e.shiftKey && key === "k") {
         e.preventDefault();
         setActiveView("search");
+        setSideTool("none");
+        return;
+      }
+
+      // From here on, we use Ctrl/Cmd + Shift + <key> for other features.
+      if (!e.shiftKey) {
+        return;
+      }
+
+      // Home dashboard
+      if (key === "h") {
+        e.preventDefault();
+        setActiveView("home");
+        setSideTool("none");
+        setDocNavTarget(null);
+        return;
+      }
+
+      // Library / documents view
+      if (key === "l") {
+        e.preventDefault();
+        setActiveView("documents");
+        setSideTool("none");
+        setBooksHomeSignal((prev) => prev + 1);
+        setDocNavTarget(null);
+        return;
+      }
+
+      // Bookmarks side panel (only meaningful in the documents view).
+      if (key === "b") {
+        e.preventDefault();
+        setActiveView("documents");
+        setSideTool((prev) => (prev === "bookmarks" ? "none" : "bookmarks"));
+        return;
+      }
+
+      // Assistant chat view
+      if (key === "a") {
+        e.preventDefault();
+        setActiveView("chat");
+        setSideTool("none");
+        setDocNavTarget(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -158,6 +224,17 @@ export default function Home() {
     setSideTool("none");
   }, []);
 
+  /** Navigate from the chat source panel to the Bibliothèque at a specific article. */
+  const handleChatOpenInLibrary = useCallback((ref: LawReference) => {
+    setDocNavTarget({
+      articleId: ref.articleId,
+      paragraphId: ref.paragraphId,
+      _signal: Date.now(),
+    });
+    setActiveView("documents");
+    setSideTool("none");
+  }, []);
+
   /** Open the full chat view from the dashboard QuickChat widget. */
   const handleOpenFullChat = useCallback(() => {
     setActiveView("chat");
@@ -174,10 +251,19 @@ export default function Home() {
     <main className="flex h-screen flex-col bg-background font-sans text-foreground">
       {/* ── Header ── */}
       <header className="flex shrink-0 items-center justify-between bg-slate-900 px-4 py-3 md:px-8">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600">
+        <div className="ml-14 flex items-center gap-3 md:ml-16">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveView("home");
+              setSideTool("none");
+              setDocNavTarget(null);
+            }}
+            className="group flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 transition hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            aria-label="Retour à l'accueil SafeLink"
+          >
             <Shield className="h-5 w-5 text-white" />
-          </div>
+          </button>
           <div>
             <h1 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
               SafeLink
@@ -196,7 +282,7 @@ export default function Home() {
           <nav className="flex flex-col items-center gap-1 py-3">
             <SidebarButton
               icon={<House className="h-5 w-5" />}
-              label="Accueil"
+              label="Accueil (Ctrl+Shift+H)"
               active={activeView === "home"}
               onClick={() => {
                 setActiveView("home");
@@ -206,7 +292,7 @@ export default function Home() {
 
             <SidebarButton
               icon={<Library className="h-5 w-5" />}
-              label="Bibliothèque"
+              label="Bibliothèque (Ctrl+Shift+L)"
               active={activeView === "documents"}
               onClick={() => {
                 setActiveView("documents");
@@ -225,7 +311,7 @@ export default function Home() {
 
             <SidebarButton
               icon={<Bookmark className="h-5 w-5" />}
-              label="Signets"
+              label="Signets (Ctrl+Shift+B)"
               active={activeView === "documents" && sideTool === "bookmarks"}
               onClick={() => {
                 setActiveView("documents");
@@ -237,7 +323,7 @@ export default function Home() {
 
             <SidebarButton
               icon={<MessageSquare className="h-5 w-5" />}
-              label="Assistant"
+              label="Assistant (Ctrl+Shift+A)"
               active={activeView === "chat"}
               onClick={() => setActiveView("chat")}
             />
@@ -290,6 +376,8 @@ export default function Home() {
               activeConversationId={activeConversationId}
               onConversationsChange={setConversations}
               onActiveConversationIdChange={setActiveConversationId}
+              sources={lawSources as LawSource[]}
+              onOpenInLibrary={handleChatOpenInLibrary}
             />
           )}
 

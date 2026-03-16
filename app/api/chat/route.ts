@@ -4,7 +4,19 @@ import OpenAI from "openai";
 import type { GroundedPart } from "@/lib/law/types";
 
 const TOP_K = 8;
-const EMBEDDINGS_PATH = join(process.cwd(), "app", "data", "embeddings.json");
+// Multiple embedding files (one per "livre" / corpus) are supported so that
+// different regulatory sources (ERP, APSAD, EN/NF, ...) can be indexed and
+// combined flexibly for the chat assistant.
+const EMBEDDINGS_PATHS = [
+  join(
+    process.cwd(),
+    "app",
+    "data",
+    "embeddings",
+    "erp-livre1.embeddings.json",
+  ),
+  join(process.cwd(), "app", "data", "embeddings", "apsad-d9a.embeddings.json"),
+];
 
 type ChunkWithEmbedding = {
   id: string;
@@ -20,10 +32,35 @@ type EmbeddingsData = {
 
 let cachedEmbeddings: EmbeddingsData | null = null;
 
+/**
+ * Load and merge embeddings from all configured files.
+ *
+ * Each file is expected to have the shape:
+ *   { model: string; deployment: string; chunks: ChunkWithEmbedding[] }
+ *
+ * If a file is missing or malformed, it is skipped so that the chat route
+ * remains usable even when only a subset of corpora have been indexed.
+ */
 function loadEmbeddings(): EmbeddingsData {
   if (cachedEmbeddings) return cachedEmbeddings;
-  const raw = readFileSync(EMBEDDINGS_PATH, "utf-8");
-  cachedEmbeddings = JSON.parse(raw) as EmbeddingsData;
+
+  const allChunks: ChunkWithEmbedding[] = [];
+
+  for (const path of EMBEDDINGS_PATHS) {
+    try {
+      const raw = readFileSync(path, "utf-8");
+      const parsed = JSON.parse(raw) as Partial<EmbeddingsData> & {
+        chunks?: ChunkWithEmbedding[];
+      };
+      if (Array.isArray(parsed.chunks) && parsed.chunks.length > 0) {
+        allChunks.push(...parsed.chunks);
+      }
+    } catch (err) {
+      console.error(`Failed to load embeddings file at ${path}:`, err);
+    }
+  }
+
+  cachedEmbeddings = { chunks: allChunks };
   return cachedEmbeddings;
 }
 

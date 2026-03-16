@@ -1,6 +1,11 @@
 /**
- * Pre-compute embeddings for law chunks (currently ERP Livre I) using Azure OpenAI
+ * Pre-compute embeddings for law chunks of ERP Livre I using Azure OpenAI
  * text-embedding-3-large.
+ *
+ * This script is intentionally scoped to a single "livre" so that:
+ * - each réglementaire corpus can have its own embedding file; and
+ * - the chat backend can later filter or combine sources as needed.
+ *
  * Run: pnpm embed
  * Requires: .env with AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_EMBEDDING_DEPLOYMENT
  */
@@ -28,8 +33,24 @@ async function main() {
 
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const projectRoot = join(__dirname, "..");
-  const dataPath = join(projectRoot, "app", "data", "erp_livre1.json");
-  const outPath = join(projectRoot, "app", "data", "embeddings.json");
+  // Path to the raw ERP Livre I JSON tree used by the library view.
+  const dataPath = join(
+    projectRoot,
+    "app",
+    "data",
+    "sources",
+    "erp",
+    "livre1.json",
+  );
+  // Per-livre embeddings are written under app/data/embeddings so multiple
+  // corpora can be indexed independently (ERP, APSAD, EN/NF, ...).
+  const outPath = join(
+    projectRoot,
+    "app",
+    "data",
+    "embeddings",
+    "erp-livre1.embeddings.json",
+  );
 
   const raw = readFileSync(dataPath, "utf-8");
   const books = JSON.parse(raw) as LawBook[];

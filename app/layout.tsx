@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   title: "SafeLink",
   description:
     "SafeLink centralise les corpus reglementaires pour la securite incendie et la conformite batiment.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

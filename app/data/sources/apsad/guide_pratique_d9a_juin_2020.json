@@ -1,0 +1,515 @@
+{
+    "document_metadata": {
+      "title": "GUIDE PRATIQUE de dimensionnement des rétentions des eaux d'extinction D9A",
+      "date": "Juin 2020",
+      "publishers": [
+        "CNPP",
+        "Fédération Française de l'Assurance",
+        "Ministère de l'Intérieur",
+        "Ministère de la Transition Écologique"
+      ],
+      "isbn": "978-2-35505-288-0"
+    },
+    "sections": [
+      {
+        "id": "synthese",
+        "title": "Synthèse des dernières évolutions",
+        "level": 1,
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Cette édition de juin 2020 du document technique D9A annule et remplace l'édition d'août 2004."
+          },
+          {
+            "type": "paragraph",
+            "text": "Les principales évolutions sont les suivantes :"
+          },
+          {
+            "type": "list",
+            "items": [
+              "mise à jour des références réglementaires et techniques relatives à la résistance au feu ;",
+              "rappel de la démonstration du caractère pénalisant de la surface de référence retenue pour le calcul du volume à retenir ;",
+              "rappel de la nécessité de prévoir un dispositif de rétention pour chacune des surfaces de référence du site ;",
+              "modification de l'exemple de calcul en annexe, en cohérence avec l'exemple d'application du guide pratique D9 ;",
+              "ajout d'un § 6.4 recommandant la mise en place d'aires d'aspiration au niveau des rétentions des eaux d'extinction."
+            ]
+          }
+        ],
+        "subsections": []
+      },
+      {
+        "id": "1",
+        "title": "1. Objet et domaine d'application",
+        "level": 1,
+        "blocks": [],
+        "subsections": [
+          {
+            "id": "1.1",
+            "title": "1.1 Objet",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "L'objet de ce guide est de :"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "fournir une méthode permettant de dimensionner les volumes de rétention minimum des effluents liquides pollués, afin de limiter les risques de pollution pouvant survenir après un incendie ;",
+                  "définir les caractéristiques de la rétention."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "1.2",
+            "title": "1.2 Domaine d'application",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Ce guide est un outil de dimensionnement applicable lorsqu'une rétention des effluents liquides pollués suite à incendie est requise."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "title": "2. Principes de la méthode",
+        "level": 1,
+        "blocks": [],
+        "subsections": [
+          {
+            "id": "2.1",
+            "title": "2.1 Principes",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Les éléments suivants sont à prendre en compte dans le calcul des volumes de rétention :"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "volumes d'eau nécessaires à la défense extérieure contre l'incendie ;",
+                  "volumes d'eau nécessaires aux moyens de lutte intérieure contre l'incendie ;",
+                  "volume d'eau lié aux intempéries ;",
+                  "volumes des liquides présents dans la surface de référence considérée."
+                ]
+              },
+              {
+                "type": "paragraph",
+                "text": "La rétention d'un établissement doit être en mesure de contenir la totalité des volumes définis dans les chapitres 3, 4 et 5."
+              }
+            ]
+          },
+          {
+            "id": "2.2",
+            "title": "2.2 Tableau de calcul du volume à mettre en rétention",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Le caractère pénalisant du volume de rétention retenu doit être démontré."
+              },
+              {
+                "type": "paragraph",
+                "text": "À cet effet, un volume de rétention doit être calculé pour chaque surface de référence présente dans l'établissement."
+              },
+              {
+                "type": "paragraph",
+                "text": "Pour rappel, la surface de référence est au minimum délimitée, soit par des murs présentant une résistance au feu REI 120 conformément à l'arrêté du 22 mars 2004, soit par un espace libre de tout encombrement, non couvert, de 10 m minimum."
+              },
+              {
+                "type": "paragraph",
+                "text": "Cette distance pourra être augmentée en cas d'effets dominos sur d'autres bâtiments, stockages ou installations (du fait de l'intensité des flux thermiques, des hauteurs des bâtiments voisins et du type de construction)."
+              },
+              {
+                "type": "table",
+                "image_url": null,
+                "content_markdown": "| Catégorie | Élément | Calcul |\n|---|---|---|\n| Lutte extérieure | Besoins pour la lutte extérieure | Résultat guide pratique D9 (besoins x 2 h au minimum) |\n| Lutte intérieure | Sprinkleurs | Volume réserve intégrale de la source principale ou : besoins x durée théorique maximale de fonctionnement |\n| Lutte intérieure | Rideau d'eau | Besoins x 90 min |\n| Lutte intérieure | RIA | À négliger (0,00) |\n| Lutte intérieure | Mousse HF et MF | Débit de solution moussante x temps de noyage (en général 15-25 min) |\n| Lutte intérieure | Brouillard d'eau et autres systèmes | Débit x temps de fonctionnement requis |\n| Lutte intérieure | Colonne humide | Débit x temps de fonctionnement requis |\n| Intempéries | Volumes d'eau liés aux intempéries | 10 l/m2 de surface de drainage |\n| Stockage | Présence stock de liquides | 20 % du volume contenu dans le local contenant le plus grand volume |"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "title": "3. La prise en compte des volumes d'eau d'extinction",
+        "level": 1,
+        "blocks": [],
+        "subsections": [
+          {
+            "id": "3.1",
+            "title": "3.1 Volume d'eau nécessaire à la lutte extérieure contre l'incendie",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Le volume d'eau nécessaire à la lutte extérieure contre l'incendie à prendre en compte, pour le dimensionnement de la rétention, est celui défini à partir du guide pratique D9."
+              },
+              {
+                "type": "paragraph",
+                "text": "Si, pour des raisons particulières, le volume d'eau déterminé par la méthode du guide pratique D9 est différent de celui retenu pour la défense extérieure contre l'incendie, le volume à prendre en compte sera ce dernier."
+              },
+              {
+                "type": "paragraph",
+                "text": "Le guide pratique D9 définit, par type de risque, une méthode permettant de dimensionner les besoins en eau minimum nécessaires à l'intervention des secours publics ou privés, extérieurs ou internes à l'établissement."
+              },
+              {
+                "type": "paragraph",
+                "text": "Le débit requis est exprimé en m3/h pour une durée minimale théorique d'application de 2 h, ce qui permet d'avoir immédiatement le volume d'eau minimum susceptible d'être utilisé."
+              }
+            ]
+          },
+          {
+            "id": "3.2",
+            "title": "3.2 Volumes d'eau nécessaires aux moyens de lutte contre l'incendie internes à l'établissement",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Le volume d'eau nécessaire aux moyens de lutte internes contre l'incendie à prendre en compte pour le dimensionnement de la rétention est la somme (lorsque applicable) des volumes de chacun des systèmes d'extinction de l'établissement."
+              },
+              {
+                "type": "paragraph",
+                "text": "Ces volumes doivent be defined sur les bases des paragraphes suivants."
+              }
+            ],
+            "subsections": [
+              {
+                "id": "3.2.1",
+                "title": "3.2.1 Extinction automatique à eau de type sprinkleur",
+                "level": 3,
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Dans une majorité des cas, les sources d'eau du système sprinkleur sont constituées de deux sources :"
+                  },
+                  {
+                    "type": "list",
+                    "items": [
+                      "une source principale constituée d'une pompe et d'une réserve intégrale assurant l'autonomie requise par le système (en général 90 min) ;",
+                      "une source secondaire de secours, constituée d'une pompe et d'une réserve (en général 30 m3) permettant d'alimenter un nombre limité de sprinkleurs."
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "text": "Dans ces cas, le volume à prendre en compte est le volume de la réserve principale."
+                  },
+                  {
+                    "type": "paragraph",
+                    "text": "En fonction de la taille du système, les règles sprinkleurs prévoient parfois de doubler la source principale (2 pompes + 2 réserves). Dans ces cas, le volume à prendre en compte est le volume d'une seule réserve car les deux sources sont redondantes."
+                  },
+                  {
+                    "type": "paragraph",
+                    "text": "Lorsque les sources d'eau du système sprinkleurs sont constituées par une eau de ville, surpressée ou non, par un bac de reprise ou par une réserve d'appoint, le volume à prendre en compte est celui correspondant au débit requis le plus défavorable pendant le temps défini par la règle (en général 90 min)."
+                  }
+                ]
+              },
+              {
+                "id": "3.2.2",
+                "title": "3.2.2 Rideau d'eau",
+                "level": 3,
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Lorsque le rideau d'eau est alimenté par les mêmes sources d'eau que le sprinkleur, le volume dédié au rideau d'eau est inclus dans la réserve sprinkleurs."
+                  },
+                  {
+                    "type": "paragraph",
+                    "text": "Dans le cas contraire (alimentation du rideau d'eau indépendante), le volume à prendre en compte est celui correspondant au débit du rideau d'eau, multiplié par la durée requise, qui ne peut être inférieure à 90 min."
+                  }
+                ]
+              },
+              {
+                "id": "3.2.3",
+                "title": "3.2.3 Robinets d'incendie armés (RIA)",
+                "level": 3,
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Le volume est négligeable pour le calcul de rétention."
+                  }
+                ]
+              },
+              {
+                "id": "3.2.4",
+                "title": "3.2.4 Extinction à mousse à moyen et à haut foisonnement",
+                "level": 3,
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Lorsque le système d'extinction à mousse est alimenté par les mêmes sources d'eau que le sprinkleur, le volume dédié au système à mousse est inclus dans la réserve sprinkleurs."
+                  },
+                  {
+                    "type": "paragraph",
+                    "text": "Dans le cas contraire (alimentation indépendante), le volume à prendre en compte est celui correspondant au débit de solution moussante (avant foisonnement) requis par le système, multiplié par la durée minimale définie par la règle d'installation (en général entre 15 et 25 min)."
+                  }
+                ]
+              },
+              {
+                "id": "3.2.5",
+                "title": "3.2.5 Brouillard d'eau",
+                "level": 3,
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Le volume à prendre en compte est celui correspondant au débit du brouillard d'eau, multiplié par la durée d'application requise."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "title": "4. La prise en compte des volumes d'eau liés aux intempéries",
+        "level": 1,
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Le volume d'eau supplémentaire lié aux intempéries à prendre en compte dans le dimensionnement de la rétention des eaux d'extinction est défini de la façon forfaitaire suivante :"
+          },
+          {
+            "type": "paragraph",
+            "text": "10 mm (=10 l/m2) d'eau x les surfaces étanchées (bâtiment + voirie + parking, etc.) susceptibles de drainer les eaux de pluie vers la rétention"
+          },
+          {
+            "type": "paragraph",
+            "text": "La rétention spécifique des eaux pluviales (type bassin d'orage) ne relève pas de ce guide."
+          }
+        ],
+        "subsections": []
+      },
+      {
+        "id": "5",
+        "title": "5. Cas des stockages de liquides",
+        "level": 1,
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "20 % du volume des liquides présents dans la surface de référence considérée doit être intégré au calcul du volume de la rétention."
+          }
+        ],
+        "subsections": []
+      },
+      {
+        "id": "6",
+        "title": "6. Nature et emplacement des zones de rétention",
+        "level": 1,
+        "blocks": [],
+        "subsections": [
+          {
+            "id": "6.1",
+            "title": "6.1 Généralités",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Chaque surface de référence doit faire l'objet d'une collecte et d'un confinement des eaux d'extinction."
+              },
+              {
+                "type": "paragraph",
+                "text": "Si besoin, plusieurs dispositifs de rétention pourront être mis en place dans l'établissement (par exemple en cas de présence de plusieurs dispositifs de collecte des eaux distincts ou bien en cas de présence de plusieurs surfaces de référence réparties dans des bassins versants distincts)."
+              },
+              {
+                "type": "paragraph",
+                "text": "À la différence des rétentions contenant des liquides en permanence, les rétentions destinées à recueillir les eaux d'extinction d'incendie sont des parades actives. Il est pratiquement toujours nécessaire de manœuvrer les vannes pour les rendre efficaces."
+              },
+              {
+                "type": "paragraph",
+                "text": "Ces organes constitute des éléments importants pour la sécurité. Ils doivent faire l'objet d'un plan de maintenance et de contrôle garantissant leur disponibilité en cas de besoin."
+              },
+              {
+                "type": "paragraph",
+                "text": "Un registre suivi avec émargements doubles (opérateur et responsable) doit permettre de dater les actions de maintenance, de contrôle et de test. Un test trimestriel paraît nécessaire."
+              },
+              {
+                "type": "paragraph",
+                "text": "Lorsque le site dispose d'un plan d'urgence, chaque exercice doit inclure la fermeture des vannes de rétention, ainsi que l'essai des moyens de pompage s'ils existent."
+              },
+              {
+                "type": "paragraph",
+                "text": "Les rétentions déportées destinées à recevoir les eaux d'extinction et les canalisations ou caniveaux de liaison doivent avoir des caractéristiques d'étanchéité minimales. Elles ne doivent pas induire un risque de percolation des jus dans le sol."
+              },
+              {
+                "type": "paragraph",
+                "text": "On recherchera à n'inonder que les surfaces de voiries minimales : en effet, en présence de produits toxiques, tout ce qui sera mouillé sera contaminé et dangereux pour l'environnement, mais aussi pour les intervenants. En cas de présence de toxiques, tous les tuyaux, engins et personnels seraient contaminés."
+              },
+              {
+                "type": "paragraph",
+                "text": "Il devra donc être strictement interdit d'utiliser comme rétention les voiries de desserte, ainsi que celles destinées à la circulation des engins de secours. Il est impératif que ces voies ne soient en aucun cas contaminées par les eaux d'extinction."
+              },
+              {
+                "type": "paragraph",
+                "text": "La profondeur de la rétention est limitée à 20 cm, à l'exception de zones spécifiques (bassins) pour lesquelles la profondeur n'est pas limitée."
+              }
+            ]
+          },
+          {
+            "id": "6.2",
+            "title": "6.2 Rôle de rétentions",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Les ouvrages de rétention doivent :"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "récupérer les eaux polluées ;",
+                  "faciliter l'intervention des secours qui doivent intervenir à pied sec (sur les voies d'accès) ;",
+                  "maintenir les voies de circulation hors d'eau pour éviter la contamination des matériels et, en cas de présence d'hydrocarbures, le risque de nappe en feu qui file sur l'eau ;",
+                  "être visibles à tout moment pour vérifier leur niveau de remplissage et éviter qu'ils ne débordent ;",
+                  "faciliter le pompage par la présence d'un point bas."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6.3",
+            "title": "6.3 Types de rétentions",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Le volume de rétention peut être constitué par :"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "une ou plusieurs rétentions en cascade. Pour être prises en compte, les rétentions doivent être hydrauliquement liées par débordement contrôlé, par siphon ou par caniveau de liaison. Les liquides à recueillir ne doivent pas traverser de zone non étanchée ;",
+                  "une rétention déportée, caniveaux et canalisations de liaison (étanches et résistants) remplissant les conditions d'écoulement gravitaire ;",
+                  "une rétention déportée, caniveaux et canalisations de liaison (étanches et résistants) étant reliés par un système de pompage double et avec une alimentation énergétique secourue."
+                ]
+              },
+              {
+                "type": "paragraph",
+                "text": "En effet, les rétentions qui sont raccordées par pompage ne sont admises que si le dispositif de pompage est secouru ou autonome en alimentation et doublé par un autre moyen de pompage. Par ailleurs, ce moyen doit être testé tous les trimestres."
+              },
+              {
+                "type": "paragraph",
+                "text": "Les quais de chargement ne peuvent qu'exceptionnellement servir de rétention. Si cette solution est retenue, une signalisation doit être mise en place, mentionnant la présence d'une zone de rétention d'eau d'extinction et le risque de noyade en cas d'incendie."
+              }
+            ]
+          },
+          {
+            "id": "6.4",
+            "title": "6.4 Aires d'aspiration au niveau des rétentions",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Il est recommandé de prévoir une ou plusieurs aires d'aspiration permettant aux services de secours de puiser dans les rétentions des eaux d'extinction."
+              },
+              {
+                "type": "paragraph",
+                "text": "Ces dispositifs peuvent éventuellement permettre la réutilisation des eaux d'extinction dans le cadre de la lutte contre l'incendie."
+              },
+              {
+                "type": "paragraph",
+                "text": "De façon générale, la mise en place d'aires d'aspiration n'est pas de nature à réduire les besoins en eaux identifiés à l'aide du guide pratique D9 ou les besoins en rétention identifiés au chapitre 3 du présent document."
+              },
+              {
+                "type": "paragraph",
+                "text": "Les caractéristiques des aires d'aspiration attendues par les services d'incendie et de secours sont définies dans les règlements départementaux de défense extérieure contre l'incendie (RDDECI)."
+              }
+            ]
+          },
+          {
+            "id": "6.5",
+            "title": "6.5 Cas des rétentions délimitées par le bâtiment",
+            "level": 2,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Si la zone étudiée comporte une rétention délimitée par le bâtiment, ce volume peut être comptabilisé dans le volume disponible."
+              },
+              {
+                "type": "paragraph",
+                "text": "Afin de tenir compte de l'encombrement au niveau du sol à l'intérieur des locaux (marchandises stockées, machines, etc.), et donc de la réduction du volume de rétention, il est nécessaire de ne considérer disponible pour la rétention que la moitié du volume."
+              },
+              {
+                "type": "paragraph",
+                "text": "Le reste du volume, si nécessaire, sera obtenu par addition d'une rétention déportée."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "annexe",
+        "title": "Annexe : exemple de calcul",
+        "level": 1,
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "L'exemple considéré est celui du guide pratique D9, édition juin 2020."
+          },
+          {
+            "type": "paragraph",
+            "text": "Description sommaire du risque"
+          },
+          {
+            "type": "paragraph",
+            "text": "Atelier de fabrique de jouets par injection plastique avec un stockage de produits finis (fascicule L05) et abritant également une zone de stockage des moules pour l'injection (pièces métalliques dans des casiers métalliques, fascicule F02)."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Atelier de fabrique de jouets : surface de l'atelier 6 000 m2",
+              "Stockage de moules pour l'injection plastique : surface du stockage 2 000 m2",
+              "Stockage de produits finis : surface du stockage 3 300 m2"
+            ]
+          },
+          {
+            "type": "list",
+            "items": [
+              "Pas de séparation coupe-feu entre atelier et stockage",
+              "Accueil 24h/24",
+              "Sprinkleur",
+              "Ossature SF 30 min",
+              "Matières plastiques",
+              "Aucun liquide inflammable dans l'atelier ou dans les stockages",
+              "La hauteur de stockage maximale dans les bâtiments est de 6 m"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "L'application du D9 donne des besoins pour la défense extérieure contre l'incendie de (voir D9 pour détail du calcul) :"
+          },
+          {
+            "type": "paragraph",
+            "text": "330 m3/h pendant 2 h"
+          },
+          {
+            "type": "paragraph",
+            "text": "Informations complémentaires nécessaires pour le dimensionnement des rétentions"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Sprinkleurs : pompe de 300 m3/h avec réserve de 450 m3",
+              "Surface étanchée allant vers la rétention : 5 000 m2 de voirie + 11 300 m2 de bâtiment = 16 300 m2",
+              "20 000 l d'huile en réserve pour les presses à injecter"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Calcul rétention V = (330 x 2) + 450 + (16 300 x 10 / 1 000) + (20 x 0,2) = 1 277 m3"
+          },
+          {
+            "type": "table",
+            "image_url": null,
+            "content_markdown": "| Catégorie | Élément | Valeur (m3) |\n|---|---|---|\n| Lutte extérieure | Besoins guide pratique D9 | 660 |\n| Lutte intérieure | Sprinkleurs (réserve) | 450 |\n| Lutte intérieure | Rideau d'eau | 0 |\n| Lutte intérieure | RIA | 0,00 |\n| Lutte intérieure | Mousse HF et MF | 0 |\n| Lutte intérieure | Brouillard d'eau | 0 |\n| Lutte intérieure | Colonne humide | 0 |\n| Intempéries | Volume d'eau lié aux intempéries | 163 |\n| Stockage | Présence stock liquides (20%) | 4 |\n| **Total** | **Volume total à mettre en rétention** | **1 277 m3** |"
+          }
+        ],
+        "subsections": []
+      }
+    ]
+  }
+

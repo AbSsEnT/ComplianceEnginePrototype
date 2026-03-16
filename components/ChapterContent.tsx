@@ -1,6 +1,7 @@
-"use client";
+ "use client";
 
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import type { LawNode } from "@/lib/law/types";
 import { Bookmark } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,6 +18,23 @@ interface ChapterContentProps {
 
 const HIGHLIGHT_CONTAINER_ATTR = "data-scroll-highlight-container";
 
+/**
+ * Heuristic helper: detect whether a paragraph string is really a
+ * markdown table (for example the APSAD D9A volume diagram) so we can
+ * render it with proper table semantics instead of as plain text.
+ *
+ * This keeps the generic `LawNode` shape simple while still giving
+ * rich rendering for "graph" style content that is stored as
+ * `content_markdown` in the JSON.
+ */
+function looksLikeMarkdownTable(content: string): boolean {
+  const trimmed = content.trimStart();
+  // Most markdown tables start with a header row like "| A | B |"
+  // followed by a separator row "|---|---|". We just look for those
+  // patterns so the heuristic stays cheap and easy to reason about.
+  return trimmed.startsWith("|") && trimmed.includes("|---");
+}
+
 export default function ChapterContent({
   chapter,
   scrollTargetId,
@@ -25,6 +43,10 @@ export default function ChapterContent({
 }: ChapterContentProps) {
   const [highlightedContainerId, setHighlightedContainerId] = useState<
     string | null
+  >(null);
+  const [openImage, setOpenImage] = useState<
+    | { src: string; alt: string }
+    | null
   >(null);
 
   if (!chapter) {
@@ -88,6 +110,7 @@ export default function ChapterContent({
             highlightedContainerId={highlightedContainerId}
             isBookmarked={isBookmarked}
             onToggleBookmark={onToggleBookmark}
+            onOpenImage={setOpenImage}
           />
         ))}
 
@@ -100,6 +123,7 @@ export default function ChapterContent({
                 highlightedContainerId={highlightedContainerId}
                 isBookmarked={isBookmarked}
                 onToggleBookmark={onToggleBookmark}
+                onOpenImage={setOpenImage}
               />
             ))}
           </div>
@@ -111,6 +135,32 @@ export default function ChapterContent({
           </p>
         )}
       </div>
+
+      {/* Full-screen image popup for APSAD diagrams (custom overlay, not Dialog) */}
+      {openImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+          onClick={() => setOpenImage(null)}
+        >
+          <div
+            className="relative max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-white p-2 md:p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setOpenImage(null)}
+              className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white"
+            >
+              Fermer
+            </button>
+            <img
+              src={openImage.src}
+              alt={openImage.alt}
+              className="mx-auto h-auto max-h-[85vh] w-auto max-w-[90vw] object-contain"
+            />
+          </div>
+        </div>
+      )}
     </ScrollArea>
   );
 }
@@ -123,6 +173,7 @@ interface SectionBlockProps {
     ref: { articleId: string; paragraphId?: string },
     meta: { title: string; excerpt: string },
   ) => void;
+  onOpenImage: (img: { src: string; alt: string }) => void;
 }
 
 function SectionBlock({
@@ -130,6 +181,7 @@ function SectionBlock({
   highlightedContainerId,
   isBookmarked,
   onToggleBookmark,
+  onOpenImage,
 }: SectionBlockProps) {
   const articles =
     section.children?.filter((child) => child.kind === "article") ?? [];
@@ -157,6 +209,7 @@ function SectionBlock({
             highlightedContainerId={highlightedContainerId}
             isBookmarked={isBookmarked}
             onToggleBookmark={onToggleBookmark}
+            onOpenImage={onOpenImage}
           />
         ))}
       </div>
@@ -172,6 +225,7 @@ interface ArticleBlockProps {
     ref: { articleId: string; paragraphId?: string },
     meta: { title: string; excerpt: string },
   ) => void;
+  onOpenImage: (img: { src: string; alt: string }) => void;
 }
 
 function ArticleBlock({
@@ -179,6 +233,7 @@ function ArticleBlock({
   highlightedContainerId,
   isBookmarked,
   onToggleBookmark,
+  onOpenImage,
 }: ArticleBlockProps) {
   const paragraphs =
     article.children?.filter((child) => child.kind === "paragraph") ?? [];
@@ -301,21 +356,79 @@ function ArticleBlock({
                     {para.label}
                   </div>
                 )}
-                {para.content && (
-                  <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
-                    {para.content}
-                  </p>
+
+                {/* For now, render the two APSAD D9A "graph" paragraphs as clickable screenshots
+                   instead of parsing their markdown tables. The IDs come from the adapter in
+                   `libraryCatalog.ts`:
+                   - `apsad-d9a-2.2-p5`   → section 2.2 table
+                   - `apsad-d9a-annexe-p11` → annex example table
+                   These IDs keep the implementation explicit and easy to refactor later. */}
+                {para.id === "apsad-d9a-2.2-p5" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onOpenImage({
+                        src: "/guide_pratique_d9a_juin_2020_graph_1.jpeg",
+                        alt: "Tableau de calcul du volume à mettre en rétention (guide D9A)",
+                      })
+                    }
+                    className="mt-3 inline-block w-full cursor-zoom-in rounded-lg border border-slate-200 bg-white p-2 transition hover:shadow-md"
+                  >
+                    <img
+                      src="/guide_pratique_d9a_juin_2020_graph_1.jpeg"
+                      alt="Tableau de calcul du volume à mettre en rétention (guide D9A)"
+                      className="max-h-[520px] w-full max-w-full object-contain"
+                    />
+                  </button>
                 )}
+
+                {para.id === "apsad-d9a-annexe-p11" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onOpenImage({
+                        src: "/guide_pratique_d9a_juin_2020_graph_2.jpeg",
+                        alt: "Tableau récapitulatif de l'exemple de calcul (annexe D9A)",
+                      })
+                    }
+                    className="mt-3 inline-block w-full cursor-zoom-in rounded-lg border border-slate-200 bg-white p-2 transition hover:shadow-md"
+                  >
+                    <img
+                      src="/guide_pratique_d9a_juin_2020_graph_2.jpeg"
+                      alt="Tableau récapitulatif de l'exemple de calcul (annexe D9A)"
+                      className="max-h-[520px] w-full max-w-full object-contain"
+                    />
+                  </button>
+                )}
+
+                {/* Fallback for all other paragraphs: keep the existing rich-text behaviour. */}
+                {para.content &&
+                  para.id !== "apsad-d9a-2.2-p5" &&
+                  para.id !== "apsad-d9a-annexe-p11" &&
+                  (looksLikeMarkdownTable(para.content) ? (
+                    <div className="prose prose-sm max-w-none [&_table]:w-full [&_table]:text-xs [&_th]:bg-slate-100 [&_th]:font-semibold [&_td]:align-top [&_td]:p-1.5">
+                      <ReactMarkdown>{para.content}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
+                      {para.content}
+                    </p>
+                  ))}
               </div>
             );
           })}
         </div>
       ) : (
-        article.content && (
+        article.content &&
+        (looksLikeMarkdownTable(article.content) ? (
+          <div className="mt-2 prose prose-sm max-w-none [&_table]:w-full [&_table]:text-xs [&_th]:bg-slate-100 [&_th]:font-semibold [&_td]:align-top [&_td]:p-1.5">
+            <ReactMarkdown>{article.content}</ReactMarkdown>
+          </div>
+        ) : (
           <p className="mt-2 whitespace-pre-wrap text-base text-foreground">
             {article.content}
           </p>
-        )
+        ))
       )}
     </article>
   );

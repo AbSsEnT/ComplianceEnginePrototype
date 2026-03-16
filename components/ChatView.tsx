@@ -18,6 +18,7 @@ import type {
   ChatConversation,
   GroundedPart,
   LawReference,
+  LawSource,
   TimestampedChatMessage,
 } from "@/lib/law/types";
 import {
@@ -34,6 +35,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import WaterDropMascot from "./WaterDropMascot";
+import SourcePreviewPanel from "./SourcePreviewPanel";
 
 /* ── Public props ── */
 
@@ -43,6 +45,10 @@ interface ChatViewProps {
   /** Accepts both a direct value and a functional updater to avoid stale closures. */
   onConversationsChange: React.Dispatch<React.SetStateAction<ChatConversation[]>>;
   onActiveConversationIdChange: (id: string | null) => void;
+  /** Law sources used to resolve article/paragraph references in the source preview panel. */
+  sources: LawSource[];
+  /** Navigate to the full Bibliothèque view for a given reference. */
+  onOpenInLibrary?: (ref: LawReference) => void;
 }
 
 /* ── Helpers ── */
@@ -116,11 +122,14 @@ function buildRefs(part: GroundedPart): LawReference[] {
   return articleIds.map((aid) => ({ articleId: aid }));
 }
 
-/** Pre-built prompts shown in the empty state so users can start with one click. */
+/** Pre-built prompts shown in the empty state so users can start with one click.
+ *  These prompts are intentionally limited to questions que l'assistant peut
+ *  réellement traiter à partir des corpus intégrés (Livre 1 et guide pratique D9A).
+ */
 const SUGGESTION_CHIPS = [
-  "Quelles sont les règles de désenfumage pour les ERP ?",
   "Résumez les obligations de sécurité du Livre 1",
-  "Quels articles traitent des issues de secours ?",
+  "Expliquez la méthode de calcul du volume de rétention selon le guide pratique D9A.",
+  "Quelles sont les recommandations du guide D9A sur la nature et l'emplacement des zones de rétention des eaux d'extinction ?",
 ];
 
 /** Returns a French date-group label for conversation sidebar grouping. */
@@ -159,6 +168,8 @@ export default function ChatView({
   activeConversationId,
   onConversationsChange,
   onActiveConversationIdChange,
+  sources,
+  onOpenInLibrary,
 }: ChatViewProps) {
   const activeConversation = conversations.find(
     (c) => c.id === activeConversationId,
@@ -168,6 +179,8 @@ export default function ChatView({
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
+  /** The reference currently shown in the source preview side panel (null = closed). */
+  const [selectedRef, setSelectedRef] = useState<LawReference | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -524,7 +537,11 @@ export default function ChatView({
                     delay: idx * 0.03,
                   }}
                 >
-                  <ChatBubble message={m} />
+                  <ChatBubble
+                    message={m}
+                    selectedRef={selectedRef}
+                    onRefClick={setSelectedRef}
+                  />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -594,6 +611,18 @@ export default function ChatView({
           </form>
         </div>
       </div>
+
+      {/* ── Source preview side panel ── */}
+      <AnimatePresence>
+        {selectedRef && (
+          <SourcePreviewPanel
+            reference={selectedRef}
+            sources={sources}
+            onClose={() => setSelectedRef(null)}
+            onOpenInLibrary={onOpenInLibrary}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -602,9 +631,13 @@ export default function ChatView({
 
 interface ChatBubbleProps {
   message: TimestampedChatMessage;
+  /** The reference currently shown in the source panel (used to highlight the active badge). */
+  selectedRef: LawReference | null;
+  /** Called when the user clicks a source badge to open (or toggle) the preview panel. */
+  onRefClick: (ref: LawReference | null) => void;
 }
 
-function ChatBubble({ message }: ChatBubbleProps) {
+function ChatBubble({ message, selectedRef, onRefClick }: ChatBubbleProps) {
   const isUser = message.sender === "user";
 
   /** Collect all references across parts into a single list for the footer. */
@@ -653,24 +686,37 @@ function ChatBubble({ message }: ChatBubbleProps) {
             <p className="whitespace-pre-wrap">{message.text}</p>
           )}
 
-          {/* Grouped "Sources" footer for all references */}
+          {/* Grouped "Sources" footer — each badge is clickable to open the source preview panel */}
           {!isUser && allRefs.length > 0 && (
             <div className="mt-2.5 border-t border-border/50 pt-2">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Sources
               </span>
               <div className="mt-1 flex flex-wrap gap-1.5">
-                {allRefs.map((ref, ri) => (
-                  <Badge
-                    key={`${message.id}-src-${ri}`}
-                    variant="outline"
-                    className="border-blue-200 bg-blue-50 text-blue-700 transition-transform hover:scale-105"
-                  >
-                    {ref.paragraphId
-                      ? `§ ${ref.paragraphId}`
-                      : `Art. ${ref.articleId}`}
-                  </Badge>
-                ))}
+                {allRefs.map((ref, ri) => {
+                  const isActive =
+                    selectedRef?.articleId === ref.articleId &&
+                    selectedRef?.paragraphId === ref.paragraphId;
+                  return (
+                    <Badge
+                      key={`${message.id}-src-${ri}`}
+                      variant="outline"
+                      className={[
+                        "cursor-pointer transition-all hover:scale-105",
+                        isActive
+                          ? "border-blue-500 bg-blue-100 text-blue-800 ring-1 ring-blue-400"
+                          : "border-blue-200 bg-blue-50 text-blue-700 hover:border-blue-400 hover:bg-blue-100",
+                      ].join(" ")}
+                      onClick={() =>
+                        onRefClick(isActive ? null : ref)
+                      }
+                    >
+                      {ref.paragraphId
+                        ? `§ ${ref.paragraphId}`
+                        : `Art. ${ref.articleId}`}
+                    </Badge>
+                  );
+                })}
               </div>
             </div>
           )}
