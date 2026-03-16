@@ -29,6 +29,7 @@ import {
   MessageSquare,
   Trash2,
   ChevronDown,
+  SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -146,6 +147,11 @@ function dateGroupLabel(ts: number): string {
   return "Plus ancien";
 }
 
+/** Build a stable key that uniquely identifies a (source, book) pair. */
+function bookKey(sourceId: string, bookId: string) {
+  return `${sourceId}::${bookId}`;
+}
+
 /** Animated three-dot typing indicator used in place of a spinner. */
 function TypingDots() {
   return (
@@ -183,6 +189,22 @@ export default function ChatView({
   const [selectedRef, setSelectedRef] = useState<LawReference | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Filter state: which source+book pairs are active for the RAG context.
+   * By default, all livres are selected so the assistant can draw from the
+   * full corpus (ERP + APSAD, etc.).
+   */
+  const allBookKeys = useMemo(
+    () =>
+      sources.flatMap((s) =>
+        s.books.map((b) => bookKey(s.id, b.id)),
+      ),
+    [sources],
+  );
+  const [selectedBooks, setSelectedBooks] = useState<Set<string>>(
+    () => new Set(allBookKeys),
+  );
 
   /** Resolve the actual scrollable viewport inside the ScrollArea wrapper. */
   const getViewport = useCallback(
@@ -231,6 +253,39 @@ export default function ChatView({
     () => [...conversations].sort((a, b) => b.updatedAt - a.updatedAt),
     [conversations],
   );
+
+  /** Toggle a single livre in or out of the active filter set. */
+  const toggleBook = useCallback((key: string) => {
+    setSelectedBooks((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+
+  /** Select all livres from all sources. */
+  const selectAllBooks = useCallback(() => {
+    setSelectedBooks(new Set(allBookKeys));
+  }, [allBookKeys]);
+
+  /** Deselect all livres so the user can then pick a small subset. */
+  const selectNoBooks = useCallback(() => {
+    setSelectedBooks(new Set());
+  }, []);
+
+  /** Derive the list of LawBook IDs currently active in the filter. */
+  const activeBookIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const source of sources) {
+      for (const book of source.books) {
+        if (selectedBooks.has(bookKey(source.id, book.id))) {
+          ids.add(book.id);
+        }
+      }
+    }
+    return Array.from(ids);
+  }, [sources, selectedBooks]);
 
   /** Create a brand new conversation and make it active. */
   function handleNewConversation() {
@@ -315,7 +370,12 @@ export default function ChatView({
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
+        // We pass the list of active LawBook IDs so the backend can decide
+        // which embedding files to load (ERP only, ERP + APSAD, etc.).
+        body: JSON.stringify({
+          message: trimmed,
+          books: activeBookIds,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erreur serveur");
@@ -481,6 +541,65 @@ export default function ChatView({
 
       {/* ── Main chat area ── */}
       <div className="relative flex min-w-0 flex-1 flex-col bg-card">
+        {/* Source / livre filter bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-card/80 px-6 py-2">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-blue-600" />
+            <span className="font-semibold uppercase tracking-wide">
+              Sources consultées
+            </span>
+            <span className="text-[11px]">
+              {selectedBooks.size === allBookKeys.length
+                ? "Toutes les sources"
+                : selectedBooks.size === 0
+                  ? "Aucune source sélectionnée"
+                  : `${selectedBooks.size} livre${
+                      selectedBooks.size > 1 ? "s" : ""
+                    } sélectionné${
+                      selectedBooks.size > 1 ? "s" : ""
+                    }`}
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <button
+              type="button"
+              onClick={selectAllBooks}
+              className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700 transition hover:bg-blue-100"
+            >
+              Tout
+            </button>
+            <button
+              type="button"
+              onClick={selectNoBooks}
+              className="rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:bg-muted/80"
+            >
+              Aucun
+            </button>
+            {sources.flatMap((source) =>
+              source.books.map((book) => {
+                const key = bookKey(source.id, book.id);
+                const isActive = selectedBooks.has(key);
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => toggleBook(key)}
+                    className={[
+                      "max-w-[180px] truncate rounded-full border px-2.5 py-1 text-xs transition",
+                      isActive
+                        ? "border-blue-500 bg-blue-50 text-blue-800"
+                        : "border-border bg-background text-muted-foreground hover:bg-muted",
+                    ].join(" ")}
+                    title={`${source.label} · ${book.label}`}
+                  >
+                    {book.label}
+                  </button>
+                );
+              }),
+            )}
+          </div>
+        </div>
+
         {/* Chat messages */}
         <ScrollArea className="flex-1" ref={scrollAreaRef}>
           <div className="mx-auto max-w-3xl space-y-4 px-6 py-6 text-[15px]">

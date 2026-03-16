@@ -80,6 +80,9 @@ export default function ChatPanel({
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // When using the compact assistant inside the document view we keep
+        // the default behaviour ("all sources") by omitting the optional
+        // `books` filter. The full-screen chat view exposes finer control.
         body: JSON.stringify({ message: trimmed }),
       });
       const data = await res.json();

@@ -59,6 +59,9 @@ export default function QuickChat({
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // QuickChat uses the default behaviour ("all sources") by sending
+        // only the message. Advanced source filtering is available in the
+        // dedicated Assistant view.
         body: JSON.stringify({ message: trimmed }),
       });
       const data = await res.json();

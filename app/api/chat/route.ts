@@ -4,19 +4,34 @@ import OpenAI from "openai";
 import type { GroundedPart } from "@/lib/law/types";
 
 const TOP_K = 8;
-// Multiple embedding files (one per "livre" / corpus) are supported so that
-// different regulatory sources (ERP, APSAD, EN/NF, ...) can be indexed and
-// combined flexibly for the chat assistant.
-const EMBEDDINGS_PATHS = [
-  join(
+
+/**
+ * Mapping between logical "livres" (as used by the library / search views)
+ * and the corresponding embedding files on disk.
+ *
+ * This lets the chat route:
+ * - include only a subset of corpora (e.g. ERP only, sans APSAD);
+ * - keep embeddings per-livre, which is easier to regenerate and debug.
+ *
+ * Keys here should match `LawBook["id"]` values coming from `lawSources`.
+ */
+const BOOK_EMBEDDING_FILES = {
+  "livre-1": join(
     process.cwd(),
     "app",
     "data",
     "embeddings",
     "erp-livre1.embeddings.json",
   ),
-  join(process.cwd(), "app", "data", "embeddings", "apsad-d9a.embeddings.json"),
-];
+  "apsad-d9a": join(
+    process.cwd(),
+    "app",
+    "data",
+    "embeddings",
+    "apsad-d9a.embeddings.json",
+  ),
+} as const;
+type BookKey = keyof typeof BOOK_EMBEDDING_FILES;
 
 type ChunkWithEmbedding = {
   id: string;
@@ -26,42 +41,49 @@ type ChunkWithEmbedding = {
   embedding: number[];
 };
 
-type EmbeddingsData = {
-  chunks: ChunkWithEmbedding[];
-};
-
-let cachedEmbeddings: EmbeddingsData | null = null;
+/**
+ * Simple in-memory cache so we only parse each embeddings file once.
+ * The cache is keyed by the embedding file path.
+ */
+const fileCache: Record<string, ChunkWithEmbedding[] | undefined> = {};
 
 /**
- * Load and merge embeddings from all configured files.
+ * Load embeddings for the requested books (livres).
  *
- * Each file is expected to have the shape:
- *   { model: string; deployment: string; chunks: ChunkWithEmbedding[] }
- *
- * If a file is missing or malformed, it is skipped so that the chat route
- * remains usable even when only a subset of corpora have been indexed.
+ * - `selectedBooks` is a list of LawBook IDs (e.g. "livre-1", "apsad-d9a").
+ * - If it is `undefined` or empty, we fall back to "all known books".
+ * - Unknown IDs are ignored gracefully so the API stays robust.
  */
-function loadEmbeddings(): EmbeddingsData {
-  if (cachedEmbeddings) return cachedEmbeddings;
+function loadChunksForBooks(selectedBooks?: BookKey[]): ChunkWithEmbedding[] {
+  const allBookKeys = Object.keys(BOOK_EMBEDDING_FILES) as BookKey[];
+  const effectiveBooks =
+    selectedBooks && selectedBooks.length > 0 ? selectedBooks : allBookKeys;
 
-  const allChunks: ChunkWithEmbedding[] = [];
+  const chunks: ChunkWithEmbedding[] = [];
 
-  for (const path of EMBEDDINGS_PATHS) {
-    try {
-      const raw = readFileSync(path, "utf-8");
-      const parsed = JSON.parse(raw) as Partial<EmbeddingsData> & {
-        chunks?: ChunkWithEmbedding[];
-      };
-      if (Array.isArray(parsed.chunks) && parsed.chunks.length > 0) {
-        allChunks.push(...parsed.chunks);
+  for (const bookId of effectiveBooks) {
+    const path = BOOK_EMBEDDING_FILES[bookId];
+    if (!path) continue;
+
+    if (!fileCache[path]) {
+      try {
+        const raw = readFileSync(path, "utf-8");
+        const parsed = JSON.parse(raw) as {
+          chunks?: ChunkWithEmbedding[];
+        };
+        fileCache[path] = Array.isArray(parsed.chunks)
+          ? parsed.chunks
+          : [];
+      } catch (err) {
+        console.error(`Failed to load embeddings file at ${path}:`, err);
+        fileCache[path] = [];
       }
-    } catch (err) {
-      console.error(`Failed to load embeddings file at ${path}:`, err);
     }
+
+    chunks.push(...(fileCache[path] ?? []));
   }
 
-  cachedEmbeddings = { chunks: allChunks };
-  return cachedEmbeddings;
+  return chunks;
 }
 
 function dotProduct(a: number[], b: number[]): number {
@@ -114,7 +136,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { message?: string };
+  let body: { message?: string; books?: string[] };
   try {
     body = await request.json();
   } catch {
@@ -126,7 +148,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { chunks } = loadEmbeddings();
+    // Normalise and validate requested books so the client can send arbitrary
+    // values without risking a server error.
+    const requestedBooksRaw = Array.isArray(body.books) ? body.books : undefined;
+    const requestedBookKeys: BookKey[] | undefined = requestedBooksRaw
+      ?.map((b) => b as BookKey)
+      .filter((b): b is BookKey => b in BOOK_EMBEDDING_FILES);
+
+    const chunks = loadChunksForBooks(requestedBookKeys);
     if (!chunks?.length) {
       return Response.json(
         { error: "No embeddings loaded" },

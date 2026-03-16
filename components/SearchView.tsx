@@ -23,8 +23,6 @@ import {
   ChevronDown,
   ChevronRight,
   X,
-  CheckSquare,
-  Square,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -209,14 +207,14 @@ export default function SearchView({
                   <button
                     type="button"
                     onClick={selectAll}
-                    className="rounded px-1.5 py-0.5 text-[10px] font-medium text-blue-600 transition hover:bg-blue-50"
+                    className="rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 transition hover:bg-blue-100"
                   >
                     Tout
                   </button>
                   <button
                     type="button"
                     onClick={selectNone}
-                    className="rounded px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground transition hover:bg-muted"
+                    className="rounded-full border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground transition hover:bg-muted/80"
                   >
                     Aucun
                   </button>
@@ -405,15 +403,19 @@ function FilterCheckbox({
 }) {
   if (indeterminate) {
     return (
-      <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 border-blue-600 bg-blue-600/20">
-        <div className="h-0.5 w-2 rounded-full bg-blue-600" />
+      <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-blue-500 bg-blue-50">
+        <div className="h-1 w-2 rounded-full bg-blue-600" />
       </div>
     );
   }
   if (checked) {
-    return <CheckSquare className="h-4 w-4 shrink-0 text-blue-600" />;
+    return (
+      <div className="h-4 w-4 shrink-0 rounded-full border border-blue-500 bg-blue-600 shadow-[0_0_0_1px_rgba(59,130,246,0.25)]" />
+    );
   }
-  return <Square className="h-4 w-4 shrink-0 text-muted-foreground/50" />;
+  return (
+    <div className="h-4 w-4 shrink-0 rounded-full border border-border bg-background" />
+  );
 }
 
 function EmptyState({
