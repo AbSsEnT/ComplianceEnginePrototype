@@ -1,6 +1,7 @@
 "use client";
 
 import type { LawNode } from "@/lib/law/types";
+import { useI18n } from "@/lib/i18n";
 
 interface ChapterListProps {
   chapters: LawNode[];
@@ -15,10 +16,13 @@ export default function ChapterList({
   selectedChapterId,
   onSelect,
 }: ChapterListProps) {
+  const { locale } = useI18n();
   if (!hasSelectedBook) {
     return (
       <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
-        Sélectionnez un livre pour voir ses chapitres.
+        {locale === "de"
+          ? "Wählen Sie ein Buch, um seine Kapitel zu sehen."
+          : "Sélectionnez un livre pour voir ses chapitres."}
       </div>
     );
   }
@@ -26,7 +30,9 @@ export default function ChapterList({
   if (!chapters.length) {
     return (
       <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
-        Aucun chapitre défini pour ce livre.
+        {locale === "de"
+          ? "Für dieses Buch sind keine Kapitel definiert."
+          : "Aucun chapitre défini pour ce livre."}
       </div>
     );
   }

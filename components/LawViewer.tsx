@@ -4,6 +4,7 @@ import type { LawBook, LawNode, LawSource } from "@/lib/law/types";
 import ChapterContent from "./ChapterContent";
 import { ChevronRight, BookOpen, FileText, List } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useI18n } from "@/lib/i18n";
 
 interface LawViewerProps {
   sources: LawSource[];
@@ -50,6 +51,8 @@ export default function LawViewer({
   const selectedChapter: LawNode | null =
     chapters.find((c) => c.id === selectedChapterId) ?? null;
 
+  const { t } = useI18n();
+
   return (
     <div className="flex h-full flex-col rounded-xl bg-card ring-1 ring-border">
       {/* Breadcrumb navigation */}
@@ -60,10 +63,12 @@ export default function LawViewer({
             onClick={onClearSource}
             className="text-blue-600 transition hover:text-blue-800"
           >
-            Bibliothèque
+            {t.library.breadcrumbRoot}
           </button>
         ) : (
-          <span className="font-medium text-foreground">Bibliothèque</span>
+          <span className="font-medium text-foreground">
+            {t.library.breadcrumbRoot}
+          </span>
         )}
 
         {selectedSource && (
@@ -185,7 +190,7 @@ export default function LawViewer({
           <ScrollArea className="h-full w-full px-5 py-4">
             {chapters.length === 0 ? (
               <p className="text-sm text-muted-foreground">
-                Aucun chapitre défini pour ce livre pour le moment.
+                {t.library.noChapters}
               </p>
             ) : (
               <nav className="space-y-2">

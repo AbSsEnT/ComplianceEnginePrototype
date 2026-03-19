@@ -1,3 +1,16 @@
+// Supported jurisdictions for regulatory sources.
+export type JurisdictionCode = "FR" | "DE" | "EU";
+
+// High-level families / issuers of standards.
+export type StandardBody =
+  | "ERP"
+  | "APSAD"
+  | "EN_NF"
+  | "DIN"
+  | "VDS"
+  | "BAUORDNUNG"
+  | "OTHER";
+
 export type LawKind = "book" | "chapter" | "section" | "article" | "paragraph";
 
 export interface LawNode {
@@ -19,9 +32,36 @@ export interface LawBook extends LawNode {
  * (for example: ERP, APSAD, EN/NF).
  */
 export interface LawSource {
+  /**
+   * Stable identifier for this logical source as it appears in the UI
+   * (for example: "erp-reglement-securite", "vds").
+   */
   id: string;
+  /**
+   * Human‑readable label for the source, shown in the library tiles.
+   * This is currently stored per‑source instead of being fully localized.
+   */
   label: string;
+  /** Short description of the scope / content of this source. */
   description?: string;
+  /**
+   * Country / region where this source is primarily applicable.
+   * Used by the library to let users filter French vs German vs EU texts.
+   */
+  jurisdiction: JurisdictionCode;
+  /**
+   * High‑level family or issuer of this source (ERP, APSAD, DIN, VdS, etc.).
+   * This lets the library group similar standards together.
+   */
+  standardBody: StandardBody;
+  /**
+   * Language of the underlying document text.
+   * The UI language is handled separately by the i18n layer.
+   */
+  documentLanguage: "fr" | "de";
+  /**
+   * Logical "books" / codes that belong to this source.
+   */
   books: LawBook[];
 }
 

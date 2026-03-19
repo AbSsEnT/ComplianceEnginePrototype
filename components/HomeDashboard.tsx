@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WaterDropMascot from "./WaterDropMascot";
 import QuickChat from "./QuickChat";
+import { useI18n } from "@/lib/i18n";
 
 interface HomeDashboardProps {
   recentBooks: RecentBookVisit[];
@@ -65,6 +66,7 @@ export default function HomeDashboard({
   onOpenSearch,
 }: HomeDashboardProps) {
   const recentBookmarks = bookmarks.slice(0, 5);
+  const { t } = useI18n();
 
   return (
     <div className="h-full overflow-y-auto">
@@ -74,11 +76,10 @@ export default function HomeDashboard({
           <WaterDropMascot size="lg" className="bg-white/20" />
           <div className="flex-1">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Bienvenue sur SafeLink
+              {t.home.welcomeTitle}
             </h2>
             <p className="mt-1 text-sm text-blue-100">
-              Naviguez dans les corpus réglementaires, interrogez l&apos;assistant
-              et retrouvez vos passages importants.
+              {t.home.welcomeBody}
             </p>
             <div className="mt-4 flex gap-2">
               <Button
@@ -88,7 +89,7 @@ export default function HomeDashboard({
                 className="gap-1.5 bg-white/15 text-white hover:bg-white/25"
               >
                 <Library className="h-4 w-4" />
-                Bibliothèque
+                {t.home.btnLibrary}
               </Button>
               <Button
                 variant="secondary"
@@ -97,7 +98,7 @@ export default function HomeDashboard({
                 className="gap-1.5 bg-white/15 text-white hover:bg-white/25"
               >
                 <Search className="h-4 w-4" />
-                Rechercher
+                {t.home.btnSearch}
                 <kbd className="ml-1 rounded border border-white/30 px-1 py-0.5 text-[10px]">
                   Ctrl+K
                 </kbd>
@@ -113,7 +114,7 @@ export default function HomeDashboard({
             <CardHeader className="border-b border-border">
               <CardTitle className="flex items-center gap-2 text-sm">
                 <Clock className="h-4 w-4 text-blue-600" />
-                Livres récents
+                {t.home.recentBooks}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 pt-3">
@@ -123,7 +124,7 @@ export default function HomeDashboard({
                     <BookOpen className="h-5 w-5 text-slate-400" />
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Aucun livre consulté récemment.
+                    {t.home.noRecentBooks}
                   </p>
                   <Button
                     variant="outline"
@@ -132,7 +133,7 @@ export default function HomeDashboard({
                     className="mt-1 gap-1.5"
                   >
                     <Library className="h-3.5 w-3.5" />
-                    Explorer la bibliothèque
+                    {t.home.exploreLibrary}
                   </Button>
                 </div>
               ) : (
@@ -174,7 +175,7 @@ export default function HomeDashboard({
             <CardHeader className="border-b border-border">
               <CardTitle className="flex items-center gap-2 text-sm">
                 <Bookmark className="h-4 w-4 text-amber-600" />
-                Signets récents
+                {t.home.recentBookmarks}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 pt-3">
@@ -184,10 +185,10 @@ export default function HomeDashboard({
                     <Bookmark className="h-5 w-5 text-slate-400" />
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Aucun signet enregistré.
+                    {t.home.noBookmarks}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Ajoutez-en en lisant les articles.
+                    {t.home.addBookmarksHint}
                   </p>
                 </div>
               ) : (
@@ -228,7 +229,7 @@ export default function HomeDashboard({
             <CardHeader className="border-b border-border bg-linear-to-r from-blue-600 to-blue-500 text-white items-center">
               <CardTitle className="flex items-center gap-2 text-sm text-white">
                 <WaterDropMascot size="sm" className="bg-white/20" />
-                Assistant rapide
+                {t.home.quickAssistant}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 p-0">

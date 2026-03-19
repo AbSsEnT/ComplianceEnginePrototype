@@ -1,4 +1,10 @@
-import type { LawBook, LawNode, LawSource } from "@/lib/law/types";
+import type {
+  LawBook,
+  LawNode,
+  LawSource,
+  JurisdictionCode,
+  StandardBody,
+} from "@/lib/law/types";
 // Raw ERP and APSAD sources are stored under app/data/sources so that:
 // - the same JSON trees can be reused by the library view, search and RAG;
 // - embeddings can live separately under app/data/embeddings without mixing
@@ -179,12 +185,27 @@ const apsadD9aBook: LawBook = buildApsadD9aBook(
   apsadD9aRaw as ApsadD9aDocument,
 );
 
+// Helper constants to make the German placeholder sources easier to read.
+const FR: JurisdictionCode = "FR";
+const DE: JurisdictionCode = "DE";
+const EU: JurisdictionCode = "EU";
+
+const BODY_ERP: StandardBody = "ERP";
+const BODY_APSAD: StandardBody = "APSAD";
+const BODY_EN_NF: StandardBody = "EN_NF";
+const BODY_DIN: StandardBody = "DIN";
+const BODY_VDS: StandardBody = "VDS";
+const BODY_BAU: StandardBody = "BAUORDNUNG";
+
 export const lawSources: LawSource[] = [
   {
     id: "erp-reglement-securite",
     label: "Reglement de securite ERP",
     description:
       "Corpus legal francais ERP organise en livres distincts (I a IV).",
+    jurisdiction: FR,
+    standardBody: BODY_ERP,
+    documentLanguage: "fr",
     books: erpBooks,
   },
   {
@@ -192,6 +213,9 @@ export const lawSources: LawSource[] = [
     label: "Regles APSAD",
     description:
       "Referentiels techniques assures par le CNPP (exemple initial: R1).",
+    jurisdiction: FR,
+    standardBody: BODY_APSAD,
+    documentLanguage: "fr",
     books: [apsadD9aBook],
   },
   {
@@ -205,6 +229,64 @@ export const lawSources: LawSource[] = [
         kind: "book",
         label: "Corpus EN / NF",
         heading: "Normes harmonisees et versions francaises (a integrer).",
+      },
+    ],
+    jurisdiction: EU,
+    standardBody: BODY_EN_NF,
+    documentLanguage: "fr",
+  },
+  // ── German placeholders ──
+  {
+    id: "din",
+    label: "DIN Normen (placeholder)",
+    description:
+      "Normes allemandes DIN pertinentes pour la securite incendie (contenu a integrer).",
+    jurisdiction: DE,
+    standardBody: BODY_DIN,
+    documentLanguage: "de",
+    books: [
+      {
+        id: "din-brandschutz",
+        kind: "book",
+        label: "DIN – Normes de securite incendie",
+        heading:
+          "Selection de normes DIN relatives a la protection incendie (contenu a integrer).",
+      },
+    ],
+  },
+  {
+    id: "vds",
+    label: "VdS Richtlinien (placeholder)",
+    description:
+      "Lignes directrices VdS pour la prevention et la protection incendie (contenu a integrer).",
+    jurisdiction: DE,
+    standardBody: BODY_VDS,
+    documentLanguage: "de",
+    books: [
+      {
+        id: "vds-brandschutz",
+        kind: "book",
+        label: "VdS – Directives de protection incendie",
+        heading:
+          "Principales directives VdS pour la conception et l'exploitation (contenu a integrer).",
+      },
+    ],
+  },
+  {
+    id: "baybo",
+    label: "Bayerische Bauordnung (BayBO) (placeholder)",
+    description:
+      "Reglementation de construction de l'Etat libre de Baviere, aspects lies a la securite incendie (contenu a integrer).",
+    jurisdiction: DE,
+    standardBody: BODY_BAU,
+    documentLanguage: "de",
+    books: [
+      {
+        id: "baybo-hauptteil",
+        kind: "book",
+        label: "BayBO – Texte principal",
+        heading:
+          "Disposition principales de la Bayerische Bauordnung relatives a la protection incendie (contenu a integrer).",
       },
     ],
   },

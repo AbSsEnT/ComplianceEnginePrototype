@@ -17,6 +17,7 @@ import { X, ExternalLink, ChevronRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 /* ── Props ── */
 
@@ -114,6 +115,8 @@ export default function SourcePreviewPanel({
     | null
   >(null);
 
+  const { t } = useI18n();
+
   return (
     <motion.aside
       initial={{ width: 0, opacity: 0 }}
@@ -126,7 +129,7 @@ export default function SourcePreviewPanel({
       <div className="flex shrink-0 items-start justify-between border-b border-border px-4 py-3">
         <div className="min-w-0 flex-1">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Source
+            {t.sourcePanel.header}
           </h3>
 
           {/* Breadcrumb trail */}
@@ -148,7 +151,7 @@ export default function SourcePreviewPanel({
           type="button"
           onClick={onClose}
           className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground"
-          aria-label="Fermer le panneau source"
+          aria-label={t.sourcePanel.header}
         >
           <X className="h-4 w-4" />
         </button>
@@ -161,10 +164,10 @@ export default function SourcePreviewPanel({
             <div className="flex flex-col items-center gap-2 py-12 text-center">
               <FileText className="h-6 w-6 text-muted-foreground/40" />
               <p className="text-sm text-muted-foreground">
-                Source introuvable dans la bibliothèque.
+                {t.sourcePanel.notFoundTitle}
               </p>
               <p className="text-xs text-muted-foreground/70">
-                Référence : {reference.articleId}
+                {t.sourcePanel.notFoundRefPrefix} {reference.articleId}
                 {reference.paragraphId ? ` / ${reference.paragraphId}` : ""}
               </p>
             </div>
@@ -215,7 +218,7 @@ export default function SourcePreviewPanel({
               onClick={() => setOpenImage(null)}
               className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white"
             >
-              Fermer
+              {t.sourcePanel.closeImage}
             </button>
             <img
               src={openImage.src}
@@ -236,7 +239,7 @@ export default function SourcePreviewPanel({
             onClick={() => onOpenInLibrary(reference)}
           >
             <ExternalLink className="h-3.5 w-3.5" />
-            Ouvrir dans la Bibliothèque
+            {t.sourcePanel.openInLibrary}
           </Button>
         </div>
       )}

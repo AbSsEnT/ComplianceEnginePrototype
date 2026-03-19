@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import type { LawNode } from "@/lib/law/types";
 import { Bookmark } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useI18n } from "@/lib/i18n";
 
 interface ChapterContentProps {
   chapter: LawNode | null;
@@ -49,10 +50,14 @@ export default function ChapterContent({
     | null
   >(null);
 
+  const { locale } = useI18n();
+
   if (!chapter) {
     return (
       <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/50 px-4 py-6 text-base text-muted-foreground">
-        Sélectionnez un livre puis un chapitre pour afficher son contenu.
+        {locale === "de"
+          ? "Wählen Sie ein Buch und dann ein Kapitel aus, um den Inhalt anzuzeigen."
+          : "Sélectionnez un livre puis un chapitre pour afficher son contenu."}
       </div>
     );
   }
@@ -131,7 +136,9 @@ export default function ChapterContent({
 
         {!sections.length && !directArticles.length && (
           <p className="text-sm text-muted-foreground">
-            Aucun contenu disponible pour ce chapitre.
+            {locale === "de"
+              ? "Für dieses Kapitel ist derzeit kein Inhalt verfügbar."
+              : "Aucun contenu disponible pour ce chapitre."}
           </p>
         )}
       </div>
@@ -151,7 +158,7 @@ export default function ChapterContent({
               onClick={() => setOpenImage(null)}
               className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white"
             >
-              Fermer
+              {locale === "de" ? "Schließen" : "Fermer"}
             </button>
             <img
               src={openImage.src}

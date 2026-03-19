@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WaterDropMascot from "./WaterDropMascot";
 import { timeAgo } from "./ChatPanel";
+import { useI18n } from "@/lib/i18n";
 
 interface QuickChatProps {
   messages: TimestampedChatMessage[];
@@ -33,6 +34,7 @@ export default function QuickChat({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const visibleMessages = messages.slice(-MAX_VISIBLE_MESSAGES);
+  const { t } = useI18n();
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -80,7 +82,10 @@ export default function QuickChat({
       const botMessage: TimestampedChatMessage = {
         id: `m-${Date.now()}-bot`,
         sender: "bot",
-        text: err instanceof Error ? err.message : "Une erreur est survenue.",
+        text:
+          err instanceof Error
+            ? err.message
+            : t.chat.quickErrorGeneric,
         ts: Date.now(),
       };
       onMessagesChange([...messages, userMessage, botMessage]);
@@ -102,7 +107,7 @@ export default function QuickChat({
                 <WaterDropMascot size="md" className="relative bg-blue-50" />
               </div>
               <p className="text-xs text-muted-foreground">
-                Posez une question pour commencer.
+                {t.chat.quickEmptyPrompt}
               </p>
             </div>
           )}
@@ -160,7 +165,7 @@ export default function QuickChat({
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Question rapide..."
+            placeholder={t.chat.quickPlaceholder}
             className="h-8 flex-1 rounded-md border border-input bg-transparent px-2.5 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
           />
           <Button
@@ -176,7 +181,7 @@ export default function QuickChat({
           onClick={onOpenFullChat}
           className="mt-1.5 flex w-full items-center justify-center gap-1 text-[11px] font-medium text-blue-600 transition hover:text-blue-800"
         >
-          Ouvrir l&apos;assistant complet
+          {t.chat.quickOpenFull}
           <ArrowRight className="h-3 w-3" />
         </button>
       </div>

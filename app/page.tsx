@@ -29,6 +29,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import { I18nProvider, useI18n } from "@/lib/i18n";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 /** Which view occupies the main content area. */
 type ActiveView = "home" | "documents" | "search" | "chat";
@@ -48,7 +50,7 @@ type DocNavTarget = {
 
 const MAX_RECENT_BOOKS = 10;
 
-export default function Home() {
+function HomeInner() {
   // ── View & navigation state ──
   const [activeView, setActiveView] = useState<ActiveView>("home");
   const [sideTool, setSideTool] = useState<SideTool>("none");
@@ -247,6 +249,8 @@ export default function Home() {
     setDocNavTarget(null);
   }, []);
 
+  const { t } = useI18n();
+
   return (
     <main className="flex h-screen flex-col bg-background font-sans text-foreground">
       {/* ── Header ── */}
@@ -266,13 +270,14 @@ export default function Home() {
           </button>
           <div>
             <h1 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
-              SafeLink
+              {t.common.appName}
             </h1>
             <p className="text-xs text-slate-400">
-              Corpus réglementaires · Sécurité incendie
+              {t.common.appTagline}
             </p>
           </div>
         </div>
+        <LanguageSwitcher />
       </header>
 
       {/* ── Body ── */}
@@ -282,7 +287,7 @@ export default function Home() {
           <nav className="flex flex-col items-center gap-1 py-3">
             <SidebarButton
               icon={<House className="h-5 w-5" />}
-              label="Accueil (Ctrl+Shift+H)"
+              label={t.common.home}
               active={activeView === "home"}
               onClick={() => {
                 setActiveView("home");
@@ -292,7 +297,7 @@ export default function Home() {
 
             <SidebarButton
               icon={<Library className="h-5 w-5" />}
-              label="Bibliothèque (Ctrl+Shift+L)"
+              label={t.common.library}
               active={activeView === "documents"}
               onClick={() => {
                 setActiveView("documents");
@@ -304,14 +309,14 @@ export default function Home() {
 
             <SidebarButton
               icon={<Search className="h-5 w-5" />}
-              label="Recherche (Ctrl+K)"
+              label={t.common.search}
               active={activeView === "search"}
               onClick={() => setActiveView("search")}
             />
 
             <SidebarButton
               icon={<Bookmark className="h-5 w-5" />}
-              label="Signets (Ctrl+Shift+B)"
+              label={t.common.bookmarks}
               active={activeView === "documents" && sideTool === "bookmarks"}
               onClick={() => {
                 setActiveView("documents");
@@ -323,7 +328,7 @@ export default function Home() {
 
             <SidebarButton
               icon={<MessageSquare className="h-5 w-5" />}
-              label="Assistant (Ctrl+Shift+A)"
+              label={t.common.assistant}
               active={activeView === "chat"}
               onClick={() => setActiveView("chat")}
             />
@@ -334,13 +339,13 @@ export default function Home() {
           <nav className="flex flex-col items-center gap-1 pb-3">
             <SidebarButton
               icon={<Keyboard className="h-5 w-5" />}
-              label="Raccourcis"
+              label={t.common.shortcuts}
               active={false}
               onClick={() => {}}
             />
             <SidebarButton
               icon={<HelpCircle className="h-5 w-5" />}
-              label="Aide"
+              label={t.common.help}
               active={false}
               onClick={() => {}}
             />
@@ -395,6 +400,18 @@ export default function Home() {
         </div>
       </div>
     </main>
+  );
+}
+
+/**
+ * Top‑level Home component wraps the entire UI tree in the I18nProvider so
+ * that all children can access the current UI language and translations.
+ */
+export default function Home() {
+  return (
+    <I18nProvider>
+      <HomeInner />
+    </I18nProvider>
   );
 }
 

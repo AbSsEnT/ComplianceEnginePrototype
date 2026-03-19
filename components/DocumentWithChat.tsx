@@ -12,6 +12,7 @@ import LawViewer from "./LawViewer";
 import { Bookmark, Trash2 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AnimatePresence, motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 interface DocumentWithChatProps {
   sources: LawSource[];
@@ -50,6 +51,7 @@ export default function DocumentWithChat({
   const [scrollTargetId, setScrollTargetId] = useState<string | null>(null);
 
   const bookIndex = useMemo(() => buildIndex(sources), [sources]);
+  const { t } = useI18n();
 
   const navigateTo = useCallback(
     (ref: { articleId: string; paragraphId?: string }) => {
@@ -166,10 +168,10 @@ export default function DocumentWithChat({
                     </div>
                     <div>
                       <h2 className="text-sm font-semibold text-foreground">
-                        Signets enregistrés
+                        {t.home.recentBookmarks}
                       </h2>
                       <p className="text-xs text-muted-foreground">
-                        Retrouvez ici vos passages importants.
+                        {t.home.addBookmarksHint}
                       </p>
                     </div>
                   </div>
@@ -183,11 +185,10 @@ export default function DocumentWithChat({
                           <Bookmark className="h-5 w-5 text-slate-400" />
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Aucun signet pour le moment.
+                          {t.home.noBookmarks}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Utilisez l&apos;icône signet dans les articles pour en
-                          ajouter.
+                          {t.home.addBookmarksHint}
                         </p>
                       </div>
                     )}
@@ -219,7 +220,8 @@ export default function DocumentWithChat({
                             className="flex cursor-pointer items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
                           >
                             <Trash2 className="h-3 w-3" />
-                            Supprimer
+                            {/* Short label kept in French/German-neutral form */}
+                            ✕
                           </span>
                         </div>
                         <div className="line-clamp-3 text-sm text-muted-foreground">

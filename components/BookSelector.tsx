@@ -1,6 +1,7 @@
 "use client";
 
 import type { LawBook } from "@/lib/law/types";
+import { useI18n } from "@/lib/i18n";
 
 interface BookSelectorProps {
   books: LawBook[];
@@ -13,10 +14,14 @@ export default function BookSelector({
   selectedBookId,
   onSelect,
 }: BookSelectorProps) {
+  const { locale } = useI18n();
+
   if (!books.length) {
     return (
       <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
-        Aucun livre disponible pour le moment.
+        {locale === "de"
+          ? "Derzeit sind keine Bücher verfügbar."
+          : "Aucun livre disponible pour le moment."}
       </div>
     );
   }

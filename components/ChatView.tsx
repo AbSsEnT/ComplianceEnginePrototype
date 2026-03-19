@@ -37,6 +37,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import WaterDropMascot from "./WaterDropMascot";
 import SourcePreviewPanel from "./SourcePreviewPanel";
+import { useI18n } from "@/lib/i18n";
 
 /* ── Public props ── */
 
@@ -189,6 +190,7 @@ export default function ChatView({
   const [selectedRef, setSelectedRef] = useState<LawReference | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { t } = useI18n();
 
   /**
    * Filter state: which source+book pairs are active for the RAG context.
@@ -291,7 +293,7 @@ export default function ChatView({
   function handleNewConversation() {
     const newConvo: ChatConversation = {
       id: `conv-${Date.now()}`,
-      title: "Nouvelle conversation",
+      title: t.chat.fullNewConversation,
       messages: [],
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -396,7 +398,7 @@ export default function ChatView({
         text:
           err instanceof Error
             ? err.message
-            : "Une erreur est survenue. Réessayez.",
+            : t.chat.fullErrorGeneric,
         ts: Date.now(),
       };
       updateConversationMessages(convoId, [...withUser, botMessage]);
@@ -439,7 +441,7 @@ export default function ChatView({
             className="w-full gap-1.5"
           >
             <Plus className="h-4 w-4" />
-            Nouvelle conversation
+            {t.chat.fullNewConversation}
           </Button>
         </div>
 
@@ -449,7 +451,7 @@ export default function ChatView({
               <div className="flex flex-col items-center gap-2 py-12 text-center">
                 <MessageSquare className="h-6 w-6 text-muted-foreground/40" />
                 <p className="text-xs text-muted-foreground">
-                  Aucune conversation.
+                  {t.chat.fullNoConversations}
                 </p>
               </div>
             )}
@@ -546,18 +548,14 @@ export default function ChatView({
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <SlidersHorizontal className="h-3.5 w-3.5 text-blue-600" />
             <span className="font-semibold uppercase tracking-wide">
-              Sources consultées
+              {t.chat.fullSourcesTitle}
             </span>
             <span className="text-[11px]">
               {selectedBooks.size === allBookKeys.length
-                ? "Toutes les sources"
+                ? t.chat.fullSourcesAll
                 : selectedBooks.size === 0
-                  ? "Aucune source sélectionnée"
-                  : `${selectedBooks.size} livre${
-                      selectedBooks.size > 1 ? "s" : ""
-                    } sélectionné${
-                      selectedBooks.size > 1 ? "s" : ""
-                    }`}
+                  ? t.chat.fullSourcesNoneSelected
+                  : t.chat.fullSourcesSomeSelected(selectedBooks.size)}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
@@ -566,14 +564,14 @@ export default function ChatView({
               onClick={selectAllBooks}
               className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700 transition hover:bg-blue-100"
             >
-              Tout
+              {t.chat.fullFilterAll}
             </button>
             <button
               type="button"
               onClick={selectNoBooks}
               className="rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:bg-muted/80"
             >
-              Aucun
+              {t.chat.fullFilterNone}
             </button>
             {sources.flatMap((source) =>
               source.books.map((book) => {
@@ -618,10 +616,10 @@ export default function ChatView({
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold text-foreground">
-                      Comment puis-je vous aider ?
+                      {t.chat.fullEmptyTitle}
                     </h2>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Posez une question sur les corpus réglementaires.
+                      {t.chat.fullEmptySubtitle}
                     </p>
                   </div>
 
@@ -677,7 +675,7 @@ export default function ChatView({
                   <WaterDropMascot size="sm" thinking className="bg-blue-50" />
                   <div className="flex items-center gap-2.5 rounded-2xl border border-border bg-muted px-4 py-2.5 text-sm text-muted-foreground">
                     <TypingDots />
-                    <span>Réflexion en cours…</span>
+                    <span>{t.chat.fullTyping}</span>
                   </div>
                 </motion.div>
               )}
@@ -695,7 +693,7 @@ export default function ChatView({
               type="button"
               onClick={scrollToBottom}
               className="absolute bottom-24 right-6 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background shadow-lg transition hover:bg-muted"
-              aria-label="Défiler vers le bas"
+              aria-label={t.chat.fullScrollDown}
             >
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </motion.button>
@@ -711,7 +709,7 @@ export default function ChatView({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Posez votre question sur les règlements..."
+                placeholder={t.chat.fullTextareaPlaceholder}
                 rows={1}
                 className="min-h-[40px] max-h-[160px] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-muted-foreground"
               />
@@ -725,7 +723,7 @@ export default function ChatView({
               </Button>
             </div>
             <p className="mt-1.5 text-center text-[10px] text-muted-foreground">
-              Entrée pour envoyer · Maj+Entrée pour un saut de ligne
+              {t.chat.fullTextareaHint}
             </p>
           </form>
         </div>
