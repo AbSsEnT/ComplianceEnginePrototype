@@ -1,0 +1,1287 @@
+{
+    "document_id": "FM_2-0",
+    "atomic_nodes": [
+      {
+        "node_id": "1.0_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "1.0 SCOPE"
+      },
+      {
+        "node_id": "1.0_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "This FM property loss prevention data sheet contains recommendations for the installation of automatic sprinkler systems that consist of automatic sprinklers and their aboveground supporting components."
+      },
+      {
+        "node_id": "1.0_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "This data sheet provides guidance on the following:"
+      },
+      {
+        "node_id": "1.0_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Components used as part of a sprinkler system"
+      },
+      {
+        "node_id": "1.0_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Securing and supporting these components"
+      },
+      {
+        "node_id": "1.0_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "The response time of sprinklers to a fire"
+      },
+      {
+        "node_id": "1.0_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "The distribution of sprinkler discharge to a fire area"
+      },
+      {
+        "node_id": "1.0_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "The documentation required for an FM plan review"
+      },
+      {
+        "node_id": "1.0_list_6",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "The information required for an FM acceptance test"
+      },
+      {
+        "node_id": "1.0_para_3",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "This data sheet does not provide guidance on:"
+      },
+      {
+        "node_id": "1.0_list_7",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Designs for ceiling or in-rack sprinkler systems (see the relevant occupancy-specific data sheet for design guidelines)."
+      },
+      {
+        "node_id": "1.0_para_4",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "This data sheet does, however, provide design information for supplemental sprinklers."
+      },
+      {
+        "node_id": "1.0_para_5",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "In addition, this data sheet provides the minimum recommended design pressures for ceiling and in-rack sprinklers."
+      },
+      {
+        "node_id": "1.0_list_8",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Maintenance required for sprinkler systems (see Data Sheet 2-81, Fire Safety Inspections and Sprinkler System Maintenance)"
+      },
+      {
+        "node_id": "1.0_list_9",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Underground piping or water supplies for sprinkler systems (see Data Sheet 3-10, Private Fire Service Mains and Connections, and other relevant 3-series data sheets)"
+      },
+      {
+        "node_id": "1.0_list_10",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Protection of sprinkler system piping from internal corrosion (see Data Sheet 2-1, Corrosion in Automatic Sprinkler Systems)"
+      },
+      {
+        "node_id": "1.0_list_11",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE"
+        ],
+        "content": "Designs for the installation of piping in areas designated as 50-year through 500-year earthquake zones as defined in Data Sheet 1-2, Earthquakes (see Data Sheet 2-8, Earthquake Protection for Water-Based Fire Protection Systems)"
+      },
+      {
+        "node_id": "1.1_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "1.1 Hazards"
+      },
+      {
+        "node_id": "1.1_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Refer to the following FM Understanding the Hazard (UTH) brochures for information on hazards related to sprinkler installations:"
+      },
+      {
+        "node_id": "1.1_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Corrosion in Sprinkler Systems (P0109)"
+      },
+      {
+        "node_id": "1.1_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Freeze (P0148)"
+      },
+      {
+        "node_id": "1.1_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Ice Plugs (P0118)"
+      },
+      {
+        "node_id": "1.1_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Ice Plugs in Dry-Pendent Sprinklers in Freezers (P0382)"
+      },
+      {
+        "node_id": "1.1_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Inadequate Ceiling Sprinkler Protection in Storage Facilities (P253)"
+      },
+      {
+        "node_id": "1.1_list_6",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Lack of Automatic Sprinklers (P0037)"
+      },
+      {
+        "node_id": "1.1_list_7",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.1 Hazards"
+        ],
+        "content": "Storage Sprinkler Installation Issues (P0477)"
+      },
+      {
+        "node_id": "1.2_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.2 Changes"
+        ],
+        "content": "1.2 Changes"
+      },
+      {
+        "node_id": "1.2_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.2 Changes"
+        ],
+        "content": "April 2025. Interim revision. The following modifications were incorporated into this revision:"
+      },
+      {
+        "node_id": "1.2_list_A",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.2 Changes"
+        ],
+        "content": "A. The guidelines for when sprinkler protection is recommended within ceiling pockets has been updated."
+      },
+      {
+        "node_id": "1.2_list_B",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.2 Changes"
+        ],
+        "content": "B. Editorial changes have been introduced to better clarify the recommendations offered in this data sheet."
+      },
+      {
+        "node_id": "1.3_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.3 Superseded Information"
+        ],
+        "content": "1.3 Superseded Information"
+      },
+      {
+        "node_id": "1.3_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.3 Superseded Information"
+        ],
+        "content": "This data sheet incorporates and supersedes Data Sheet 8-29, Refrigerated Storage."
+      },
+      {
+        "node_id": "1.3_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.3 Superseded Information"
+        ],
+        "content": "This data sheet incorporates and supersedes the following public engineering bulletins:"
+      },
+      {
+        "node_id": "1.3_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.3 Superseded Information"
+        ],
+        "content": "EB 08-05, Use of Smoke Detection to Activate a Refrigerated Area Sprinkler System"
+      },
+      {
+        "node_id": "1.3_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "1.0 SCOPE",
+          "1.3 Superseded Information"
+        ],
+        "content": "EB 02-11, High-Volume Low-Speed (HVLS) Fan and Sprinkler Performance"
+      },
+      {
+        "node_id": "2.0_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS"
+        ],
+        "content": "2.0 LOSS PREVENTION RECOMMENDATIONS"
+      },
+      {
+        "node_id": "2.1_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers"
+        ],
+        "content": "2.1 General Recommendations for the Installation of Sprinklers"
+      },
+      {
+        "node_id": "2.1.1_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.1 How to Use This Data Sheet"
+        ],
+        "content": "2.1.1 How to Use This Data Sheet"
+      },
+      {
+        "node_id": "2.1.1_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.1 How to Use This Data Sheet"
+        ],
+        "content": "As with any data sheet, a complete and comprehensive understanding of the information in this document can only be achieved by a thorough review of its contents."
+      },
+      {
+        "node_id": "2.1.1_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.1 How to Use This Data Sheet"
+        ],
+        "content": "To assist with the proper use of this data sheet, however, a flowchart has been provided (see Figure 2.1.1)."
+      },
+      {
+        "node_id": "2.1.1_para_3",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.1 How to Use This Data Sheet"
+        ],
+        "content": "Use this flowchart in combination with the text of this data sheet to determine the recommendations for the installation of an automatic sprinkler system."
+      },
+      {
+        "node_id": "2.1.2_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "2.1.2 Where Sprinklers Are Needed"
+      },
+      {
+        "node_id": "2.1.2.1_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "2.1.2.1 Install sprinklers throughout all portions of a building in accordance with this data sheet to protect it from fire damage."
+      },
+      {
+        "node_id": "2.1.2.2_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "2.1.2.2 Sprinkler protection can be omitted from portions of a building in which both the construction and the occupancy of the affected building area are noncombustible."
+      },
+      {
+        "node_id": "2.1.2.3_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "2.1.2.3 See the relevant occupancy-specific data sheet for design criteria (i.e., sprinkler system design, hose stream allowance, and sprinkler system duration) for the sprinkler system."
+      },
+      {
+        "node_id": "2.1.2.3_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "Determine if there are any specific recommendations in the occupancy-specific data sheet that might supersede the general recommendations given in this data sheet."
+      },
+      {
+        "node_id": "2.1.2.4_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.2 Where Sprinklers Are Needed"
+        ],
+        "content": "2.1.2.4 Fixed special protection extinguishing systems, including oxygen reduction systems, are not an alternative to sprinkler protection unless the relevant occupancy-specific data sheet specifies they are."
+      },
+      {
+        "node_id": "2.1.3_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3 Water Supplies for Sprinkler Systems"
+      },
+      {
+        "node_id": "2.1.3.1_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3.1 Provide each sprinkler system with at least one reliable water supply capable of meeting the total flow and pressure demand (ceiling, in-rack, and hose stream), and duration for the occupancy hazard the sprinkler system is designed to handle."
+      },
+      {
+        "node_id": "2.1.3.1_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "See additional information in Data Sheet 3-29, Reliability of Fire Protection Water Supplies."
+      },
+      {
+        "node_id": "2.1.3.2_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3.2 Arrange the piping network for the water supply in accordance with Data Sheet 3-10, Private Fire Service Mains and Connections."
+      },
+      {
+        "node_id": "2.1.3.3_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3.3 See other 3-series data sheets for additional information regarding the type of water supply being provided."
+      },
+      {
+        "node_id": "2.1.3.3_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Applicable data sheets, in addition to Data Sheet 3-29 and Data Sheet 3-10, could include the following:"
+      },
+      {
+        "node_id": "2.1.3.3_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Data Sheet 3-1, Tanks and Reservoirs for Interconnected Fire Service and Public Mains"
+      },
+      {
+        "node_id": "2.1.3.3_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Data Sheet 3-2, Water Tanks for Fire Protection"
+      },
+      {
+        "node_id": "2.1.3.3_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Data Sheet 3-4, Embankment-Supported Fabric Tanks"
+      },
+      {
+        "node_id": "2.1.3.3_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Data Sheet 3-6, Lined Earth Reservoirs for Fire Protection"
+      },
+      {
+        "node_id": "2.1.3.3_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Data Sheet 3-7, Fire Protection Pumps"
+      },
+      {
+        "node_id": "2.1.3.4_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3.4 The water supply for domestic use can tap off the water supply for a sprinkler system if the feed connection for the domestic supply is upstream of both:"
+      },
+      {
+        "node_id": "2.1.3.4_list_A",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "A. The waterflow alarm on the sprinkler system riser, and"
+      },
+      {
+        "node_id": "2.1.3.4_list_B",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "B. The fire service connection."
+      },
+      {
+        "node_id": "2.1.3.5_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "2.1.3.5 Prior to making the connection to the sprinkler system, completely flush all underground mains and lead-in connections that feed sprinkler system risers until the water runs clear."
+      },
+      {
+        "node_id": "2.1.3.5_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Flushing can be accomplished through hydrants at dead ends of the system or through accessible aboveground flushing outlets."
+      },
+      {
+        "node_id": "2.1.3.5_para_3",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "If water is supplied from more than one source or from a looped system, close divisional valves as needed to produce a high-velocity flow through each single leg of the underground's network of piping."
+      },
+      {
+        "node_id": "2.1.3.5_para_4",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "Acceptable minimum flushing flow rates are as follows:"
+      },
+      {
+        "node_id": "2.1.3.5_list_A",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "A. The hydraulically calculated water demand rate of the system including any hose requirements, or"
+      },
+      {
+        "node_id": "2.1.3.5_list_B",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "B. The flow necessary to provide a velocity of 10 ft per sec (3 m/sec) as indicated in Table 2.1.3.5, or"
+      },
+      {
+        "node_id": "2.1.3.5_list_C",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.3 Water Supplies for Sprinkler Systems"
+        ],
+        "content": "C. The maximum flow rate available to the system under fire conditions."
+      },
+      {
+        "node_id": "2.1.4_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+      },
+      {
+        "node_id": "2.1.4.1_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "2.1.4.1 Install only new, FM Approved (where available), sprinkler system components."
+      },
+      {
+        "node_id": "2.1.4.2_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "2.1.4.2 Ensure the application of each component is in accordance with the following:"
+      },
+      {
+        "node_id": "2.1.4.2_list_A",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "A. Its listing in the Approval Guide, and"
+      },
+      {
+        "node_id": "2.1.4.2_list_B",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "B. The manufacturer's installation instructions, and"
+      },
+      {
+        "node_id": "2.1.4.2_list_C",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "C. The relevant occupancy-specific data sheet, and"
+      },
+      {
+        "node_id": "2.1.4.2_list_D",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "D. Any specific jurisdictional requirements"
+      },
+      {
+        "node_id": "2.1.4.3_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "2.1.4.3 Ensure the sprinkler system components are compatible with each other as well as the environment in which they will be installed, including the highest expected internal pressure, and the lowest and highest ambient temperatures."
+      },
+      {
+        "node_id": "2.1.4.4_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "2.1.4.4 Applicable sprinkler system components include, but are not limited to, the following:"
+      },
+      {
+        "node_id": "2.1.4.4_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinklers and sprinkler escutcheons"
+      },
+      {
+        "node_id": "2.1.4.4_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler system valves (alarm check, dry-pipe, deluge, etc.) and their accessories"
+      },
+      {
+        "node_id": "2.1.4.4_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler system control valves"
+      },
+      {
+        "node_id": "2.1.4.4_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Check valves (check, backflow, etc.)"
+      },
+      {
+        "node_id": "2.1.4.4_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Waterflow alarms"
+      },
+      {
+        "node_id": "2.1.4.4_list_6",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler system inspector's test connections"
+      },
+      {
+        "node_id": "2.1.4.4_list_7",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Pressure gauges"
+      },
+      {
+        "node_id": "2.1.4.4_list_8",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Fire service connections"
+      },
+      {
+        "node_id": "2.1.4.4_list_9",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Drain valves"
+      },
+      {
+        "node_id": "2.1.4.4_list_10",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Pressure relief valves"
+      },
+      {
+        "node_id": "2.1.4.4_list_11",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Pressure reducing valves"
+      },
+      {
+        "node_id": "2.1.4.4_list_12",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler pipe"
+      },
+      {
+        "node_id": "2.1.4.4_list_13",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler pipe connections and pipe assemblies"
+      },
+      {
+        "node_id": "2.1.4.4_list_14",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.4 General Recommendations for Sprinkler Systems and their Components"
+        ],
+        "content": "Sprinkler pipe hanging and bracing supports"
+      },
+      {
+        "node_id": "2.1.5_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "2.1.5 Other Relevant Data Sheets"
+      },
+      {
+        "node_id": "2.1.5_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "In addition to the guidelines in this data sheet, see the following data sheets for potential additional guidelines that could affect the installation and design of automatic sprinkler systems:"
+      },
+      {
+        "node_id": "2.1.5_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 1-20, Protection Against Exterior Fire Exposure, for recommendations related to installing exposure sprinklers for the protection of exterior hazards, such as large oil-filled transformers, exterior loading docks, yard storage, etc. that are close to a building that either has or requires sprinkler protection"
+      },
+      {
+        "node_id": "2.1.5_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 1-57, Plastics in Construction, to determine what supplemental protection related to sprinkler protection might be recommended when plastic construction materials are introduced into the area to be protected"
+      },
+      {
+        "node_id": "2.1.5_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 2-1, Corrosion in Automatic Sprinkler Systems, for recommendations on how to prevent internal corrosion in sprinkler system piping when sprinkler system components will be installed in atypical environments, such as corrosive, low-temperature, or high-temperature type of environments"
+      },
+      {
+        "node_id": "2.1.5_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 2-8, Earthquake Protection for Water-Based Fire Protection Systems, for sprinkler systems that will be installed in 50-year through 500-year earthquake zones (as defined by Data Sheet 1-2, Earthquakes)"
+      },
+      {
+        "node_id": "2.1.5_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 2-81, Fire Safety Inspections and Sprinkler System Maintenance, regarding the recommendations on how to care for a sprinkler system once it has been installed"
+      },
+      {
+        "node_id": "2.1.5_list_6",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 3-26, Fire Protection for Nonstorage Occupancies, for the sprinkler system designs of most nonstorage types of occupancy hazards"
+      },
+      {
+        "node_id": "2.1.5_list_7",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 8-1, Commodity Classification, for the classification of most products that might be found in a general warehouse environment"
+      },
+      {
+        "node_id": "2.1.5_list_8",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.1 General Recommendations for the Installation of Sprinklers",
+          "2.1.5 Other Relevant Data Sheets"
+        ],
+        "content": "Data Sheet 8-9, Storage of Class 1, 2, 3, 4 and Plastic Commodities, for the sprinkler system designs of most storage occupancy hazards"
+      },
+      {
+        "node_id": "2.2_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types"
+        ],
+        "content": "2.2 Sprinkler System Types"
+      },
+      {
+        "node_id": "2.2.1_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types"
+        ],
+        "content": "2.2.1 General Recommendations for Sprinkler System Types"
+      },
+      {
+        "node_id": "2.2.1.1_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.1 Selection of Sprinkler System"
+        ],
+        "content": "2.2.1.1 Selection of Sprinkler System"
+      },
+      {
+        "node_id": "2.2.1.1.1_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.1 Selection of Sprinkler System"
+        ],
+        "content": "2.2.1.1.1 See the relevant occupancy-specific data sheet to determine if there are any restrictions on the types of sprinkler systems available for installation."
+      },
+      {
+        "node_id": "2.2.1.1.2_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.1 Selection of Sprinkler System"
+        ],
+        "content": "2.2.1.1.2 When the relevant occupancy-specific data sheet recommends a specific sprinkler system type for installation, see the applicable subsection in Section 2.2 for recommendations pertaining to that sprinkler system."
+      },
+      {
+        "node_id": "2.2.1.1.3_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.1 Selection of Sprinkler System"
+        ],
+        "content": "2.2.1.1.3 When the occupancy-specific data sheet does not recommend a specific sprinkler system type for installation, see Sections 2.2.2 through 2.2.9 to determine which sprinkler systems are applicable for the area to be protected."
+      },
+      {
+        "node_id": "2.2.1.2_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.2 Compatibility of Sprinkler System Components with the Environment"
+        ],
+        "content": "2.2.1.2 Compatibility of Sprinkler System Components with the Environment"
+      },
+      {
+        "node_id": "2.2.1.2.1_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.2 Compatibility of Sprinkler System Components with the Environment"
+        ],
+        "content": "2.2.1.2.1 Ensure the materials chosen for the sprinkler system are compatible with the environment they will be protecting."
+      },
+      {
+        "node_id": "2.2.1.2.1_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.2 Compatibility of Sprinkler System Components with the Environment"
+        ],
+        "content": "See the Approval Guide for sprinkler system components that can be used in atypical environments, such as corrosive, low- or high-temperature environments."
+      },
+      {
+        "node_id": "2.2.1.3_heading",
+        "node_type": "heading",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+      },
+      {
+        "node_id": "2.2.1.3.1_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3.1 See the relevant occupancy-specific data sheet for recommendations regarding the sprinkler system design for the area to be protected."
+      },
+      {
+        "node_id": "2.2.1.3.2_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3.2 See Data Sheet 3-0, Hydraulics of Fire Protection Systems, for information related to the hydraulic calculation of a sprinkler system."
+      },
+      {
+        "node_id": "2.2.1.3.3_para",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3.3 When the occupancy-specific data sheet does not provide guidance on the Hazen-Williams C-Value (roughness coefficient) to be used for hydraulic analysis of the sprinkler system, see the default values given in Table 2.2.1.3.3."
+      },
+      {
+        "node_id": "2.2.1.3.4_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3.4 The default Hazen-Williams C-Value for a vacuum sprinkler system can be 120 when the sprinkler piping arrangement of the system meets all the following conditions:"
+      },
+      {
+        "node_id": "2.2.1.3.4_list_A",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "A. There is single-path flow (i.e., no loops or grids) throughout the sprinkler system, and"
+      },
+      {
+        "node_id": "2.2.1.3.4_list_B",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "B. When applicable, the water supply can meet the maximum recommended water delivery time, and"
+      },
+      {
+        "node_id": "2.2.1.3.4_list_C",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "C. The recommendations in Section 2.2.1.4 are satisfied, and"
+      },
+      {
+        "node_id": "2.2.1.3.4_list_D",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "D. The pipe connection method avoids the collection of water, and"
+      },
+      {
+        "node_id": "2.2.1.3.4_list_E",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "E. The sprinkler branch lines and mains are pitched to avoid water accumulation within the sprinkler system."
+      },
+      {
+        "node_id": "2.2.1.3.5_para_1",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "2.2.1.3.5 Post the sprinkler system's design criteria on a rigid placard installed at the system valve."
+      },
+      {
+        "node_id": "2.2.1.3.5_para_2",
+        "node_type": "paragraph",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "At a minimum, include the following information:"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_1",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Name of the area protected by the sprinkler system"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_2",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Classification of the occupancy hazard"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_3",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Sprinkler's identification number(s) (i.e., SIN)"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_4",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Nominal temperature rating of the sprinklers"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_5",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Maximum area spacing of the sprinklers"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_6",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Number of sprinklers in the sprinkler system's design area"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_7",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Minimum sprinkler design pressure"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_8",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Flow and pressure required at the base of the riser"
+      },
+      {
+        "node_id": "2.2.1.3.5_list_9",
+        "node_type": "list_item",
+        "breadcrumbs": [
+          "2.0 LOSS PREVENTION RECOMMENDATIONS",
+          "2.2 Sprinkler System Types",
+          "2.2.1 General Recommendations for Sprinkler System Types",
+          "2.2.1.3 Recommended Sprinkler System Design and Hydraulic Calculations"
+        ],
+        "content": "Hose stream allowance"
+      }
+    ]
+  }

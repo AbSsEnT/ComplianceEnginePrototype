@@ -30,6 +30,13 @@ const BOOK_EMBEDDING_FILES = {
     "embeddings",
     "apsad-d9a.embeddings.json",
   ),
+  "baybo-brand": join(
+    process.cwd(),
+    "app",
+    "data",
+    "embeddings",
+    "baybo-brand.embeddings.json",
+  ),
 } as const;
 type BookKey = keyof typeof BOOK_EMBEDDING_FILES;
 
@@ -136,7 +143,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { message?: string; books?: string[] };
+  let body: { message?: string; books?: string[]; locale?: string };
   try {
     body = await request.json();
   } catch {
@@ -146,6 +153,7 @@ export async function POST(request: Request) {
   if (!message) {
     return Response.json({ error: "Missing or empty message" }, { status: 400 });
   }
+  const uiLocale = body.locale === "de" ? "de" : "fr";
 
   try {
     // Normalise and validate requested books so the client can send arbitrary
@@ -195,7 +203,7 @@ export async function POST(request: Request) {
     });
 
     const systemContent = `Tu es l'assistant SafeLink. Tu reponds UNIQUEMENT a partir des extraits reglementaires ci-dessous.
-Réponds en français.
+Réponds en ${uiLocale === "de" ? "allemand (Deutsch)" : "français"}.
 
 Règles strictes :
 1. Pertinence : avant d'inclure un extrait, vérifie qu'il répond DIRECTEMENT à la question. Si un passage du contexte ne concerne pas la question, ignore-le complètement. Le contexte contient des passages récupérés automatiquement — beaucoup ne sont pas pertinents.

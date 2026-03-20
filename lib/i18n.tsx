@@ -63,9 +63,34 @@ type Messages = {
     addBookmarksHint: string;
     quickAssistant: string;
   };
+  search: {
+    placeholder: string;
+    statsResults: (count: number, max: number, limited: boolean) => string;
+    statsFilters: (count: number) => string;
+    hintTypeToSearch: string;
+    filtersTitle: string;
+    filtersSelectAll: string;
+    filtersSelectNone: string;
+    emptyTitle: string;
+    emptySubtitle: string;
+    noResultsTitle: (query: string) => string;
+    noResultsSubtitleNoFilters: string;
+    noResultsSubtitleWithFilters: string;
+    limitedResultsNotice: (max: number) => string;
+  };
   library: {
     breadcrumbRoot: string;
     noChapters: string;
+    filterTypesLabel: string;
+    filterJurisdictionsLabel: string;
+    typeLawAndCode: string;
+    typeStandard: string;
+    typeInsurerStandard: string;
+    typeGuide: string;
+    sectionLawAndCode: string;
+    sectionStandard: string;
+    sectionInsurerStandard: string;
+    sectionGuide: string;
   };
   sourcePanel: {
     header: string;
@@ -131,9 +156,42 @@ const fr: Messages = {
     addBookmarksHint: "Ajoutez-en en lisant les articles.",
     quickAssistant: "Assistant rapide",
   },
+  search: {
+    placeholder: "Rechercher dans les corpus réglementaires...",
+    statsResults: (count, max, limited) =>
+      limited ? `${max}+ résultats` : `${count} résultat${count !== 1 ? "s" : ""}`,
+    statsFilters: (count) =>
+      count > 0
+        ? ` · ${count} filtre${count !== 1 ? "s" : ""} actif${count !== 1 ? "s" : ""}`
+        : "",
+    hintTypeToSearch: "Saisissez un terme pour lancer la recherche.",
+    filtersTitle: "Filtres",
+    filtersSelectAll: "Tout",
+    filtersSelectNone: "Aucun",
+    emptyTitle: "Recherche avancée",
+    emptySubtitle:
+      "Saisissez un terme ci-dessus pour rechercher dans les articles et paragraphes. Utilisez les filtres à gauche pour affiner les résultats par source et par livre.",
+    noResultsTitle: (query) => `Aucun résultat pour « ${query} »`,
+    noResultsSubtitleNoFilters:
+      "Essayez un autre terme ou vérifiez l'orthographe.",
+    noResultsSubtitleWithFilters:
+      "Essayez d'élargir vos filtres ou de modifier votre recherche.",
+    limitedResultsNotice: (max) =>
+      `Résultats limités à ${max}. Affinez votre recherche ou vos filtres pour des résultats plus ciblés.`,
+  },
   library: {
     breadcrumbRoot: "Bibliothèque",
     noChapters: "Aucun chapitre défini pour ce livre pour le moment.",
+    filterTypesLabel: "Types",
+    filterJurisdictionsLabel: "Pays / zone",
+    typeLawAndCode: "Lois & codes",
+    typeStandard: "Normes (EN / DIN / NF)",
+    typeInsurerStandard: "Référentiels assureurs",
+    typeGuide: "Guides & manuels",
+    sectionLawAndCode: "Lois & règlements / Codes",
+    sectionStandard: "Normes techniques (EN / DIN / NF)",
+    sectionInsurerStandard: "Référentiels d'assureurs (APSAD, VdS…)",
+    sectionGuide: "Guides pratiques & manuels",
   },
   sourcePanel: {
     header: "Source",
@@ -200,9 +258,42 @@ const de: Messages = {
     addBookmarksHint: "Fügen Sie welche beim Lesen von Artikeln hinzu.",
     quickAssistant: "Schneller Assistent",
   },
+  search: {
+    placeholder: "In den Rechtsgrundlagen suchen…",
+    statsResults: (count, max, limited) =>
+      limited ? `${max}+ Treffer` : `${count} Treffer`,
+    statsFilters: (count) =>
+      count > 0
+        ? ` · ${count} Filter aktiv`
+        : "",
+    hintTypeToSearch: "Geben Sie einen Begriff ein, um die Suche zu starten.",
+    filtersTitle: "Filter",
+    filtersSelectAll: "Alle",
+    filtersSelectNone: "Keine",
+    emptyTitle: "Erweiterte Suche",
+    emptySubtitle:
+      "Geben Sie oben einen Begriff ein, um in Artikeln und Absätzen zu suchen. Verwenden Sie die Filter links, um die Ergebnisse nach Quelle und Band einzugrenzen.",
+    noResultsTitle: (query) => `Keine Treffer für „${query}“`,
+    noResultsSubtitleNoFilters:
+      "Versuchen Sie einen anderen Begriff oder prüfen Sie die Schreibweise.",
+    noResultsSubtitleWithFilters:
+      "Versuchen Sie, Ihre Filter zu erweitern oder Ihre Suche anzupassen.",
+    limitedResultsNotice: (max) =>
+      `Treffer auf ${max} begrenzt. Verfeinern Sie Ihre Suche oder Filter für gezieltere Ergebnisse.`,
+  },
   library: {
     breadcrumbRoot: "Bibliothek",
     noChapters: "Für dieses Buch sind noch keine Kapitel definiert.",
+    filterTypesLabel: "Typen",
+    filterJurisdictionsLabel: "Länder / Regionen",
+    typeLawAndCode: "Gesetze & Bauordnungen",
+    typeStandard: "Normen (EN / DIN / NF)",
+    typeInsurerStandard: "Versicherungsrichtlinien",
+    typeGuide: "Leitfäden & Handbücher",
+    sectionLawAndCode: "Gesetze & Vorschriften / Bauordnungen",
+    sectionStandard: "Technische Normen (EN / DIN / NF)",
+    sectionInsurerStandard: "Versicherungsrichtlinien (APSAD, VdS…)",
+    sectionGuide: "Praktische Leitfäden & Handbücher",
   },
   sourcePanel: {
     header: "Quelle",

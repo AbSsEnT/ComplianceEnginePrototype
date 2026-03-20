@@ -14,7 +14,13 @@
  */
 
 import { useCallback, useMemo, useState } from "react";
-import type { LawBook, LawNode, LawSource } from "@/lib/law/types";
+import type {
+  LawBook,
+  LawNode,
+  LawSource,
+  JurisdictionCode,
+  SourceType,
+} from "@/lib/law/types";
 import {
   Search,
   FileText,
@@ -27,6 +33,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useI18n } from "@/lib/i18n";
 
 /* ── Public types ── */
 
@@ -58,6 +65,30 @@ export default function SearchView({
   onNavigateToResult,
 }: SearchViewProps) {
   const [query, setQuery] = useState("");
+  const { t, locale } = useI18n();
+
+  // High-level type and jurisdiction filters (mirror the library view).
+  const allJurisdictions: JurisdictionCode[] = ["FR", "DE", "EU"];
+  const typeOrder: SourceType[] = ["LAW_AND_CODE", "STANDARD", "INSURER_STANDARD"];
+
+  const [activeSourceTypes, setActiveSourceTypes] = useState<SourceType[]>(
+    typeOrder,
+  );
+  const [activeJurisdictions, setActiveJurisdictions] = useState<
+    JurisdictionCode[]
+  >(allJurisdictions);
+
+  const toggleSourceType = useCallback((type: SourceType) => {
+    setActiveSourceTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+    );
+  }, []);
+
+  const toggleJurisdiction = useCallback((code: JurisdictionCode) => {
+    setActiveJurisdictions((prev) =>
+      prev.includes(code) ? prev.filter((j) => j !== code) : [...prev, code],
+    );
+  }, []);
 
   // Filter state: which source+book pairs are active.
   // By default everything is selected.
@@ -77,17 +108,31 @@ export default function SearchView({
     () => new Set(),
   );
 
-  // Derive which sources to actually search
-  const filteredSources = useMemo(() => {
-    return sources
+  // Sources visible in the filter tree (respecting jurisdiction only).
+  // This ensures type sections never disappear; deselecting a type only
+  // affects which books are considered in the search, not the visibility
+  // of the category in the sidebar.
+  const scopedSources = useMemo(
+    () =>
+      sources.filter((s) => activeJurisdictions.includes(s.jurisdiction)),
+    [sources, activeJurisdictions],
+  );
+
+  // Sources actually searched: scoped by type + jurisdiction and then by
+  // per-book selection.
+  const filteredSources = useMemo(
+    () =>
+      scopedSources
+        .filter((s) => activeSourceTypes.includes(s.sourceType))
       .map((source) => ({
         ...source,
         books: source.books.filter((b) =>
           selectedBooks.has(bookKey(source.id, b.id)),
         ),
       }))
-      .filter((s) => s.books.length > 0);
-  }, [sources, selectedBooks]);
+      .filter((s) => s.books.length > 0),
+    [scopedSources, activeSourceTypes, selectedBooks],
+  );
 
   // Run the search whenever query or filters change
   const results = useMemo(() => {
@@ -155,7 +200,7 @@ export default function SearchView({
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Rechercher dans les corpus réglementaires..."
+              placeholder={t.search.placeholder}
               autoFocus
               className="h-14 w-full rounded-xl border border-input bg-background pl-12 pr-12 text-base outline-none transition placeholder:text-muted-foreground focus:border-blue-500 focus:ring-3 focus:ring-blue-500/20"
             />
@@ -173,16 +218,16 @@ export default function SearchView({
           <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
             {query.trim() ? (
               <span>
-                {results.length === MAX_RESULTS
-                  ? `${MAX_RESULTS}+ résultats`
-                  : `${results.length} résultat${results.length !== 1 ? "s" : ""}`}
-                {activeFilterCount > 0 && (
-                  <> · {activeFilterCount} filtre{activeFilterCount !== 1 ? "s" : ""} actif{activeFilterCount !== 1 ? "s" : ""}</>
+                {t.search.statsResults(
+                  results.length,
+                  MAX_RESULTS,
+                  results.length === MAX_RESULTS,
                 )}
+                {t.search.statsFilters(activeFilterCount)}
               </span>
             ) : (
               <span>
-                Saisissez un terme pour lancer la recherche.
+                {t.search.hintTypeToSearch}
                 <kbd className="ml-2 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium">
                   Ctrl+K
                 </kbd>
@@ -201,7 +246,7 @@ export default function SearchView({
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   <SlidersHorizontal className="h-3.5 w-3.5" />
-                  Filtres
+                  {t.search.filtersTitle}
                 </h3>
                 <div className="flex gap-1">
                   <button
@@ -209,90 +254,151 @@ export default function SearchView({
                     onClick={selectAll}
                     className="rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 transition hover:bg-blue-100"
                   >
-                    Tout
+                    {t.search.filtersSelectAll}
                   </button>
                   <button
                     type="button"
                     onClick={selectNone}
                     className="rounded-full border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground transition hover:bg-muted/80"
                   >
-                    Aucun
+                    {t.search.filtersSelectNone}
                   </button>
                 </div>
               </div>
 
-              <div className="space-y-1">
-                {sources.map((source) => {
-                  const sourceBookKeys = source.books.map((b) =>
-                    bookKey(source.id, b.id),
+              {/* High-level type and jurisdiction filters (match library view) */}
+              {/* Jurisdiction chips */}
+              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                <span className="font-semibold text-muted-foreground">
+                  {t.library.filterJurisdictionsLabel}
+                </span>
+                {allJurisdictions.map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => toggleJurisdiction(code)}
+                    className={[
+                      "rounded-full border px-2 py-1 text-[11px] transition",
+                      activeJurisdictions.includes(code)
+                        ? "border-blue-500 bg-blue-50 text-blue-800"
+                        : "border-border bg-card text-muted-foreground hover:bg-muted",
+                    ].join(" ")}
+                  >
+                    {code === "FR" && "FR"}
+                    {code === "DE" && "DE"}
+                    {code === "EU" && "EU"}
+                  </button>
+                ))}
+              </div>
+
+              {/* Hierarchical filters: type → source → book */}
+              <div className="space-y-2 text-xs">
+                {typeOrder.map((type) => {
+                  const sourcesOfType = scopedSources.filter(
+                    (s) => s.sourceType === type,
                   );
-                  const allChecked = sourceBookKeys.every((k) =>
-                    selectedBooks.has(k),
-                  );
-                  const someChecked =
-                    !allChecked &&
-                    sourceBookKeys.some((k) => selectedBooks.has(k));
-                  const isCollapsed = collapsedSources.has(source.id);
+                  if (sourcesOfType.length === 0) return null;
 
                   return (
-                    <div key={source.id}>
-                      {/* Source header */}
-                      <div className="flex items-center gap-1">
+                    <div key={type} className="space-y-1">
+                      <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => toggleCollapseSource(source.id)}
-                          className="shrink-0 rounded p-0.5 text-muted-foreground transition hover:bg-muted"
+                          onClick={() => toggleSourceType(type)}
+                          className={[
+                            "rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+                            activeSourceTypes.includes(type)
+                              ? "border-blue-500 bg-blue-50 text-blue-800"
+                              : "border-border bg-card text-muted-foreground hover:bg-muted",
+                          ].join(" ")}
                         >
-                          {isCollapsed ? (
-                            <ChevronRight className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => toggleSource(source.id)}
-                          className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1.5 text-left transition hover:bg-muted"
-                        >
-                          <FilterCheckbox
-                            checked={allChecked}
-                            indeterminate={someChecked}
-                          />
-                          <span className="truncate text-sm font-medium text-foreground">
-                            {source.label}
-                          </span>
+                          {type === "LAW_AND_CODE" && t.library.typeLawAndCode}
+                          {type === "STANDARD" && t.library.typeStandard}
+                          {type === "INSURER_STANDARD" &&
+                            t.library.typeInsurerStandard}
                         </button>
                       </div>
 
-                      {/* Individual books within the source */}
-                      {!isCollapsed && (
-                        <div className="ml-6 space-y-0.5 pb-1">
-                          {source.books.map((bk) => {
-                            const key = bookKey(source.id, bk.id);
-                            const checked = selectedBooks.has(key);
-                            return (
-                              <button
-                                key={bk.id}
-                                type="button"
-                                onClick={() => toggleBook(key)}
-                                className="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left transition hover:bg-muted"
-                              >
-                                <FilterCheckbox checked={checked} />
-                                <div className="min-w-0 flex-1">
-                                  <span className="block truncate text-sm text-foreground">
-                                    {bk.label}
-                                  </span>
-                                  {bk.heading && (
-                                    <span className="block truncate text-[11px] text-muted-foreground">
-                                      {bk.heading}
-                                    </span>
+                      <div className="space-y-1">
+                        {sourcesOfType.map((source) => {
+                          const sourceBookKeys = source.books.map((b) =>
+                            bookKey(source.id, b.id),
+                          );
+                          const allChecked = sourceBookKeys.every((k) =>
+                            selectedBooks.has(k),
+                          );
+                          const someChecked =
+                            !allChecked &&
+                            sourceBookKeys.some((k) => selectedBooks.has(k));
+                          const isCollapsed = collapsedSources.has(source.id);
+
+                          const displayLabel =
+                            locale === "de" && source.labelDe
+                              ? source.labelDe
+                              : source.label;
+                          return (
+                            <div key={source.id}>
+                              {/* Source header (provider) */}
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleCollapseSource(source.id)}
+                                  className="shrink-0 rounded p-0.5 text-muted-foreground transition hover:bg-muted"
+                                >
+                                  {isCollapsed ? (
+                                    <ChevronRight className="h-3.5 w-3.5" />
+                                  ) : (
+                                    <ChevronDown className="h-3.5 w-3.5" />
                                   )}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSource(source.id)}
+                                  className="flex min-w-0 flex-1 items-center gap-2 rounded px-1.5 py-1.5 text-left transition hover:bg-muted"
+                                >
+                                  <FilterCheckbox
+                                    checked={allChecked}
+                                    indeterminate={someChecked}
+                                  />
+                                  <span className="truncate text-sm font-medium text-foreground">
+                                    {displayLabel}
+                                  </span>
+                                </button>
+                              </div>
+
+                              {/* Individual books within the source */}
+                              {!isCollapsed && (
+                                <div className="ml-6 space-y-0.5 pb-1">
+                                  {source.books.map((bk) => {
+                                    const key = bookKey(source.id, bk.id);
+                                    const checked = selectedBooks.has(key);
+                                    return (
+                                      <button
+                                        key={bk.id}
+                                        type="button"
+                                        onClick={() => toggleBook(key)}
+                                        className="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left transition hover:bg-muted"
+                                      >
+                                        <FilterCheckbox checked={checked} />
+                                        <div className="min-w-0 flex-1">
+                                          <span className="block truncate text-sm text-foreground">
+                                            {bk.label}
+                                          </span>
+                                          {bk.heading && (
+                                            <span className="block truncate text-[11px] text-muted-foreground">
+                                              {bk.heading}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
                                 </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}
@@ -309,19 +415,19 @@ export default function SearchView({
               {!query.trim() && (
                 <EmptyState
                   icon={<Search className="h-8 w-8 text-slate-300" />}
-                  title="Recherche avancée"
-                  subtitle="Saisissez un terme ci-dessus pour rechercher dans les articles et paragraphes. Utilisez les filtres à gauche pour affiner les résultats par source et par livre."
+                  title={t.search.emptyTitle}
+                  subtitle={t.search.emptySubtitle}
                 />
               )}
 
               {query.trim() && results.length === 0 && (
                 <EmptyState
                   icon={<FileText className="h-8 w-8 text-slate-300" />}
-                  title={`Aucun résultat pour « ${query} »`}
+                  title={t.search.noResultsTitle(query)}
                   subtitle={
                     activeFilterCount > 0
-                      ? "Essayez d'élargir vos filtres ou de modifier votre recherche."
-                      : "Essayez un autre terme ou vérifiez l'orthographe."
+                      ? t.search.noResultsSubtitleWithFilters
+                      : t.search.noResultsSubtitleNoFilters
                   }
                 />
               )}
@@ -378,8 +484,7 @@ export default function SearchView({
 
                   {results.length === MAX_RESULTS && (
                     <p className="py-4 text-center text-xs text-muted-foreground">
-                      Résultats limités à {MAX_RESULTS}. Affinez votre recherche
-                      ou vos filtres pour des résultats plus ciblés.
+                      {t.search.limitedResultsNotice(MAX_RESULTS)}
                     </p>
                   )}
                 </div>

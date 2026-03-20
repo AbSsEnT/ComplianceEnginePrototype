@@ -1,0 +1,544 @@
+{
+    "id": "baybo-brand",
+    "kind": "book",
+    "label": "BayBO – Brandschutzrelevante Artikel",
+    "heading": "Bayerische Bauordnung – ausgewählte Brandschutzbestimmungen",
+    "articlesRange": "Art. 2, 12, 25–31, 33–35",
+    "children": [
+      {
+        "id": "baybo-brand-kapitel",
+        "kind": "chapter",
+        "label": "Kapitel – Brandschutzrelevante Bestimmungen",
+        "articlesRange": "Art. 2, 12, 25–31, 33–35",
+        "children": [
+          {
+            "id": "BayBO-2",
+            "kind": "article",
+            "label": "Art. 2",
+            "heading": "Begriffe",
+            "children": [
+              {
+                "id": "BayBO-2-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Bauliche Anlagen sind mit dem Erdboden verbundene, aus Bauprodukten hergestellte Anlagen. Ortsfeste Anlagen der Wirtschaftswerbung (Werbeanlagen) einschließlich Automaten sind bauliche Anlagen. Als bauliche Anlagen gelten Anlagen, die nach ihrem Verwendungszweck dazu bestimmt sind, überwiegend ortsfest benutzt zu werden, sowie\n1. Aufschüttungen, soweit sie nicht unmittelbare Folge von Abgrabungen sind,\n2. Lagerplätze, Abstellplätze und Ausstellungsplätze,\n3. Campingplätze und Wochenendplätze,\n4. Freizeit- und Vergnügungsparks,\n5. Stellplätze für Kraftfahrzeuge.\nAnlagen sind bauliche Anlagen sowie andere Anlagen und Einrichtungen im Sinn des Art. 1 Abs. 1 Satz 2."
+              },
+              {
+                "id": "BayBO-2-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Gebäude sind selbständig benutzbare, überdeckte bauliche Anlagen, die von Menschen betreten werden können."
+              },
+              {
+                "id": "BayBO-2-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Gebäude werden in folgende Gebäudeklassen eingeteilt:\n1. Gebäudeklasse 1:\n   a) freistehende Gebäude mit einer Höhe bis zu 7 m und nicht mehr als zwei Nutzungseinheiten von insgesamt nicht mehr als 400 m² und\n   b) land- oder forstwirtschaftlich genutzte Gebäude,\n2. Gebäudeklasse 2:\n   Gebäude mit einer Höhe bis zu 7 m und nicht mehr als zwei Nutzungseinheiten von insgesamt nicht mehr als 400 m²,\n3. Gebäudeklasse 3:\n   sonstige Gebäude mit einer Höhe bis zu 7 m,\n4. Gebäudeklasse 4:\n   Gebäude mit einer Höhe bis zu 13 m und Nutzungseinheiten oder Teile von Nutzungseinheiten, die durch Außen- oder Trennwände nach Art. 27 Abs. 2 Nr. 1 begrenzt sind und über von anderen Teilen unabhängige Rettungswege nach Art. 31 Abs. 1 verfügen, mit jeweils nicht mehr als 400 m²,\n5. Gebäudeklasse 5:\n   sonstige Gebäude einschließlich unterirdischer Gebäude.\nHöhe im Sinn des Satzes 1 ist das Maß der Fußbodenoberkante des höchstgelegenen Geschosses, in dem ein Aufenthaltsraum möglich ist, über der Geländeoberfläche im Mittel. Bei der Berechnung der Flächen nach Satz 1 bleiben die Flächen im Kellergeschoss außer Betracht."
+              },
+              {
+                "id": "BayBO-2-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Sonderbauten sind Anlagen und Räume besonderer Art oder Nutzung, die einen der nachfolgenden Tatbestände erfüllen:\n1. Hochhäuser (Gebäude mit einer Höhe nach Abs. 3 Satz 2 von mehr als 22 m),\n2. bauliche Anlagen mit einer Höhe von mehr als 30 m,\n3. Gebäude mit mehr als 1 600 m² Fläche des Geschosses mit der größten Ausdehnung, ausgenommen Wohngebäude und Garagen,\n4. Verkaufsstätten, deren Verkaufsräume und Ladenstraßen eine Fläche von insgesamt mehr als 800 m², bei erdgeschossigen Verkaufsstätten mehr als 2 000 m², haben,\n5. Gebäude mit Räumen, die einer Büro- oder Verwaltungsnutzung dienen und einzeln mehr als 400 m² haben,\n6. Gebäude mit Räumen, die einzeln für eine Nutzung durch mehr als 100 Personen bestimmt sind,\n7. Versammlungsstätten\n   a) mit Versammlungsräumen, die insgesamt mehr als 200 Besucher fassen, wenn diese Versammlungsräume gemeinsame Rettungswege haben,\n   b) im Freien mit Szenenflächen sowie Freisportanlagen jeweils mit Tribünen, die keine fliegenden Bauten sind und insgesamt mehr als 1 000 Besucher fassen,\n8. Gaststätten\n   a) mit mehr als 60 Gastplätzen in Gebäuden, soweit sie nicht ausschließlich erdgeschossig sind,\n   b) mit mehr als 100 Gastplätzen in Gebäuden, soweit sie ausschließlich erdgeschossig sind, oder\n   c) mit mehr als 1 000 Gastplätzen im Freien,\n9. Beherbergungsstätten mit mehr als 30 Betten,\n10. Spielhallen mit mehr als 150 m²,\n11. Gebäude mit Nutzungseinheiten zum Zweck der Pflege oder Betreuung von Personen mit Pflegebedürftigkeit oder Behinderung, deren Selbstrettungsfähigkeit eingeschränkt ist, wenn die Nutzungseinheiten\n    a) einzeln für mehr als sechs Personen bestimmt sind,\n    b) für Personen mit Intensivpflegebedarf bestimmt sind oder\n    c) einen gemeinsamen Rettungsweg haben und für insgesamt mehr als zwölf Personen bestimmt sind,\n12. Krankenhäuser,\n13. sonstige Einrichtungen zur Unterbringung von Personen sowie Wohnheime,\n14. Tageseinrichtungen für Kinder, Menschen mit Behinderung und alte Menschen, in denen mehr als zehn Personen betreut werden,\n15. Schulen, Hochschulen und ähnliche Einrichtungen,\n16. Justizvollzugsanstalten und bauliche Anlagen für den Maßregelvollzug,\n17. Freizeit- und Vergnügungsparks,\n18. fliegende Bauten, soweit sie einer Ausführungsgenehmigung bedürfen, sowie Fahrgeschäfte, die keine fliegenden Bauten und nicht verfahrensfrei sind,\n19. Regale mit einer Oberkante Lagerguthöhe von mehr als 7,50 m,\n20. bauliche Anlagen, deren Nutzung durch Umgang mit oder Lagerung von Stoffen mit Explosions- oder erhöhter Brandgefahr verbunden ist,\n21. Anlagen und Räume, die in den Nrn. 1 bis 19 nicht aufgeführt und deren Art oder Nutzung mit vergleichbaren Gefahren verbunden sind, ausgenommen Wohngebäude, die keine Hochhäuser sind."
+              },
+              {
+                "id": "BayBO-2-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Aufenthaltsräume sind Räume, die zum nicht nur vorübergehenden Aufenthalt von Menschen bestimmt oder geeignet sind."
+              },
+              {
+                "id": "BayBO-2-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "Flächen von Gebäuden, Geschossen, Nutzungseinheiten und Räumen sind als Brutto-Grundfläche zu ermitteln, soweit nichts anderes geregelt ist."
+              },
+              {
+                "id": "BayBO-2-7",
+                "kind": "paragraph",
+                "label": "(7)",
+                "content": "Geschosse sind oberirdische Geschosse, wenn ihre Deckenoberkanten im Mittel mehr als 1,40 m über die Geländeoberfläche hinausragen; im Übrigen sind sie Kellergeschosse. Hohlräume zwischen der obersten Decke und der Bedachung, in denen Aufenthaltsräume nicht möglich sind, sind keine Geschosse."
+              },
+              {
+                "id": "BayBO-2-8",
+                "kind": "paragraph",
+                "label": "(8)",
+                "content": "Stellplätze sind Flächen, die dem Abstellen von Kraftfahrzeugen außerhalb der öffentlichen Verkehrsfläche dienen. Garagen sind Gebäude oder Gebäudeteile zum Abstellen von Kraftfahrzeugen. Ausstellungs-, Verkaufs-, Werk- und Lagerräume für Kraftfahrzeuge sind keine Stellplätze oder Garagen."
+              },
+              {
+                "id": "BayBO-2-9",
+                "kind": "paragraph",
+                "label": "(9)",
+                "content": "Feuerstätten sind in oder an Gebäuden ortsfest benutzte Anlagen, die dazu bestimmt sind, durch Verbrennung Wärme zu erzeugen."
+              },
+              {
+                "id": "BayBO-2-10",
+                "kind": "paragraph",
+                "label": "(10)",
+                "content": "Barrierefrei sind bauliche Anlagen, soweit sie für Menschen mit Behinderung in der allgemein üblichen Weise, ohne besondere Erschwernis und grundsätzlich ohne fremde Hilfe zugänglich und nutzbar sind."
+              },
+              {
+                "id": "BayBO-2-11",
+                "kind": "paragraph",
+                "label": "(11)",
+                "content": "Bauprodukte sind\n1. Produkte, Baustoffe, Bauteile, Anlagen und Bausätze gemäß Art. 2 Nr. 2 der Verordnung (EU) Nr. 305/2011, die hergestellt werden, um dauerhaft in bauliche Anlagen eingebaut zu werden,\n2. aus ihnen vorgefertigte Anlagen, die hergestellt werden, um mit dem Erdboden verbunden zu werden,\nwenn sich deren Verwendung auf die Anforderungen nach Art. 3 Satz 1 auswirken kann."
+              },
+              {
+                "id": "BayBO-2-12",
+                "kind": "paragraph",
+                "label": "(12)",
+                "content": "Bauart ist das Zusammenfügen von Bauprodukten zu baulichen Anlagen oder Teilen von baulichen Anlagen."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-12",
+            "kind": "article",
+            "label": "Art. 12",
+            "heading": "Brandschutz",
+            "children": [
+              {
+                "id": "BayBO-12-1",
+                "kind": "paragraph",
+                "label": "",
+                "content": "Bauliche Anlagen sind so anzuordnen, zu errichten, zu ändern und instand zu halten, dass der Entstehung eines Brandes und der Ausbreitung von Feuer und Rauch (Brandausbreitung) vorgebeugt wird und bei einem Brand die Rettung von Menschen und Tieren sowie wirksame Löscharbeiten möglich sind."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-25",
+            "kind": "article",
+            "label": "Art. 25",
+            "heading": "Tragende Wände, Stützen",
+            "children": [
+              {
+                "id": "BayBO-25-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Tragende und aussteifende Wände und Stützen müssen im Brandfall ausreichend lang standsicher sein. Sie müssen\n1. in Gebäuden der Gebäudeklasse 5 feuerbeständig,\n2. in Gebäuden der Gebäudeklasse 4 hochfeuerhemmend,\n3. in Gebäuden der Gebäudeklassen 2 und 3 feuerhemmend\nsein. Satz 2 gilt\n1. für Geschosse im Dachraum nur, wenn darüber noch Aufenthaltsräume möglich sind; Art. 27 Abs. 4 bleibt unberührt,\n2. nicht für Balkone, ausgenommen offene Gänge, die als notwendige Flure dienen."
+              },
+              {
+                "id": "BayBO-25-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Im Kellergeschoss müssen tragende und aussteifende Wände und Stützen\n1. in Gebäuden der Gebäudeklassen 3 bis 5 feuerbeständig,\n2. in Gebäuden der Gebäudeklassen 1 und 2 feuerhemmend\nsein."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-26",
+            "kind": "article",
+            "label": "Art. 26",
+            "heading": "Außenwände",
+            "children": [
+              {
+                "id": "BayBO-26-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Außenwände und Außenwandteile wie Brüstungen und Schürzen sind so auszubilden, dass eine Brandausbreitung auf und in diesen Bauteilen ausreichend lang begrenzt ist."
+              },
+              {
+                "id": "BayBO-26-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Nichttragende Außenwände und nichttragende Teile tragender Außenwände müssen aus nichtbrennbaren Baustoffen bestehen; sie sind aus brennbaren Baustoffen zulässig, wenn sie als raumabschließende Bauteile feuerhemmend sind. Satz 1 gilt nicht für\n1. Fenster und Türen,\n2. Fugendichtungen und\n3. brennbare Dämmstoffe in nichtbrennbaren geschlossenen Profilen der Außenwandkonstruktion."
+              },
+              {
+                "id": "BayBO-26-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Oberflächen von Außenwänden sowie Außenwandbekleidungen müssen einschließlich der Dämmstoffe und Unterkonstruktionen schwerentflammbar sein; Unterkonstruktionen aus normalentflammbaren Baustoffen sind zulässig, wenn die Anforderungen nach Abs. 1 erfüllt sind. Balkonbekleidungen, die über die erforderliche Umwehrungshöhe hinaus hochgeführt werden, und mehr als zwei Geschosse überbrückende Solaranlagen an Außenwänden müssen schwerentflammbar sein. Baustoffe, die schwerentflammbar sein müssen, in Bauteilen nach Satz 1 Halbsatz 1 und Satz 2 dürfen nicht brennend abfallen oder abtropfen."
+              },
+              {
+                "id": "BayBO-26-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Bei Außenwandkonstruktionen mit geschossübergreifenden Hohl- oder Lufträumen wie Doppelfassaden sind gegen die Brandausbreitung besondere Vorkehrungen zu treffen; das gilt für hinterlüftete Außenwandbekleidungen entsprechend."
+              },
+              {
+                "id": "BayBO-26-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Die Abs. 2, 3 und 4 Halbsatz 2 gelten nicht für Gebäude der Gebäudeklassen 1 bis 3, Abs. 4 Halbsatz 1 nicht für Gebäude der Gebäudeklassen 1 und 2. Abweichend von Abs. 3 sind Außenwandbekleidungen, die den Technischen Baubestimmungen nach Art. 81a entsprechen, mit Ausnahme der Dämmstoffe, aus normalentflammbaren Baustoffen zulässig."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-27",
+            "kind": "article",
+            "label": "Art. 27",
+            "heading": "Trennwände",
+            "children": [
+              {
+                "id": "BayBO-27-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Trennwände nach Abs. 2 müssen als raumabschließende Bauteile von Räumen oder Nutzungseinheiten innerhalb von Geschossen ausreichend lang widerstandsfähig gegen die Brandausbreitung sein."
+              },
+              {
+                "id": "BayBO-27-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Trennwände sind erforderlich\n1. zwischen Nutzungseinheiten sowie zwischen Nutzungseinheiten und anders genutzten Räumen, ausgenommen notwendigen Fluren,\n2. zum Abschluss von Räumen mit Explosions- oder erhöhter Brandgefahr,\n3. zwischen Aufenthaltsräumen und anders genutzten Räumen im Kellergeschoss."
+              },
+              {
+                "id": "BayBO-27-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Trennwände nach Abs. 2 Nr. 1 und 3 müssen die Feuerwiderstandsfähigkeit der tragenden und aussteifenden Bauteile des Geschosses haben, jedoch mindestens feuerhemmend sein. Trennwände nach Abs. 2 Nr. 2 müssen feuerbeständig sein."
+              },
+              {
+                "id": "BayBO-27-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Die Trennwände nach Abs. 2 sind bis zur Rohdecke, im Dachraum bis unter die Dachhaut zu führen; werden in Dachräumen Trennwände nur bis zur Rohdecke geführt, ist diese Decke als raumabschließendes Bauteil einschließlich der sie tragenden und aussteifenden Bauteile feuerhemmend herzustellen."
+              },
+              {
+                "id": "BayBO-27-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Öffnungen in Trennwänden nach Abs. 2 müssen feuerhemmende, dicht- und selbstschließende Abschlüsse haben."
+              },
+              {
+                "id": "BayBO-27-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "Die Abs. 1 bis 5 gelten nicht innerhalb von Wohngebäuden der Gebäudeklassen 1 und 2."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-28",
+            "kind": "article",
+            "label": "Art. 28",
+            "heading": "Brandwände",
+            "children": [
+              {
+                "id": "BayBO-28-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Brandwände müssen als raumabschließende Bauteile zum Abschluss von Gebäuden (Gebäudeabschlusswand) oder zur Unterteilung von Gebäuden in Brandabschnitte (innere Brandwand) ausreichend lang die Brandausbreitung auf andere Gebäude oder Brandabschnitte verhindern."
+              },
+              {
+                "id": "BayBO-28-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Brandwände sind erforderlich\n1. als Gebäudeabschlusswand, ausgenommen von Gebäuden ohne Aufenthaltsräume und ohne Feuerstätten mit nicht mehr als 50 m³ Brutto-Rauminhalt, wenn diese Abschlusswände an oder mit einem Abstand von weniger als 2,50 m gegenüber der Grundstücksgrenze errichtet werden, es sei denn, dass ein Abstand von mindestens 5 m zu bestehenden oder nach den baurechtlichen Vorschriften zulässigen künftigen Gebäuden gesichert ist,\n2. als innere Brandwand zur Unterteilung ausgedehnter Gebäude in Abständen von nicht mehr als 40 m,\n3. als innere Brandwand zur Unterteilung land- oder forstwirtschaftlich genutzter Gebäude in Brandabschnitte von nicht mehr als 10 000 m³ Brutto-Rauminhalt,\n4. als Gebäudeabschlusswand zwischen Wohngebäuden und angebauten land- oder forstwirtschaftlich genutzten Gebäuden sowie als innere Brandwand zwischen dem Wohnteil und dem land- oder forstwirtschaftlich genutzten Teil eines Gebäudes.\nSatz 1 Nr. 1 gilt nicht für Gebäude der Gebäudeklassen 1 und 2; in diesen Fällen findet Art. 27 entsprechend Anwendung, es sei denn, dass ein Abstand von mindestens 5 m zu bestehenden oder nach den baurechtlichen Vorschriften zulässigen künftigen Gebäuden gesichert ist."
+              },
+              {
+                "id": "BayBO-28-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Brandwände müssen auch unter zusätzlicher mechanischer Beanspruchung feuerbeständig sein und aus nichtbrennbaren Baustoffen bestehen. An Stelle von Brandwänden sind in den Fällen von Abs. 2 Nr. 1 bis 3 zulässig\n1. für Gebäude der Gebäudeklasse 4 Wände, die auch unter zusätzlicher mechanischer Beanspruchung hochfeuerhemmend sind,\n2. für Gebäude der Gebäudeklassen 1 bis 3 hochfeuerhemmende Wände,\n3. für Gebäude der Gebäudeklasse 3 Gebäudeabschlusswände, die jeweils von innen nach außen die Feuerwiderstandsfähigkeit der tragenden und aussteifenden Teile des Gebäudes, mindestens jedoch feuerhemmende Bauteile, und von außen nach innen die Feuerwiderstandsfähigkeit feuerbeständiger Bauteile haben.\nIn den Fällen des Abs. 2 Nr. 4 sind an Stelle von Brandwänden feuerbeständige Wände zulässig, wenn der Brutto-Rauminhalt des land- oder forstwirtschaftlich genutzten Gebäudes oder Gebäudeteils nicht größer als 2 000 m³ ist."
+              },
+              {
+                "id": "BayBO-28-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Brandwände müssen durchgehend und in allen Geschossen und dem Dachraum übereinander angeordnet sein. Abweichend davon dürfen an Stelle innerer Brandwände Wände geschossweise versetzt angeordnet werden, wenn\n1. die Wände im Übrigen Abs. 3 Satz 1 entsprechen,\n2. die Decken, soweit sie in Verbindung mit diesen Wänden stehen, feuerbeständig sind, aus nichtbrennbaren Baustoffen bestehen und keine Öffnungen haben,\n3. die Bauteile, die diese Wände und Decken unterstützen, feuerbeständig sind und aus nichtbrennbaren Baustoffen bestehen,\n4. die Außenwände in der Breite des Versatzes in dem Geschoss oberhalb oder unterhalb des Versatzes feuerbeständig sind und\n5. Öffnungen in den Außenwänden im Bereich des Versatzes so angeordnet oder andere Vorkehrungen so getroffen sind, dass eine Brandausbreitung in andere Brandabschnitte nicht zu befürchten ist."
+              },
+              {
+                "id": "BayBO-28-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Brandwände sind 0,30 m über die Bedachung zu führen oder in Höhe der Dachhaut mit einer beiderseits 0,50 m auskragenden feuerbeständigen Platte aus nichtbrennbaren Baustoffen abzuschließen; darüber dürfen brennbare Teile des Dachs nicht hinweggeführt werden. Bei Gebäuden der Gebäudeklassen 1 bis 3 sind Brandwände mindestens bis unter die Dachhaut zu führen. Verbleibende Hohlräume sind vollständig mit nichtbrennbaren Baustoffen auszufüllen."
+              },
+              {
+                "id": "BayBO-28-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "Müssen Gebäude oder Gebäudeteile, die über Eck zusammenstoßen, durch eine Brandwand getrennt werden, so muss der Abstand dieser Wand von der inneren Ecke mindestens 5 m betragen; das gilt nicht, wenn der Winkel der inneren Ecke mehr als 120 Grad beträgt oder mindestens eine Außenwand auf 5 m Länge als öffnungslose feuerbeständige Wand aus nichtbrennbaren Baustoffen, bei Gebäuden der Gebäudeklassen 1 bis 4 als öffnungslose hochfeuerhemmende Wand ausgebildet ist."
+              },
+              {
+                "id": "BayBO-28-7",
+                "kind": "paragraph",
+                "label": "(7)",
+                "content": "Bauteile mit brennbaren Baustoffen dürfen über Brandwände nicht hinweggeführt werden. Bei Außenwandkonstruktionen, die eine seitliche Brandausbreitung begünstigen können, wie hinterlüfteten Außenwandbekleidungen oder Doppelfassaden, sind gegen die Brandausbreitung im Bereich der Brandwände besondere Vorkehrungen zu treffen. Außenwandbekleidungen von Gebäudeabschlusswänden müssen einschließlich der Dämmstoffe und Unterkonstruktionen nichtbrennbar sein. Bauteile dürfen in Brandwände nur so weit eingreifen, dass deren Feuerwiderstandsfähigkeit nicht beeinträchtigt wird; für Leitungen, Leitungsschlitze und Kamine gilt dies entsprechend."
+              },
+              {
+                "id": "BayBO-28-8",
+                "kind": "paragraph",
+                "label": "(8)",
+                "content": "Öffnungen in Brandwänden sind unzulässig. Sie sind in inneren Brandwänden nur zulässig, wenn sie auf die für die Nutzung erforderliche Zahl und Größe beschränkt sind; die Öffnungen müssen feuerbeständige, dicht- und selbstschließende Abschlüsse haben."
+              },
+              {
+                "id": "BayBO-28-9",
+                "kind": "paragraph",
+                "label": "(9)",
+                "content": "In inneren Brandwänden sind feuerbeständige Verglasungen nur zulässig, wenn sie auf die für die Nutzung erforderliche Zahl und Größe beschränkt sind."
+              },
+              {
+                "id": "BayBO-28-10",
+                "kind": "paragraph",
+                "label": "(10)",
+                "content": "Abs. 2 Satz 1 Nr. 1 und Satz 2 gilt nicht für seitliche Wände von Vorbauten im Sinn des Art. 6 Abs. 6 Satz 1 Nr. 2, wenn sie von dem Nachbargebäude oder der Nachbargrenze einen Abstand einhalten, der ihrer eigenen Ausladung entspricht, mindestens jedoch 1 m beträgt."
+              },
+              {
+                "id": "BayBO-28-11",
+                "kind": "paragraph",
+                "label": "(11)",
+                "content": "Die Abs. 4 bis 10 gelten entsprechend auch für Wände, die an Stelle von Brandwänden zulässig sind."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-29",
+            "kind": "article",
+            "label": "Art. 29",
+            "heading": "Decken",
+            "children": [
+              {
+                "id": "BayBO-29-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Decken müssen als tragende und raumabschließende Bauteile zwischen Geschossen im Brandfall ausreichend lang standsicher und widerstandsfähig gegen die Brandausbreitung sein. Sie müssen\n1. in Gebäuden der Gebäudeklasse 5 feuerbeständig,\n2. in Gebäuden der Gebäudeklasse 4 hochfeuerhemmend,\n3. in Gebäuden der Gebäudeklassen 2 und 3 feuerhemmend\nsein. Satz 2 gilt\n1. für Geschosse im Dachraum nur, wenn darüber Aufenthaltsräume möglich sind; Art. 27 Abs. 4 bleibt unberührt,\n2. nicht für Balkone, ausgenommen offene Gänge, die als notwendige Flure dienen."
+              },
+              {
+                "id": "BayBO-29-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Im Kellergeschoss müssen Decken\n1. in Gebäuden der Gebäudeklassen 3 bis 5 feuerbeständig,\n2. in Gebäuden der Gebäudeklassen 1 und 2 feuerhemmend\nsein. Decken müssen feuerbeständig sein\n1. unter und über Räumen mit Explosions- oder erhöhter Brandgefahr, ausgenommen in Wohngebäuden der Gebäudeklassen 1 und 2,\n2. zwischen dem land- oder forstwirtschaftlich genutzten Teil und dem Wohnteil eines Gebäudes."
+              },
+              {
+                "id": "BayBO-29-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Der Anschluss der Decken an die Außenwand ist so herzustellen, dass er den Anforderungen aus Abs. 1 Satz 1 genügt."
+              },
+              {
+                "id": "BayBO-29-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Öffnungen in Decken, für die eine Feuerwiderstandsfähigkeit vorgeschrieben ist, sind nur zulässig\n1. in Gebäuden der Gebäudeklassen 1 und 2,\n2. innerhalb derselben Nutzungseinheit mit insgesamt nicht mehr als 400 m² in nicht mehr als zwei Geschossen,\n3. im Übrigen, wenn sie auf die für die Nutzung erforderliche Zahl und Größe beschränkt sind und Abschlüsse mit der Feuerwiderstandsfähigkeit der Decke haben."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-30",
+            "kind": "article",
+            "label": "Art. 30",
+            "heading": "Dächer",
+            "children": [
+              {
+                "id": "BayBO-30-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Bedachungen müssen gegen eine Brandbeanspruchung von außen durch Flugfeuer und strahlende Wärme ausreichend lang widerstandsfähig sein (harte Bedachung)."
+              },
+              {
+                "id": "BayBO-30-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Bedachungen, die die Anforderungen nach Abs. 1 nicht erfüllen, sind zulässig bei Gebäuden der Gebäudeklassen 1 bis 3, wenn die Gebäude\n1. einen Abstand von der Grundstücksgrenze von mindestens 12 m,\n2. von Gebäuden auf demselben Grundstück mit harter Bedachung einen Abstand von mindestens 12 m,\n3. von Gebäuden auf demselben Grundstück mit Bedachungen, die die Anforderungen nach Abs. 1 nicht erfüllen, einen Abstand von mindestens 24 m,\n4. von Gebäuden auf demselben Grundstück ohne Aufenthaltsräume und ohne Feuerstätten mit nicht mehr als 50 m³ Brutto-Rauminhalt einen Abstand von mindestens 5 m\neinhalten. Soweit Gebäude nach Satz 1 Abstand halten müssen, genügt bei Wohngebäuden der Gebäudeklassen 1 und 2 in den Fällen\n1. der Nrn. 1 und 2 ein Abstand von mindestens 9 m,\n2. der Nr. 3 ein Abstand von mindestens 12 m."
+              },
+              {
+                "id": "BayBO-30-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Die Abs. 1 und 2 gelten nicht für\n1. Gebäude ohne Aufenthaltsräume und ohne Feuerstätten mit nicht mehr als 50 m³ Brutto-Rauminhalt,\n2. lichtdurchlässige Bedachungen aus nichtbrennbaren Baustoffen; brennbare Fugendichtungen und brennbare Dämmstoffe in nichtbrennbaren Profilen sind zulässig,\n3. Dachflächenfenster, Lichtkuppeln und Oberlichte von Wohngebäuden,\n4. Eingangsüberdachungen und Vordächer aus nichtbrennbaren Baustoffen,\n5. Eingangsüberdachungen aus brennbaren Baustoffen, wenn die Eingänge nur zu Wohnungen führen."
+              },
+              {
+                "id": "BayBO-30-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Abweichend von den Abs. 1 und 2 sind\n1. lichtdurchlässige Teilflächen aus brennbaren Baustoffen in Bedachungen nach Abs. 1 und\n2. begrünte Bedachungen\nzulässig, wenn eine Brandentstehung bei einer Brandbeanspruchung von außen durch Flugfeuer und strahlende Wärme nicht zu befürchten ist oder Vorkehrungen hiergegen getroffen werden."
+              },
+              {
+                "id": "BayBO-30-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Dachüberstände, Dachgesimse und Dachaufbauten, lichtdurchlässige Bedachungen, Dachflächenfenster, Lichtkuppeln, Oberlichte und Solaranlagen sind so anzuordnen und herzustellen, dass Feuer nicht auf andere Gebäudeteile und Nachbargrundstücke übertragen werden kann. Von Brandwänden und von Wänden, die an Stelle von Brandwänden zulässig sind, müssen\n1. mindestens 1,25 m entfernt sein\n   a) Dachflächenfenster, Oberlichte, Lichtkuppeln und Öffnungen in der Bedachung, wenn diese Wände nicht mindestens 0,30 m über die Bedachung geführt sind, und\n   b) Dachgauben und ähnliche Dachaufbauten aus brennbaren Baustoffen, wenn sie nicht durch diese Wände gegen Brandübertragung geschützt sind, und\n2. mindestens 0,50 m entfernt sein Solaranlagen, wenn sie nicht durch diese Wände gegen Brandübertragung geschützt sind."
+              },
+              {
+                "id": "BayBO-30-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "Dächer von traufseitig aneinandergebauten Gebäuden müssen als raumabschließende Bauteile für eine Brandbeanspruchung von innen nach außen einschließlich der sie tragenden und aussteifenden Bauteile feuerhemmend sein. Öffnungen in diesen Dachflächen müssen waagerecht gemessen mindestens 1,25 m von der Brandwand oder der Wand, die an Stelle der Brandwand zulässig ist, entfernt sein."
+              },
+              {
+                "id": "BayBO-30-7",
+                "kind": "paragraph",
+                "label": "(7)",
+                "content": "Dächer von Anbauten, die an Außenwände mit Öffnungen oder ohne Feuerwiderstandsfähigkeit anschließen, müssen innerhalb eines Abstands von 5 m von diesen Wänden als raumabschließende Bauteile für eine Brandbeanspruchung von innen nach außen einschließlich der sie tragenden und aussteifenden Bauteile die Feuerwiderstandsfähigkeit der Decken des Gebäudeteils haben, an den sie angebaut werden. Das gilt nicht für Anbauten an Wohngebäude der Gebäudeklassen 1 bis 3."
+              },
+              {
+                "id": "BayBO-30-8",
+                "kind": "paragraph",
+                "label": "(8)",
+                "content": "Für vom Dach aus vorzunehmende Arbeiten sind sicher benutzbare Vorrichtungen anzubringen."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-31",
+            "kind": "article",
+            "label": "Art. 31",
+            "heading": "Rettungswege",
+            "children": [
+              {
+                "id": "BayBO-31-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Für Nutzungseinheiten mit mindestens einem Aufenthaltsraum wie Wohnungen, Praxen, selbstständige Betriebsstätten müssen in jedem Geschoss mindestens zwei voneinander unabhängige Rettungswege ins Freie vorhanden sein; beide Rettungswege dürfen jedoch innerhalb des Geschosses über denselben notwendigen Flur führen. Abweichend von Satz 1 genügt ein Rettungsweg\n1. aus Geschossen ohne Aufenthaltsräume,\n2. bei zu ebener Erde liegenden Geschossen bis 400 m², wenn dieser aus der Nutzungseinheit unmittelbar ins Freie führt; Art. 34 Abs. 3 Satz 4 gilt entsprechend."
+              },
+              {
+                "id": "BayBO-31-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Für Nutzungseinheiten nach Abs. 1, die nicht zu ebener Erde liegen, muss der erste Rettungsweg über eine notwendige Treppe führen. Der zweite Rettungsweg kann eine weitere notwendige Treppe oder eine mit Rettungsgeräten der Feuerwehr erreichbare Stelle der Nutzungseinheit sein. Ein zweiter Rettungsweg ist nicht erforderlich, wenn die Rettung über einen sicher erreichbaren Treppenraum möglich ist, in den Feuer und Rauch nicht eindringen können (Sicherheitstreppenraum)."
+              },
+              {
+                "id": "BayBO-31-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Gebäude, deren zweiter Rettungsweg über Rettungsgeräte der Feuerwehr führt und bei denen die Oberkante der Brüstung von zum Anleitern bestimmten Fenstern oder Stellen mehr als 8 m über der Geländeoberfläche liegt, dürfen nur errichtet werden, wenn die Feuerwehr über die erforderlichen Rettungsgeräte wie Hubrettungsfahrzeuge verfügt. Bei Sonderbauten ist der zweite Rettungsweg über Rettungsgeräte der Feuerwehr nur zulässig, wenn keine Bedenken wegen der Personenrettung bestehen."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-33",
+            "kind": "article",
+            "label": "Art. 33",
+            "heading": "Notwendige Treppenräume, Ausgänge",
+            "children": [
+              {
+                "id": "BayBO-33-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Jede notwendige Treppe muss zur Sicherung der Rettungswege aus den Geschossen ins Freie in einem eigenen, durchgehenden Treppenraum liegen (notwendiger Treppenraum). Notwendige Treppenräume müssen so angeordnet und ausgebildet sein, dass die Nutzung der notwendigen Treppen im Brandfall ausreichend lang möglich ist. Notwendige Treppen sind ohne eigenen Treppenraum zulässig\n1. in Gebäuden der Gebäudeklassen 1 und 2,\n2. für die Verbindung von höchstens zwei Geschossen innerhalb derselben Nutzungseinheit von insgesamt nicht mehr als 200 m², wenn in jedem Geschoss ein anderer Rettungsweg erreicht werden kann,\n3. als Außentreppe, wenn ihre Nutzung ausreichend sicher ist und im Brandfall nicht gefährdet werden kann."
+              },
+              {
+                "id": "BayBO-33-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Von jeder Stelle eines Aufenthaltsraums sowie eines Kellergeschosses muss mindestens ein Ausgang in einen notwendigen Treppenraum oder ins Freie in höchstens 35 m Entfernung erreichbar sein; das gilt nicht für land- oder forstwirtschaftlich genutzte Gebäude. Übereinanderliegende Kellergeschosse müssen jeweils mindestens zwei Ausgänge in notwendige Treppenräume oder ins Freie haben. Sind mehrere notwendige Treppenräume erforderlich, müssen sie so verteilt sein, dass sie möglichst entgegengesetzt liegen und dass die Rettungswege möglichst kurz sind."
+              },
+              {
+                "id": "BayBO-33-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Jeder notwendige Treppenraum muss einen unmittelbaren Ausgang ins Freie haben. Sofern der Ausgang eines notwendigen Treppenraums nicht unmittelbar ins Freie führt, muss der Raum zwischen dem notwendigen Treppenraum und dem Ausgang ins Freie\n1. mindestens so breit sein wie die dazugehörigen Treppenläufe,\n2. Wände haben, die die Anforderungen an die Wände des Treppenraums erfüllen,\n3. rauchdichte und selbstschließende Abschlüsse zu notwendigen Fluren haben und\n4. ohne Öffnungen zu anderen Räumen, ausgenommen zu notwendigen Fluren, sein."
+              },
+              {
+                "id": "BayBO-33-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Die Wände notwendiger Treppenräume müssen als raumabschließende Bauteile\n1. in Gebäuden der Gebäudeklasse 5 die Bauart von Brandwänden haben,\n2. in Gebäuden der Gebäudeklasse 4 auch unter zusätzlicher mechanischer Beanspruchung hochfeuerhemmend und\n3. in Gebäuden der Gebäudeklasse 3 feuerhemmend\nsein. Dies ist nicht erforderlich für Außenwände von Treppenräumen, die aus nichtbrennbaren Baustoffen bestehen und durch andere an diese Außenwände anschließende Gebäudeteile im Brandfall nicht gefährdet werden können. Der obere Abschluss notwendiger Treppenräume muss als raumabschließendes Bauteil die Feuerwiderstandsfähigkeit der Decken des Gebäudes haben; das gilt nicht, wenn der obere Abschluss das Dach ist und die Treppenraumwände bis unter die Dachhaut reichen."
+              },
+              {
+                "id": "BayBO-33-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "In notwendigen Treppenräumen und in Räumen nach Abs. 3 Satz 2 müssen\n1. Bekleidungen, Putze, Dämmstoffe, Unterdecken und Einbauten aus nichtbrennbaren Baustoffen bestehen,\n2. Wände und Decken aus brennbaren Baustoffen eine Bekleidung aus nichtbrennbaren Baustoffen in ausreichender Dicke haben,\n3. Bodenbeläge, ausgenommen Gleitschutzprofile, aus mindestens schwerentflammbaren Baustoffen bestehen."
+              },
+              {
+                "id": "BayBO-33-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "In notwendigen Treppenräumen müssen Öffnungen\n1. zu Kellergeschossen, zu nicht ausgebauten Dachräumen, Werkstätten, Läden, Lager- und ähnlichen Räumen sowie zu sonstigen Räumen und Nutzungseinheiten mit mehr als 200 m², ausgenommen Wohnungen, mindestens feuerhemmende, rauchdichte und selbstschließende Abschlüsse,\n2. zu notwendigen Fluren rauchdichte und selbstschließende Abschlüsse,\n3. zu sonstigen Räumen und Nutzungseinheiten mindestens vollwandige, dicht- und selbstschließende Abschlüsse\nhaben. Die Feuerschutz- und Rauchschutzabschlüsse dürfen lichtdurchlässige Seitenteile und Oberlichte enthalten, wenn der Abschluss insgesamt nicht breiter als 2,50 m ist."
+              },
+              {
+                "id": "BayBO-33-7",
+                "kind": "paragraph",
+                "label": "(7)",
+                "content": "Notwendige Treppenräume müssen zu beleuchten sein. Notwendige Treppenräume ohne Fenster müssen in Gebäuden mit einer Höhe nach Art. 2 Abs. 3 Satz 2 von mehr als 13 m eine Sicherheitsbeleuchtung haben."
+              },
+              {
+                "id": "BayBO-33-8",
+                "kind": "paragraph",
+                "label": "(8)",
+                "content": "Notwendige Treppenräume müssen belüftet und zur Unterstützung wirksamer Löscharbeiten entraucht werden können. Die Treppenräume müssen\n1. in jedem oberirdischen Geschoss unmittelbar ins Freie führende Fenster mit einem freien Querschnitt von mindestens 0,50 m² haben, die geöffnet werden können, oder\n2. an der obersten Stelle eine Öffnung zur Rauchableitung haben.\nIm Fall des Satzes 2 Nr. 1 ist in Gebäuden mit einer Höhe nach Art. 2 Abs. 3 Satz 2 von mehr als 13 m an der obersten Stelle eine Öffnung zur Rauchableitung erforderlich. Öffnungen zur Rauchableitung nach Sätzen 2 und 3 müssen in jedem Treppenraum einen freien Querschnitt von mindestens 1 m² und Vorrichtungen zum Öffnen ihrer Abschlüsse haben, die vom Erdgeschoss sowie vom obersten Treppenabsatz aus bedient werden können."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-34",
+            "kind": "article",
+            "label": "Art. 34",
+            "heading": "Notwendige Flure, offene Gänge",
+            "children": [
+              {
+                "id": "BayBO-34-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Flure, über die Rettungswege aus Aufenthaltsräumen oder aus Nutzungseinheiten mit Aufenthaltsräumen zu Ausgängen in notwendige Treppenräume oder ins Freie führen (notwendige Flure), müssen so angeordnet und ausgebildet sein, dass die Nutzung im Brandfall ausreichend lang möglich ist. Notwendige Flure sind nicht erforderlich\n1. in Wohngebäuden der Gebäudeklassen 1 und 2,\n2. in sonstigen Gebäuden der Gebäudeklassen 1 und 2, ausgenommen in Kellergeschossen,\n3. innerhalb von Nutzungseinheiten mit nicht mehr als 200 m² und innerhalb von Wohnungen,\n4. innerhalb von Nutzungseinheiten, die einer Büro- oder Verwaltungsnutzung dienen, mit nicht mehr als 400 m²; das gilt auch für Teile größerer Nutzungseinheiten, wenn diese Teile nicht größer als 400 m² sind, Trennwände nach Art. 27 Abs. 2 Nr. 1 haben und jeder Teil unabhängig von anderen Teilen Rettungswege nach Art. 31 Abs. 1 hat."
+              },
+              {
+                "id": "BayBO-34-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Notwendige Flure müssen so breit sein, dass sie für den größten zu erwartenden Verkehr ausreichen. In den Fluren ist eine Folge von weniger als drei Stufen unzulässig."
+              },
+              {
+                "id": "BayBO-34-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Notwendige Flure sind durch nichtabschließbare, rauchdichte und selbstschließende Abschlüsse in Rauchabschnitte zu unterteilen. Die Rauchabschnitte sollen nicht länger als 30 m sein. Die Abschlüsse sind bis an die Rohdecke zu führen; sie dürfen bis an die Unterdecke der Flure geführt werden, wenn die Unterdecke feuerhemmend ist. Notwendige Flure mit nur einer Fluchtrichtung, die zu einem Sicherheitstreppenraum führen, dürfen nicht länger als 15 m sein. Die Sätze 1 bis 4 gelten nicht für notwendige Flure, die als offene Gänge vor den Außenwänden angeordnet sind."
+              },
+              {
+                "id": "BayBO-34-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Die Wände notwendiger Flure müssen als raumabschließende Bauteile feuerhemmend, in Kellergeschossen, deren tragende und aussteifende Bauteile feuerbeständig sein müssen, feuerbeständig sein. Die Wände sind bis an die Rohdecke zu führen. Sie dürfen bis an die Unterdecke der Flure geführt werden, wenn die Unterdecke feuerhemmend und ein demjenigen nach Satz 1 vergleichbarer Raumabschluss sichergestellt ist. Türen in diesen Wänden müssen dicht schließen; Öffnungen zu Lagerbereichen im Kellergeschoss müssen feuerhemmende, dicht- und selbstschließende Abschlüsse haben."
+              },
+              {
+                "id": "BayBO-34-5",
+                "kind": "paragraph",
+                "label": "(5)",
+                "content": "Für Wände und Brüstungen notwendiger Flure mit nur einer Fluchtrichtung, die als offene Gänge vor den Außenwänden angeordnet sind, gilt Abs. 4 entsprechend. Fenster sind in diesen Außenwänden ab einer Brüstungshöhe von 0,90 m zulässig."
+              },
+              {
+                "id": "BayBO-34-6",
+                "kind": "paragraph",
+                "label": "(6)",
+                "content": "In notwendigen Fluren sowie in offenen Gängen nach Abs. 5 müssen\n1. Bekleidungen, Putze, Unterdecken und Dämmstoffe aus nichtbrennbaren Baustoffen bestehen,\n2. Wände und Decken aus brennbaren Baustoffen eine Bekleidung aus nichtbrennbaren Baustoffen in ausreichender Dicke haben."
+              }
+            ]
+          },
+  
+          {
+            "id": "BayBO-35",
+            "kind": "article",
+            "label": "Art. 35",
+            "heading": "Fenster, Türen, sonstige Öffnungen",
+            "children": [
+              {
+                "id": "BayBO-35-1",
+                "kind": "paragraph",
+                "label": "(1)",
+                "content": "Glastüren und andere Glasflächen, die bis zum Fußboden allgemein zugänglicher Verkehrsflächen herabreichen, sind so zu kennzeichnen, dass sie leicht erkannt werden können. Weitere Schutzmaßnahmen sind für größere Glasflächen vorzusehen, wenn dies die Verkehrssicherheit erfordert."
+              },
+              {
+                "id": "BayBO-35-2",
+                "kind": "paragraph",
+                "label": "(2)",
+                "content": "Eingangstüren von Wohnungen, die über Aufzüge erreichbar sein müssen, müssen eine lichte Durchgangsbreite von mindestens 0,90 m haben."
+              },
+              {
+                "id": "BayBO-35-3",
+                "kind": "paragraph",
+                "label": "(3)",
+                "content": "Jedes Kellergeschoss ohne Fenster muss mindestens eine Öffnung ins Freie haben, um eine Rauchableitung zu ermöglichen. Gemeinsame Kellerlichtschächte für übereinander liegende Kellergeschosse sind unzulässig."
+              },
+              {
+                "id": "BayBO-35-4",
+                "kind": "paragraph",
+                "label": "(4)",
+                "content": "Fenster, die als Rettungswege nach Art. 31 Abs. 2 Satz 2 dienen, müssen in der Breite mindestens 0,60 m, in der Höhe mindestens 1 m groß, von innen zu öffnen und nicht höher als 1,20 m über der Fußbodenoberkante angeordnet sein. Liegen diese Fenster in Dachschrägen oder Dachaufbauten, so darf ihre Unterkante oder ein davor liegender Austritt von der Traufkante horizontal gemessen nicht mehr als 1 m entfernt sein."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

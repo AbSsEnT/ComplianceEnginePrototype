@@ -55,21 +55,30 @@ interface ChatViewProps {
 
 /* ── Helpers ── */
 
-function timeAgoShort(ts: number): string {
+function timeAgoShort(ts: number, locale: "fr" | "de"): string {
   const seconds = Math.floor((Date.now() - ts) / 1000);
-  if (seconds < 60) return "à l'instant";
+  if (seconds < 60) {
+    return locale === "de" ? "gerade eben" : "à l'instant";
+  }
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} min`;
+  if (minutes < 60) {
+    return locale === "de" ? `vor ${minutes} Min.` : `${minutes} min`;
+  }
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h`;
+  if (hours < 24) {
+    return locale === "de" ? `vor ${hours} Std.` : `${hours}h`;
+  }
   const days = Math.floor(hours / 24);
-  if (days < 30) return `${days}j`;
+  if (days < 30) {
+    return locale === "de" ? `vor ${days} Tg` : `${days}j`;
+  }
   const months = Math.floor(days / 30);
-  return `${months} mois`;
+  return locale === "de" ? `vor ${months} Mon.` : `${months} mois`;
 }
 
-function formatDate(ts: number): string {
-  return new Date(ts).toLocaleDateString("fr-FR", {
+function formatDate(ts: number, locale: "fr" | "de"): string {
+  const localeTag = locale === "de" ? "de-DE" : "fr-FR";
+  return new Date(ts).toLocaleDateString(localeTag, {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -124,15 +133,24 @@ function buildRefs(part: GroundedPart): LawReference[] {
   return articleIds.map((aid) => ({ articleId: aid }));
 }
 
-/** Pre-built prompts shown in the empty state so users can start with one click.
- *  These prompts are intentionally limited to questions que l'assistant peut
- *  réellement traiter à partir des corpus intégrés (Livre 1 et guide pratique D9A).
+/** Builds locale-aware suggestion prompts for the empty state.
+ *  We keep them aligned with the currently selected UI language and with the
+ *  available corpora (ERP/APSAD in FR, BayBO in DE).
  */
-const SUGGESTION_CHIPS = [
-  "Résumez les obligations de sécurité du Livre 1",
-  "Expliquez la méthode de calcul du volume de rétention selon le guide pratique D9A.",
-  "Quelles sont les recommandations du guide D9A sur la nature et l'emplacement des zones de rétention des eaux d'extinction ?",
-];
+function getSuggestionChips(locale: "fr" | "de"): string[] {
+  if (locale === "de") {
+    return [
+      "Fassen Sie die Schutzziele des Brandschutzes nach BayBO (Art. 12) zusammen.",
+      "Welche Anforderungen stellt die BayBO an Rettungswege (Art. 31, 33–35)?",
+      "Wie müssen tragende Bauteile und Brandabschnitte nach BayBO ausgeführt sein (Art. 25–29)?",
+    ];
+  }
+  return [
+    "Résumez les obligations de sécurité du Livre 1.",
+    "Expliquez la méthode de calcul du volume de rétention selon le guide pratique D9A.",
+    "Quelles sont les recommandations du guide D9A sur la nature et l'emplacement des zones de rétention des eaux d'extinction ?",
+  ];
+}
 
 /** Returns a French date-group label for conversation sidebar grouping. */
 function dateGroupLabel(ts: number): string {
@@ -190,7 +208,7 @@ export default function ChatView({
   const [selectedRef, setSelectedRef] = useState<LawReference | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   /**
    * Filter state: which source+book pairs are active for the RAG context.
@@ -377,6 +395,7 @@ export default function ChatView({
         body: JSON.stringify({
           message: trimmed,
           books: activeBookIds,
+          locale,
         }),
       });
       const data = await res.json();
@@ -492,9 +511,9 @@ export default function ChatView({
                         {/* Date + message count */}
                         <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
                           <Calendar className="h-3 w-3" />
-                          {formatDate(convo.createdAt)}
+                          {formatDate(convo.createdAt, locale)}
                           <span className="text-muted-foreground/50">·</span>
-                          {timeAgoShort(convo.updatedAt)}
+                          {timeAgoShort(convo.updatedAt, locale)}
                           {msgCount > 0 && (
                             <>
                               <span className="text-muted-foreground/50">·</span>
@@ -625,7 +644,7 @@ export default function ChatView({
 
                   {/* Clickable suggestion chips */}
                   <div className="mt-2 flex flex-wrap justify-center gap-2">
-                    {SUGGESTION_CHIPS.map((q) => (
+                    {getSuggestionChips(locale).map((q) => (
                       <button
                         key={q}
                         type="button"
@@ -658,6 +677,7 @@ export default function ChatView({
                     message={m}
                     selectedRef={selectedRef}
                     onRefClick={setSelectedRef}
+                    locale={locale}
                   />
                 </motion.div>
               ))}
@@ -752,9 +772,16 @@ interface ChatBubbleProps {
   selectedRef: LawReference | null;
   /** Called when the user clicks a source badge to open (or toggle) the preview panel. */
   onRefClick: (ref: LawReference | null) => void;
+  /** Current UI locale so time labels can be formatted correctly. */
+  locale: "fr" | "de";
 }
 
-function ChatBubble({ message, selectedRef, onRefClick }: ChatBubbleProps) {
+function ChatBubble({
+  message,
+  selectedRef,
+  onRefClick,
+  locale,
+}: ChatBubbleProps) {
   const isUser = message.sender === "user";
 
   /** Collect all references across parts into a single list for the footer. */
@@ -843,7 +870,7 @@ function ChatBubble({ message, selectedRef, onRefClick }: ChatBubbleProps) {
             isUser ? "text-right" : "text-left"
           }`}
         >
-          {timeAgoShort(message.ts)}
+          {timeAgoShort(message.ts, locale)}
         </span>
       </div>
     </div>

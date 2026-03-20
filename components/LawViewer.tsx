@@ -1,6 +1,13 @@
 "use client";
 
-import type { LawBook, LawNode, LawSource } from "@/lib/law/types";
+import React from "react";
+import type {
+  LawBook,
+  LawNode,
+  LawSource,
+  JurisdictionCode,
+  SourceType,
+} from "@/lib/law/types";
 import ChapterContent from "./ChapterContent";
 import { ChevronRight, BookOpen, FileText, List } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -51,7 +58,40 @@ export default function LawViewer({
   const selectedChapter: LawNode | null =
     chapters.find((c) => c.id === selectedChapterId) ?? null;
 
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+
+  // ── Derived filters for the source tiles stage ──
+  const allJurisdictions: JurisdictionCode[] = ["FR", "DE", "EU"];
+  const typeOrder: SourceType[] = ["LAW_AND_CODE", "STANDARD", "INSURER_STANDARD"];
+
+  // For now we keep the filters local to this viewer.
+  const [activeSourceTypes, setActiveSourceTypes] = React.useState<
+    SourceType[]
+  >(typeOrder);
+  const [activeJurisdictions, setActiveJurisdictions] =
+    React.useState<JurisdictionCode[]>(allJurisdictions);
+
+  const toggleSourceType = (type: SourceType) => {
+    setActiveSourceTypes((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type],
+    );
+  };
+
+  const toggleJurisdiction = (code: JurisdictionCode) => {
+    setActiveJurisdictions((prev) =>
+      prev.includes(code)
+        ? prev.filter((j) => j !== code)
+        : [...prev, code],
+    );
+  };
+
+  const filteredSources = sources.filter(
+    (s) =>
+      activeSourceTypes.includes(s.sourceType) &&
+      activeJurisdictions.includes(s.jurisdiction),
+  );
 
   return (
     <div className="flex h-full flex-col rounded-xl bg-card ring-1 ring-border">
@@ -121,33 +161,122 @@ export default function LawViewer({
 
       {/* Stage content */}
       <div className="flex-1 overflow-hidden">
-        {/* Stage 1 – Source tiles */}
+        {/* Stage 1 – Source tiles (grouped by type with filters) */}
         {!selectedSource && (
           <ScrollArea className="h-full w-full px-6 py-5">
-            <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-              {sources.map((source) => (
-                <button
-                  key={source.id}
-                  type="button"
-                  onClick={() => onSelectSource(source.id)}
-                  className="group rounded-xl border border-border bg-card p-5 text-left transition hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition group-hover:bg-blue-100">
-                    <BookOpen className="h-5 w-5" />
-                  </div>
-                  <span className="block text-base font-semibold text-foreground">
-                    {source.label}
+            <div className="mx-auto flex max-w-5xl flex-col gap-4">
+              {/* Filter chips */}
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 text-xs">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-muted-foreground">
+                    {t.library.filterTypesLabel}
                   </span>
-                  {source.description && (
-                    <span className="mt-1 block text-sm leading-snug text-muted-foreground">
-                      {source.description}
-                    </span>
-                  )}
-                  <span className="mt-2 block text-xs text-slate-400">
-                    {source.books.length} livre(s) / norme(s)
+                  {typeOrder.map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => toggleSourceType(type)}
+                      className={[
+                        "rounded-full border px-2.5 py-1 transition",
+                        activeSourceTypes.includes(type)
+                          ? "border-blue-500 bg-blue-50 text-blue-800"
+                          : "border-border bg-card text-muted-foreground hover:bg-muted",
+                      ].join(" ")}
+                    >
+                      {type === "LAW_AND_CODE" && t.library.typeLawAndCode}
+                      {type === "STANDARD" && t.library.typeStandard}
+                      {type === "INSURER_STANDARD" &&
+                        t.library.typeInsurerStandard}
+                      {type === "GUIDE" && t.library.typeGuide}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-muted-foreground">
+                    {t.library.filterJurisdictionsLabel}
                   </span>
-                </button>
-              ))}
+                  {allJurisdictions.map((code) => (
+                    <button
+                      key={code}
+                      type="button"
+                      onClick={() => toggleJurisdiction(code)}
+                      className={[
+                        "rounded-full border px-2 py-1 text-[11px] transition",
+                        activeJurisdictions.includes(code)
+                          ? "border-blue-500 bg-blue-50 text-blue-800"
+                          : "border-border bg-card text-muted-foreground hover:bg-muted",
+                      ].join(" ")}
+                    >
+                      {code === "FR" && "France"}
+                      {code === "DE" && "Allemagne"}
+                      {code === "EU" && "UE / Europe"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Grouped source tiles */}
+              {typeOrder.map((type) => {
+                const sourcesOfType = filteredSources.filter(
+                  (s) => s.sourceType === type,
+                );
+                if (sourcesOfType.length === 0) return null;
+
+                return (
+                  <section key={type} className="space-y-2">
+                    <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {type === "LAW_AND_CODE" &&
+                        t.library.sectionLawAndCode}
+                      {type === "STANDARD" && t.library.sectionStandard}
+                      {type === "INSURER_STANDARD" &&
+                        t.library.sectionInsurerStandard}
+                      {type === "GUIDE" && t.library.sectionGuide}
+                    </h3>
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                      {sourcesOfType.map((source) => {
+                        const displayLabel =
+                          locale === "de" && source.labelDe
+                            ? source.labelDe
+                            : source.label;
+                        const displayDescription =
+                          locale === "de" && source.descriptionDe
+                            ? source.descriptionDe
+                            : source.description;
+                        return (
+                          <button
+                            key={source.id}
+                            type="button"
+                            onClick={() => onSelectSource(source.id)}
+                            className="group rounded-xl border border-border bg-card p-5 text-left transition hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition group-hover:bg-blue-100">
+                              <BookOpen className="h-5 w-5" />
+                            </div>
+                            <span className="block text-base font-semibold text-foreground">
+                              {displayLabel}
+                            </span>
+                            {displayDescription && (
+                              <span className="mt-1 block text-sm leading-snug text-muted-foreground">
+                                {displayDescription}
+                              </span>
+                            )}
+                            <div className="mt-2 flex itemscenter justify-between text-xs text-slate-400">
+                              <span>
+                                {source.books.length} livre(s) / norme(s)
+                              </span>
+                              <span className="rounded-full border border-slate-300 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+                                {source.jurisdiction === "FR" && "FR"}
+                                {source.jurisdiction === "DE" && "DE"}
+                                {source.jurisdiction === "EU" && "EU"}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
           </ScrollArea>
         )}

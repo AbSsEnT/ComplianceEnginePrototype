@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import WaterDropMascot from "./WaterDropMascot";
+import { useI18n } from "@/lib/i18n";
 
 interface ChatPanelProps {
   onReferenceClick: (ref: LawReference) => void;
@@ -23,13 +24,19 @@ interface ChatPanelProps {
 }
 
 /** Formats a timestamp to a short relative string. */
-export function timeAgo(ts: number): string {
+export function timeAgo(ts: number, locale: "fr" | "de"): string {
   const seconds = Math.floor((Date.now() - ts) / 1000);
-  if (seconds < 60) return "à l'instant";
+  if (seconds < 60) {
+    return locale === "de" ? "gerade eben" : "à l'instant";
+  }
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `il y a ${minutes} min`;
+  if (minutes < 60) {
+    return locale === "de"
+      ? `vor ${minutes} Min.`
+      : `il y a ${minutes} min`;
+  }
   const hours = Math.floor(minutes / 60);
-  return `il y a ${hours}h`;
+  return locale === "de" ? `vor ${hours} Std.` : `il y a ${hours}h`;
 }
 
 export default function ChatPanel({
@@ -47,6 +54,7 @@ export default function ChatPanel({
   const [pending, setPending] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -129,10 +137,10 @@ export default function ChatPanel({
           <WaterDropMascot size="sm" className="bg-blue-50" />
           <div>
             <h2 className="text-sm font-semibold text-foreground">
-              Assistant réglementaire
+              {t.common.appName} – Assistant
             </h2>
             <p className="text-xs text-muted-foreground">
-              Posez une question sur les corpus disponibles.
+              {t.chat.quickEmptyPrompt}
             </p>
           </div>
         </div>
@@ -151,13 +159,10 @@ export default function ChatPanel({
                 <WaterDropMascot size="lg" className="bg-blue-50" />
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    Comment puis-je vous aider ?
+                    {t.chat.fullEmptyTitle}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Par exemple :{" "}
-                    <span className="italic">
-                      &laquo; Comment sont classés les établissements ? &raquo;
-                    </span>
+                    {t.chat.fullEmptySubtitle}
                   </p>
                 </div>
               </motion.div>
@@ -191,7 +196,7 @@ export default function ChatPanel({
                 <WaterDropMascot size="sm" thinking className="bg-blue-50" />
                 <div className="flex items-center gap-2 rounded-lg border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
                   <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
-                  Réflexion en cours…
+                  {t.chat.fullTyping}
                 </div>
               </motion.div>
             )}
@@ -209,7 +214,7 @@ export default function ChatPanel({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Votre question sur les règlements..."
+            placeholder={t.chat.quickPlaceholder}
             rows={1}
             className="min-h-[36px] max-h-[120px] flex-1 resize-none rounded-lg border border-input bg-transparent px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
@@ -223,7 +228,7 @@ export default function ChatPanel({
           </Button>
         </div>
         <p className="mt-1 text-[10px] text-muted-foreground">
-          Entrée pour envoyer · Maj+Entrée pour un saut de ligne
+          {t.chat.fullTextareaHint}
         </p>
       </form>
     </section>
@@ -250,6 +255,7 @@ interface MessageBubbleProps {
 
 function MessageBubble({ message, onReferenceClick }: MessageBubbleProps) {
   const isUser = message.sender === "user";
+  const { locale } = useI18n();
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} text-[15px]`}>
@@ -330,7 +336,7 @@ function MessageBubble({ message, onReferenceClick }: MessageBubbleProps) {
             isUser ? "text-right" : "text-left"
           }`}
         >
-          {timeAgo(message.ts)}
+          {timeAgo(message.ts, locale)}
         </span>
       </div>
     </div>

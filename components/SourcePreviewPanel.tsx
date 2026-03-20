@@ -10,7 +10,7 @@
  * verify a citation without leaving the conversation.
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { LawNode, LawReference, LawSource } from "@/lib/law/types";
 import { X, ExternalLink, ChevronRight, FileText } from "lucide-react";
@@ -114,8 +114,13 @@ export default function SourcePreviewPanel({
     | { src: string; alt: string }
     | null
   >(null);
+  const [imageZoom, setImageZoom] = useState(1);
 
   const { t } = useI18n();
+
+  useEffect(() => {
+    if (openImage) setImageZoom(1);
+  }, [openImage?.src]);
 
   return (
     <motion.aside
@@ -175,7 +180,17 @@ export default function SourcePreviewPanel({
             <>
               {/* Article header */}
               <div className="mb-3">
-                <h4 className="text-sm font-semibold text-foreground">
+                <h4
+                  className={[
+                    // FM conversion sometimes stores the visible header inside a
+                    // synthetic "-content" article; we render those like headers.
+                    result.article.id.endsWith("-content") ||
+                    /^[0-9]+(?:\.[0-9]+)*\s+/.test(result.article.label)
+                      ? "whitespace-nowrap text-base"
+                      : "text-sm",
+                    "font-semibold text-foreground",
+                  ].join(" ")}
+                >
                   {result.article.label}
                 </h4>
                 {result.article.heading && (
@@ -212,6 +227,16 @@ export default function SourcePreviewPanel({
           <div
             className="relative max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-white p-2 md:p-4"
             onClick={(e) => e.stopPropagation()}
+              onWheel={(e) => {
+                // Wheel zoom for figures (SVG included).
+                e.preventDefault();
+                const direction = e.deltaY < 0 ? 1 : -1;
+                const step = 0.5;
+                setImageZoom((z) => {
+                  const next = z + direction * step;
+                  return Math.max(0.5, Math.min(4, Math.round(next * 100) / 100));
+                });
+              }}
           >
             <button
               type="button"
@@ -220,10 +245,48 @@ export default function SourcePreviewPanel({
             >
               {t.sourcePanel.closeImage}
             </button>
+
+            <div
+              className="absolute left-3 top-3 flex items-center gap-2 rounded-full bg-black/60 px-2 py-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="rounded-full bg-white/90 px-2 py-0.5 text-xs font-semibold text-foreground"
+                onClick={() =>
+                  setImageZoom((z) =>
+                    Math.max(0.5, Math.round((z - 0.5) * 100) / 100),
+                  )
+                }
+                aria-label="Zoom out"
+              >
+                -
+              </button>
+              <span className="text-xs font-semibold text-white">
+                {Math.round(imageZoom * 100)}%
+              </span>
+              <button
+                type="button"
+                className="rounded-full bg-white/90 px-2 py-0.5 text-xs font-semibold text-foreground"
+                onClick={() =>
+                  setImageZoom((z) =>
+                    Math.min(4, Math.round((z + 0.5) * 100) / 100),
+                  )
+                }
+                aria-label="Zoom in"
+              >
+                +
+              </button>
+            </div>
+
             <img
               src={openImage.src}
               alt={openImage.alt}
-              className="mx-auto h-auto max-h-[85vh] w-auto max-w-[90vw] object-contain"
+              className="mx-auto h-auto max-h-none w-auto max-w-[90vw] origin-center object-contain"
+              style={{
+                transform: `scale(${imageZoom})`,
+                transformOrigin: "center center",
+              }}
             />
           </div>
         </div>
@@ -258,6 +321,22 @@ export default function SourcePreviewPanel({
 function looksLikeMarkdownTable(content: string): boolean {
   const trimmed = content.trimStart();
   return trimmed.startsWith("|") && trimmed.includes("|---");
+}
+
+/**
+ * Heuristic to visually indent "list-like" paragraphs.
+ *
+ * Our FM converter encodes bullet points as plain text paragraphs starting
+ * with `• `. Indenting is purely visual and keeps atomic paragraph splits intact.
+ */
+function looksLikeListParagraph(content: string): boolean {
+  const trimmed = content.trimStart();
+  return (
+    trimmed.startsWith("• ") ||
+    /^[A-Z]\.\s+/.test(trimmed) ||
+    /^\d+\.\s+/.test(trimmed) ||
+    /^[-–]\s+/.test(trimmed)
+  );
 }
 
 /** Renders all paragraphs of an article (no specific highlight). */
@@ -410,10 +489,37 @@ function ParagraphBlock({
             <ReactMarkdown>{paragraph.content}</ReactMarkdown>
           </div>
         ) : (
-          <p className="whitespace-pre-wrap text-sm text-foreground">
+          <p
+            className={[
+              "whitespace-pre-wrap text-sm text-foreground",
+              looksLikeListParagraph(paragraph.content ?? "")
+                ? "pl-6"
+                : "",
+            ].join(" ")}
+          >
             {paragraph.content}
           </p>
         ))}
+
+      {/* FM Global figure rendering (inserted after the referencing paragraph). */}
+      {paragraph.id === "2.1.1_para_2" && (
+        <button
+          type="button"
+          onClick={() =>
+            onOpenImage({
+              src: "/fm/FMDS0200-001-013-FIG_2_1_1.svg",
+              alt: "Figure 2.1.1",
+            })
+          }
+          className="mt-3 inline-block w-full cursor-zoom-in rounded-md border border-slate-200 bg-white p-2 transition hover:shadow-md"
+        >
+          <img
+            src="/fm/FMDS0200-001-013-FIG_2_1_1.svg"
+            alt="Figure 2.1.1"
+            className="max-h-[320px] w-full max-w-full object-contain"
+          />
+        </button>
+      )}
     </div>
   );
 }

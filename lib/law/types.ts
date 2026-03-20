@@ -11,6 +11,13 @@ export type StandardBody =
   | "BAUORDNUNG"
   | "OTHER";
 
+// Coarse-grained categories used to group sources in the library UI.
+export type SourceType =
+  | "LAW_AND_CODE" // statutory law, regulations, building codes
+  | "STANDARD" // EN / DIN / NF / ISO style norms
+  | "INSURER_STANDARD" // APSAD, VdS, CNPP, etc.
+  | "GUIDE"; // practical guides, handbooks, commentary
+
 export type LawKind = "book" | "chapter" | "section" | "article" | "paragraph";
 
 export interface LawNode {
@@ -45,6 +52,12 @@ export interface LawSource {
   /** Short description of the scope / content of this source. */
   description?: string;
   /**
+   * High-level category of this source used for grouping in the library view.
+   * This sits above `standardBody` so that, for example, BayBO and ERP are both
+   * treated as "laws / codes", while DIN and EN are "standards".
+   */
+  sourceType: SourceType;
+  /**
    * Country / region where this source is primarily applicable.
    * Used by the library to let users filter French vs German vs EU texts.
    */
@@ -63,6 +76,13 @@ export interface LawSource {
    * Logical "books" / codes that belong to this source.
    */
   books: LawBook[];
+  /**
+   * Optional localized display label and description for non-French UI
+   * languages. For now only German is supported; `label` / `description`
+   * act as French defaults.
+   */
+  labelDe?: string;
+  descriptionDe?: string;
 }
 
 export interface LawReference {

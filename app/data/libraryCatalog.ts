@@ -4,6 +4,7 @@ import type {
   LawSource,
   JurisdictionCode,
   StandardBody,
+  SourceType,
 } from "@/lib/law/types";
 // Raw ERP and APSAD sources are stored under app/data/sources so that:
 // - the same JSON trees can be reused by the library view, search and RAG;
@@ -11,6 +12,8 @@ import type {
 //   raw content and derived artefacts.
 import erpLivre1 from "./sources/erp/livre1.json";
 import apsadD9aRaw from "./sources/apsad/guide_pratique_d9a_juin_2020.json";
+import bayboBrand from "./sources/baybo/baybo-brand.json";
+import fmGlobalFmds0200_001_013 from "./sources/fm-global/FMDS0200-001-013.json";
 
 /**
  * This file defines the high-level library organization shown in the UI.
@@ -185,6 +188,9 @@ const apsadD9aBook: LawBook = buildApsadD9aBook(
   apsadD9aRaw as ApsadD9aDocument,
 );
 
+// BayBO: selected fire-safety-relevant articles (Art. 2, 12, 25–31, 33–35).
+const bayboBooks: LawBook[] = [bayboBrand as LawBook];
+
 // Helper constants to make the German placeholder sources easier to read.
 const FR: JurisdictionCode = "FR";
 const DE: JurisdictionCode = "DE";
@@ -196,13 +202,23 @@ const BODY_EN_NF: StandardBody = "EN_NF";
 const BODY_DIN: StandardBody = "DIN";
 const BODY_VDS: StandardBody = "VDS";
 const BODY_BAU: StandardBody = "BAUORDNUNG";
+const BODY_OTHER: StandardBody = "OTHER";
+
+const TYPE_LAW_AND_CODE: SourceType = "LAW_AND_CODE";
+const TYPE_STANDARD: SourceType = "STANDARD";
+const TYPE_INSURER_STANDARD: SourceType = "INSURER_STANDARD";
+const TYPE_GUIDE: SourceType = "GUIDE";
 
 export const lawSources: LawSource[] = [
   {
     id: "erp-reglement-securite",
     label: "Reglement de securite ERP",
+    labelDe: "ERP-Sicherheitsvorschriften (Frankreich)",
     description:
       "Corpus legal francais ERP organise en livres distincts (I a IV).",
+    descriptionDe:
+      "Französischer Rechtskorpus für öffentliche Gebäude (ERP), gegliedert in mehrere Bände (I bis IV).",
+    sourceType: TYPE_LAW_AND_CODE,
     jurisdiction: FR,
     standardBody: BODY_ERP,
     documentLanguage: "fr",
@@ -211,18 +227,42 @@ export const lawSources: LawSource[] = [
   {
     id: "apsad",
     label: "Regles APSAD",
+    labelDe: "APSAD-Regeln",
     description:
       "Referentiels techniques assures par le CNPP (exemple initial: R1).",
+    descriptionDe:
+      "Technische Richtlinien des französischen Versicherers CNPP (z. B. Regel R1).",
+    sourceType: TYPE_INSURER_STANDARD,
     jurisdiction: FR,
     standardBody: BODY_APSAD,
     documentLanguage: "fr",
     books: [apsadD9aBook],
   },
   {
+    id: "fm-global",
+    label: "FM Global",
+    labelDe: "FM Global (FM-Datenblätter)",
+    description:
+      "FM Global Property Loss Prevention Data Sheet (atomic paragraph splits preserved).",
+    descriptionDe:
+      "FM Global Data Sheet für Loss Prevention (atomare Paragraphen-Trennung erhalten).",
+    sourceType: TYPE_INSURER_STANDARD,
+    jurisdiction: EU,
+    standardBody: BODY_OTHER,
+    // This UI currently supports only "fr" and "de" locales for display strings.
+    // The FM content itself is already in English inside the paragraph content.
+    documentLanguage: "fr",
+    books: [fmGlobalFmds0200_001_013 as LawBook],
+  },
+  {
     id: "en-nf",
     label: "Normes EN / NF",
+    labelDe: "EN / NF-Normen",
     description:
       "Normes europeennes et transpositions francaises utiles aux projets.",
+    descriptionDe:
+      "Europäische Normen (EN) und ihre französischen Umsetzungen (NF), relevant für Projekte.",
+    sourceType: TYPE_STANDARD,
     books: [
       {
         id: "en-nf-codes",
@@ -238,9 +278,13 @@ export const lawSources: LawSource[] = [
   // ── German placeholders ──
   {
     id: "din",
-    label: "DIN Normen (placeholder)",
+    label: "DIN Normes",
+    labelDe: "DIN-Normen",
     description:
       "Normes allemandes DIN pertinentes pour la securite incendie (contenu a integrer).",
+    descriptionDe:
+      "Deutsche DIN-Normen mit Bezug zum Brandschutz (Inhalte werden noch ergänzt).",
+    sourceType: TYPE_STANDARD,
     jurisdiction: DE,
     standardBody: BODY_DIN,
     documentLanguage: "de",
@@ -256,9 +300,10 @@ export const lawSources: LawSource[] = [
   },
   {
     id: "vds",
-    label: "VdS Richtlinien (placeholder)",
+    label: "VdS Richtlinien",
     description:
       "Lignes directrices VdS pour la prevention et la protection incendie (contenu a integrer).",
+    sourceType: TYPE_INSURER_STANDARD,
     jurisdiction: DE,
     standardBody: BODY_VDS,
     documentLanguage: "de",
@@ -274,21 +319,14 @@ export const lawSources: LawSource[] = [
   },
   {
     id: "baybo",
-    label: "Bayerische Bauordnung (BayBO) (placeholder)",
+    label: "Bayerische Bauordnung (BayBO)",
     description:
-      "Reglementation de construction de l'Etat libre de Baviere, aspects lies a la securite incendie (contenu a integrer).",
+      "Reglementation de construction de l'Etat libre de Baviere, aspects lies a la securite incendie (selection d'articles).",
+    sourceType: TYPE_LAW_AND_CODE,
     jurisdiction: DE,
     standardBody: BODY_BAU,
     documentLanguage: "de",
-    books: [
-      {
-        id: "baybo-hauptteil",
-        kind: "book",
-        label: "BayBO – Texte principal",
-        heading:
-          "Disposition principales de la Bayerische Bauordnung relatives a la protection incendie (contenu a integrer).",
-      },
-    ],
+    books: bayboBooks,
   },
 ];
 

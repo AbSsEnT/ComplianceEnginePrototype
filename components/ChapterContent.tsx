@@ -36,6 +36,23 @@ function looksLikeMarkdownTable(content: string): boolean {
   return trimmed.startsWith("|") && trimmed.includes("|---");
 }
 
+/**
+ * Heuristic to visually indent "list-like" paragraphs.
+ *
+ * Our FM converter encodes bullet points as plain text paragraphs starting
+ * with `• `. Indenting makes the PDF-like structure easier to follow
+ * without changing your atomic paragraph splits.
+ */
+function looksLikeListParagraph(content: string): boolean {
+  const trimmed = content.trimStart();
+  return (
+    trimmed.startsWith("• ") ||
+    /^[A-Z]\.\s+/.test(trimmed) ||
+    /^\d+\.\s+/.test(trimmed) ||
+    /^[-–]\s+/.test(trimmed)
+  );
+}
+
 export default function ChapterContent({
   chapter,
   scrollTargetId,
@@ -49,6 +66,7 @@ export default function ChapterContent({
     | { src: string; alt: string }
     | null
   >(null);
+  const [imageZoom, setImageZoom] = useState(1);
 
   const { locale } = useI18n();
 
@@ -88,6 +106,11 @@ export default function ChapterContent({
 
     return () => clearTimeout(timer);
   }, [scrollTargetId, chapter?.id]);
+
+  useEffect(() => {
+    // When opening a new image (especially an SVG figure), reset zoom.
+    setImageZoom(1);
+  }, [openImage?.src]);
 
   return (
     <ScrollArea className="h-full rounded-xl border border-border bg-card px-4 py-4 text-base leading-relaxed md:px-6 md:py-5">
@@ -152,6 +175,16 @@ export default function ChapterContent({
           <div
             className="relative max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-white p-2 md:p-4"
             onClick={(e) => e.stopPropagation()}
+            onWheel={(e) => {
+              // Wheel zoom for figures (SVG included).
+              e.preventDefault();
+              const direction = e.deltaY < 0 ? 1 : -1;
+              const step = 0.5;
+              setImageZoom((z) => {
+                const next = z + direction * step;
+                return Math.max(0.5, Math.min(4, Math.round(next * 100) / 100));
+              });
+            }}
           >
             <button
               type="button"
@@ -160,10 +193,45 @@ export default function ChapterContent({
             >
               {locale === "de" ? "Schließen" : "Fermer"}
             </button>
+
+            <div
+              className="absolute left-3 top-3 flex items-center gap-2 rounded-full bg-black/60 px-2 py-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="rounded-full bg-white/90 px-2 py-0.5 text-xs font-semibold text-foreground"
+                onClick={() =>
+                  setImageZoom((z) =>
+                    Math.max(0.5, Math.round((z - 0.5) * 100) / 100),
+                  )
+                }
+                aria-label="Zoom out"
+              >
+                -
+              </button>
+              <span className="text-xs font-semibold text-white">
+                {Math.round(imageZoom * 100)}%
+              </span>
+              <button
+                type="button"
+                className="rounded-full bg-white/90 px-2 py-0.5 text-xs font-semibold text-foreground"
+                onClick={() =>
+                  setImageZoom((z) =>
+                    Math.min(4, Math.round((z + 0.5) * 100) / 100),
+                  )
+                }
+                aria-label="Zoom in"
+              >
+                +
+              </button>
+            </div>
+
             <img
               src={openImage.src}
               alt={openImage.alt}
-              className="mx-auto h-auto max-h-[85vh] w-auto max-w-[90vw] object-contain"
+              className="mx-auto h-auto max-h-none w-auto max-w-[90vw] origin-center object-contain"
+              style={{ transform: `scale(${imageZoom})`, transformOrigin: "center center" }}
             />
           </div>
         </div>
@@ -181,6 +249,8 @@ interface SectionBlockProps {
     meta: { title: string; excerpt: string },
   ) => void;
   onOpenImage: (img: { src: string; alt: string }) => void;
+  /** Used to indent nested sections so the visual hierarchy matches the PDF. */
+  depth?: number;
 }
 
 function SectionBlock({
@@ -189,16 +259,34 @@ function SectionBlock({
   isBookmarked,
   onToggleBookmark,
   onOpenImage,
+  depth = 0,
 }: SectionBlockProps) {
-  const articles =
-    section.children?.filter((child) => child.kind === "article") ?? [];
+  const children = section.children ?? [];
+
+  // Tailwind classes must be static; we support up to 2 nested levels for FM breadcrumbs.
+  const indent = depth === 0 ? "pl-4" : depth === 1 ? "pl-6" : "pl-8";
+  const shouldCombineHeadingLine = depth <= 1 && !!section.heading;
 
   return (
-    <section className="border-l-2 border-blue-200 pl-4">
-      <h3 className="text-base font-semibold uppercase tracking-wide text-slate-700">
-        {section.label}
+    <section className={["border-l-2 border-blue-200", indent].join(" ")}>
+      <h3
+        className={[
+          shouldCombineHeadingLine ? "whitespace-nowrap" : "",
+          shouldCombineHeadingLine
+            ? depth === 0
+              ? "text-lg"
+              : "text-base"
+            : "text-base",
+          shouldCombineHeadingLine
+            ? "font-semibold text-foreground"
+            : "font-semibold uppercase tracking-wide text-slate-700",
+        ].join(" ")}
+      >
+        {shouldCombineHeadingLine
+          ? `${section.label} ${section.heading}`
+          : section.label}
       </h3>
-      {section.heading && (
+      {section.heading && !shouldCombineHeadingLine && (
         <p className="mt-1 text-sm text-muted-foreground">
           {section.heading}
         </p>
@@ -209,16 +297,36 @@ function SectionBlock({
         </p>
       )}
       <div className="mt-3 space-y-4">
-        {articles.map((article) => (
-          <ArticleBlock
-            key={article.id}
-            article={article}
-            highlightedContainerId={highlightedContainerId}
-            isBookmarked={isBookmarked}
-            onToggleBookmark={onToggleBookmark}
-            onOpenImage={onOpenImage}
-          />
-        ))}
+        {children.map((child) => {
+          if (child.kind === "section") {
+            return (
+              <SectionBlock
+                key={child.id}
+                section={child}
+                highlightedContainerId={highlightedContainerId}
+                isBookmarked={isBookmarked}
+                onToggleBookmark={onToggleBookmark}
+                onOpenImage={onOpenImage}
+                depth={depth + 1}
+              />
+            );
+          }
+
+          if (child.kind === "article") {
+            return (
+              <ArticleBlock
+                key={child.id}
+                article={child}
+                highlightedContainerId={highlightedContainerId}
+                isBookmarked={isBookmarked}
+                onToggleBookmark={onToggleBookmark}
+                onOpenImage={onOpenImage}
+              />
+            );
+          }
+
+          return null;
+        })}
       </div>
     </section>
   );
@@ -246,6 +354,9 @@ function ArticleBlock({
     article.children?.filter((child) => child.kind === "paragraph") ?? [];
 
   const isHighlighted = highlightedContainerId === article.id;
+  // FM conversion may generate a "-content" article node to keep the UI tree compatible
+  // with paragraphs-only leaves, while still rendering the real heading as the section title.
+  const hideArticleHeader = article.id.endsWith("-content");
   const articleBookmarked =
     isBookmarked?.({ articleId: article.id }) ?? false;
 
@@ -299,10 +410,12 @@ function ArticleBlock({
         />
       </button>
 
-      <h4 className="text-base font-semibold text-foreground">
-        {article.label}
-        {article.heading ? ` – ${article.heading}` : null}
-      </h4>
+      {!hideArticleHeader && (
+        <h4 className="text-base font-semibold text-foreground">
+          {article.label}
+          {article.heading ? ` – ${article.heading}` : null}
+        </h4>
+      )}
 
       {paragraphs.length > 0 ? (
         <div className="mt-2 space-y-3">
@@ -417,10 +530,37 @@ function ArticleBlock({
                       <ReactMarkdown>{para.content}</ReactMarkdown>
                     </div>
                   ) : (
-                    <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
+                    <p
+                      className={[
+                        "whitespace-pre-wrap text-base leading-relaxed text-foreground",
+                        looksLikeListParagraph(para.content ?? "")
+                          ? "pl-6"
+                          : "",
+                      ].join(" ")}
+                    >
                       {para.content}
                     </p>
                   ))}
+
+                {/* FM Global figure rendering (inserted after the referencing paragraph). */}
+                {para.id === "2.1.1_para_2" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onOpenImage({
+                        src: "/fm/FMDS0200-001-013-FIG_2_1_1.svg",
+                        alt: "Figure 2.1.1",
+                      })
+                    }
+                    className="mt-3 inline-block w-full cursor-zoom-in rounded-lg border border-slate-200 bg-white p-2 transition hover:shadow-md"
+                  >
+                    <img
+                      src="/fm/FMDS0200-001-013-FIG_2_1_1.svg"
+                      alt="Figure 2.1.1"
+                      className="max-h-[520px] w-full max-w-full object-contain"
+                    />
+                  </button>
+                )}
               </div>
             );
           })}
@@ -432,7 +572,14 @@ function ArticleBlock({
             <ReactMarkdown>{article.content}</ReactMarkdown>
           </div>
         ) : (
-          <p className="mt-2 whitespace-pre-wrap text-base text-foreground">
+          <p
+            className={[
+              "mt-2 whitespace-pre-wrap text-base text-foreground",
+              looksLikeListParagraph(article.content ?? "")
+                ? "pl-6"
+                : "",
+            ].join(" ")}
+          >
             {article.content}
           </p>
         ))
